@@ -1,5 +1,6 @@
-# ComparsionProject
-## 条码比对系统
+# ComparsionProject 
+
+>条码比对系统
 
 基于海康威视工业相机进行二次开发
 
