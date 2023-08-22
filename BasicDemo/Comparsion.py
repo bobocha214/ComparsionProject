@@ -485,20 +485,20 @@ if __name__ == "__main__":
                         if sub in i['text'] and len(i['text']) <= 20:
                             firstSnCode = i['text']
                             tempcode = ''.join(str(firstSnCode).split())
-                            SnCode = tempcode[3:].strip()
+                            SnCode = tempcode[3:].replace(" ","")
                             position = i['position']
                             # print(SnCode,'subsubsubsubsub')
                             # print(len(SnCode))
                         else:
                             try:
                                 second_coourenceN = i['text'].index(serachnum, i['text'].index(serachnum) + 1)
-                                SnCode = i['text'][second_coourenceN + len(serachnum):]
+                                SnCode = str(i['text'][second_coourenceN + len(serachnum):]).replace(" ","")
                                 position = i['position']
                                 # print(SnCode,'trytrytrytrytry')
                             except:
                                 firstSnCode = i['text']
                                 tempcode = ''.join(str(firstSnCode).split())
-                                SnCode = tempcode[3:]
+                                SnCode = tempcode[3:].replace(" ","")
                                 position = i['position']
                                 # print(SnCode,'exceptexceptexceptexcept')
                     else:
