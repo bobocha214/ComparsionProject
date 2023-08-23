@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="修改串口代码">
+    <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="修改OCR代码">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/Comparsion.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/Comparsion.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -135,7 +134,15 @@
       <option name="project" value="LOCAL" />
       <updated>1692618801411</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="修改OCR代码">
+      <option name="closed" value="true" />
+      <created>1692669283027</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1692669283027</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -184,6 +191,7 @@
     <MESSAGE value="首次提交  按钮启动扫码枪" />
     <MESSAGE value="增加温度监控组件" />
     <MESSAGE value="修改串口代码" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改串口代码" />
+    <MESSAGE value="修改OCR代码" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改OCR代码" />
   </component>
 </project>

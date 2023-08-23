@@ -30,7 +30,7 @@ import serial
 #     serialdata = data.decode().strip()
 #     print(serialdata)
 ocr = CnOcr()  # 所有参数都使用默认值
-res = ocr.ocr('C:/pycharm/pythonProject/ComparsionProject/BasicDemo/img/2023.8.21/trainAPPOES56K3-9.jpg')
+res = ocr.ocr('C:/pycharm/pythonProject/ComparsionProject/BasicDemo/img/2023.8.21/trainAPPOES56K3-5.jpg')
 print(res)
 sub = 'SN:'
 nub = 'PN:'
@@ -51,7 +51,7 @@ if (res):
             else:
                 try:
                     second_coourenceN = i['text'].index(serachnum, i['text'].index(serachnum) + 1)
-                    SnCode = i['text'][second_coourenceN + len(serachnum):].replace(" ", "")
+                    SnCode = str(i['text'][second_coourenceN + len(serachnum):]).replace(" ", "")
                     position = i['position']
                     print(SnCode,'trytrytrytrytry')
                 except:
