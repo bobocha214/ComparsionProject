@@ -211,14 +211,19 @@ if __name__ == "__main__":
 
         COM_sharedata = {'sedata': None}
         current_file = base_path('')
-        parentdir = current_file + 'image\\test.jpg'
+        parentdir = current_file + 'image/test.jpg'
         # 界面设计代码
         window = tk.Tk()
         window.title('条码比对系统')
         # print(current_file+'current_file')
         window.iconbitmap(current_file + 'constract.ico')
         window.geometry('1650x800')
-
+        window.grid_rowconfigure(0, weight=1)
+        window.grid_columnconfigure(0, weight=1)
+        window.grid_columnconfigure(1, weight=1)
+        window.grid_rowconfigure(0, weight=1)
+        window.grid_columnconfigure(2, weight=1)
+        window.grid_rowconfigure(0, weight=1)
         main_menu = tk.Menu(window)
         picklename = 'settings.dat'
         picklename1 = 'parameter.dat'
@@ -477,30 +482,30 @@ if __name__ == "__main__":
             SnCode = ''
             position = ''
             res = ocr.ocr(parentdir)
-            # print(res)
+            print(res)
             if (res):
                 max_length_dict = None
                 for i in res:
                     if sub in i['text'] or nub in i['text'] and len(i['text']) >= 17:
-                        if sub in i['text'] and len(i['text']) <= 20:
+                        if sub in i['text'] and len(i['text']) <= 21:
                             firstSnCode = i['text']
                             tempcode = ''.join(str(firstSnCode).split())
                             SnCode = tempcode[3:].replace(" ","")
                             position = i['position']
-                            # print(SnCode,'subsubsubsubsub')
-                            # print(len(SnCode))
+                            print(SnCode,'subsubsubsubsub')
+                            print(len(SnCode))
                         else:
                             try:
                                 second_coourenceN = i['text'].index(serachnum, i['text'].index(serachnum) + 1)
                                 SnCode = str(i['text'][second_coourenceN + len(serachnum):]).replace(" ","")
                                 position = i['position']
-                                # print(SnCode,'trytrytrytrytry')
+                                print(SnCode,'trytrytrytrytry')
                             except:
                                 firstSnCode = i['text']
                                 tempcode = ''.join(str(firstSnCode).split())
-                                SnCode = tempcode[3:].replace(" ","")
+                                SnCode = tempcode[-17:].replace(" ","")
                                 position = i['position']
-                                # print(SnCode,'exceptexceptexceptexcept')
+                                print(SnCode,'exceptexceptexceptexcept')#特殊情况取后十七位
                     else:
                         pass
                 if SnCode == '':
@@ -882,59 +887,19 @@ if __name__ == "__main__":
         COMGUN.place(x=20, y=590)
         xVariableCOM = tkinter.StringVar(value=COMGUNNUM)
         COMGUN_list = ttk.Combobox(frame2, textvariable=xVariableCOM, width=8)
-
-
-        # COMSIGNAL = tk.Label(frame2, text='信号端口',width=8, height=1)
-        # COMSIGNAL.place(x=20, y=620)
-        # xVariableSIGNAL = tkinter.StringVar(value=COMSIGNALNUM)
-        # COMSIGNAL_list = ttk.Combobox(frame2, textvariable=xVariableSIGNAL,width=8)
-
         def changeCOMS(event):
             global COMGUNNUM
-            # global COMSIGNALNUM
             global previous_COMGUNNUM
-            # global previous_COMSIGNALNUM
             COMGUNNUM = xVariableCOM.get()
-            # COMSIGNALNUM=xVariableSIGNAL.get()
-            # if COMGUNNUM==COMSIGNALNUM:
-            #     tk.messagebox.showerror('show error',"两个端口号不能相同！")
-            #     COMGUN_list.set("")
-            # else:
-            #     # print(COMGUNNUM,COMSIGNALNUM)
-            #     pass
             previous_COMGUNNUM = COMGUNNUM
-
-
-        # def changeCOMSIGNAL(event):
-        # global COMGUNNUM
-        # global COMSIGNALNUM
-        # global previous_COMGUNNUM
-        # global previous_COMSIGNALNUM
-        # COMGUNNUM=xVariableCOM.get()
-        # COMSIGNALNUM=xVariableSIGNAL.get()
-        # if COMGUNNUM==COMSIGNALNUM:
-        #     tk.messagebox.showerror('show error',"两个端口号不能相同！")
-        #     COMSIGNAL_list.set("")
-        # else:
-        #     pass
-        # print(COMGUNNUM,COMSIGNALNUM)
-        # previous_COMSIGNALNUM=COMSIGNALNUM
 
         COMLIST = getCOMS()
         COMGUN_list['value'] = COMLIST
         COMGUN_list.place(x=120, y=590)
         COMGUN_list.bind("<<ComboboxSelected>>", changeCOMS)
-
-
-        # COMSIGNAL_list['value'] = COMLIST
-        # COMSIGNAL_list.place(x=120, y=620)
-        # COMSIGNAL_list.bind("<<ComboboxSelected>>", changeCOMSIGNAL)
-
         def comportfunction():
             global COMGUNNUM
-            # global COMSIGNALNUM
             COMGUNNUM = xVariableCOM.get()
-            # COMSIGNALNUM=xVariableSIGNAL.get()
             if COMGUNNUM:  # and COMSIGNAL
                 with open(compickle, 'wb') as f:
                     pickle.dump(COMGUNNUM, f)
@@ -946,41 +911,6 @@ if __name__ == "__main__":
 
         combutton = tk.Button(frame2, text='提交', bg='skyblue', width=10, height=1, command=comportfunction)
         combutton.place(x=200, y=590)
-
-        # signalbuttomup = tk.Label(frame2, text='按键松开信号',width=10, height=1)
-        # signalbuttomup.place(x=20, y=660)
-        # signalbuttomupText=tk.Text(frame2,width=20, height=1)
-        # signalbuttomupText.place(x=120, y=660)
-        # signalbuttomdown = tk.Label(frame2, text='按键按下信号',width=10, height=1)
-        # signalbuttomdown.place(x=20, y=700)
-        # signalbuttomdownText=tk.Text(frame2,width=20, height=1)
-        # signalbuttomdownText.place(x=120, y=700)
-
-        # def set_signal():
-        #     try:
-        #         with open(signaldata,'wb') as f:
-        #             pickle.dump(signalbuttomupText.get(1.0,tk.END).rstrip("\n"),f)
-        #             pickle.dump(signalbuttomdownText.get(1.0,tk.END).rstrip("\n"),f)
-        #             tk.messagebox.showinfo("show info","设置成功！")
-        #     except:
-        #         tk.messagebox.showerror('show error',"设置信号失败！")
-        # def get_signal():
-        #     try:
-        #         with open(signaldata,'rb') as f:
-        #             signalbuttomupTextresilt=pickle.load(f)
-        #             signalbuttomdownTextresult=pickle.load(f)
-        #             signalbuttomupText.delete(1.0, tk.END)
-        #             signalbuttomdownText.delete(1.0, tk.END)
-        #             signalbuttomupText.insert(INSERT,signalbuttomupTextresilt)
-        #             signalbuttomdownText.insert(INSERT,signalbuttomdownTextresult)
-        #             # print(checked,'withwith')
-        #     except:
-        #         tk.messagebox.showerror('show error',"获取信号失败！")
-
-        # btn_get_signal = tk.Button(frame2, text='获取信号', width=15, height=1, command = get_signal)
-        # btn_get_signal.place(x=20, y=740)
-        # btn_set_signal = tk.Button(frame2, text='设置信号', width=15, height=1, command = set_signal)
-        # btn_set_signal.place(x=150, y=740)
 
         btn_save_jpg = tk.Button(frame1, text='开始比对', width=15, height=1, command=start_long_task)
         btn_save_jpg.place(x=80, y=80)
