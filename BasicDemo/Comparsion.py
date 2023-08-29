@@ -462,7 +462,7 @@ if __name__ == "__main__":
 
         @logger.catch
         def getSerialdata():
-            ser1 = serial.Serial(COMGUNNUM, 9600,timeout=0.5)
+            ser1 = serial.Serial(COMGUNNUM, 9600, timeout=0.5)
             try:
                 # print(COMGUNNUM)
                 data = ser1.readline()
@@ -490,24 +490,24 @@ if __name__ == "__main__":
                         if sub in i['text'] and len(i['text']) <= 21:
                             firstSnCode = i['text']
                             tempcode = ''.join(str(firstSnCode).split())
-                            SnCode = tempcode[3:].replace(" ","")
+                            SnCode = tempcode[3:].replace(" ", "")
                             position = i['position']
-                            print(SnCode,'subsubsubsubsub')
+                            print(SnCode, 'subsubsubsubsub')
                             print(len(SnCode))
                         else:
                             try:
                                 second_coourenceN = i['text'].index(serachnum, i['text'].index(serachnum) + 1)
-                                SnCode = str(i['text'][second_coourenceN + len(serachnum):]).replace(" ","")
+                                SnCode = str(i['text'][second_coourenceN + len(serachnum):]).replace(" ", "")
                                 position = i['position']
-                                print(SnCode,'trytrytrytrytry')
+                                print(SnCode, 'trytrytrytrytry')
                             except:
                                 firstSnCode = i['text']
                                 tempcode = ''.join(str(firstSnCode).split())
-                                SnCode = tempcode[-17:].replace(" ","")
+                                SnCode = tempcode[-17:].replace(" ", "")
                                 position = i['position']
-                                print(SnCode,'exceptexceptexceptexcept')#特殊情况取后十七位
+                                print(SnCode, 'exceptexceptexceptexcept')  # 特殊情况取后十七位
                     else:
-                        pass
+                        print(i['text'], 'pass')
                 if SnCode == '':
                     for i in res:
                         if 'text' in i and len(i['text']) == 17:
@@ -636,7 +636,7 @@ if __name__ == "__main__":
                                 writer.writerow(column_names)
                             costrattime = datetime.datetime.now()
                             data = [serialdata, SnCode, result, costrattime]
-                            if result!='continue':
+                            if result != 'continue':
                                 writer.writerow(data)
                     else:
                         pass
@@ -887,16 +887,21 @@ if __name__ == "__main__":
         COMGUN.place(x=20, y=590)
         xVariableCOM = tkinter.StringVar(value=COMGUNNUM)
         COMGUN_list = ttk.Combobox(frame2, textvariable=xVariableCOM, width=8)
+
+
         def changeCOMS(event):
             global COMGUNNUM
             global previous_COMGUNNUM
             COMGUNNUM = xVariableCOM.get()
             previous_COMGUNNUM = COMGUNNUM
 
+
         COMLIST = getCOMS()
         COMGUN_list['value'] = COMLIST
         COMGUN_list.place(x=120, y=590)
         COMGUN_list.bind("<<ComboboxSelected>>", changeCOMS)
+
+
         def comportfunction():
             global COMGUNNUM
             COMGUNNUM = xVariableCOM.get()
