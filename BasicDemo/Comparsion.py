@@ -65,9 +65,9 @@ def show_mianframe(frame):
     global loginflag
     loginflag = True
     # 需要解开
-    stop_grabbing()
-    show_frame(frame)
-    start_grabbing1()
+    # stop_grabbing()
+    # show_frame(frame)
+    # start_grabbing1()
 
 
 # 返回登陆结果信息
@@ -85,7 +85,7 @@ def do_login(login_win, account_va, password_va, frame2):
             login_win.destroy()
             loginflag = True
             # 需要解开
-            stop_grabbing()
+            # stop_grabbing()
             show_frame(frame2)
         else:
             tk.messagebox.showerror("登录失败", "用户名或密码错误！")
@@ -153,13 +153,13 @@ def show_login_page(frame2):
 def show_label(show):
     if show:
         labelORIGIN.place(x=40, y=350)
-        time.sleep(0.3)
+        time.sleep(0.1)
         labelORIGIN.place_forget()
         labelNG.place_forget()
         labelOK.place(x=40, y=350)
     else:
         labelORIGIN.place(x=40, y=350)
-        time.sleep(0.3)
+        time.sleep(0.1)
         labelORIGIN.place_forget()
         labelOK.place_forget()
         labelNG.place(x=40, y=350)
@@ -215,15 +215,14 @@ if __name__ == "__main__":
         # 界面设计代码
         window = tk.Tk()
         window.title('条码比对系统')
-        # print(current_file+'current_file')
         window.iconbitmap(current_file + 'constract.ico')
         window.geometry('1650x800')
-        window.grid_rowconfigure(0, weight=1)
-        window.grid_columnconfigure(0, weight=1)
-        window.grid_columnconfigure(1, weight=1)
-        window.grid_rowconfigure(0, weight=1)
-        window.grid_columnconfigure(2, weight=1)
-        window.grid_rowconfigure(0, weight=1)
+        # window.grid_rowconfigure(0, weight=1)
+        # window.grid_columnconfigure(0, weight=1)
+        # window.grid_columnconfigure(1, weight=1)
+        # window.grid_rowconfigure(0, weight=1)
+        # window.grid_columnconfigure(2, weight=1)
+        # window.grid_rowconfigure(0, weight=1)
         main_menu = tk.Menu(window)
         picklename = 'settings.dat'
         picklename1 = 'parameter.dat'
@@ -460,6 +459,7 @@ if __name__ == "__main__":
             obj_cam_operation.b_save_jpg = True
 
 
+
         @logger.catch
         def getSerialdata():
             ser1 = serial.Serial(COMGUNNUM, 9600, timeout=0.5)
@@ -467,9 +467,13 @@ if __name__ == "__main__":
                 # print(COMGUNNUM)
                 data = ser1.readline()
                 serialdata = data.decode().strip()
+                return serialdata
             except:
-                return False
-            return serialdata
+                time.sleep(1)  # 等待1秒后重试
+                return None
+            finally:
+                # Close the serial port
+                ser1.close()
 
 
         # 获得图片OCR识别结果
@@ -482,7 +486,7 @@ if __name__ == "__main__":
             SnCode = ''
             position = ''
             res = ocr.ocr(parentdir)
-            print(res)
+            # print(res)
             if (res):
                 max_length_dict = None
                 for i in res:
@@ -589,8 +593,7 @@ if __name__ == "__main__":
         def wait_for_response1():
             while True:
                 serialdata = getSerialdata()
-                time.sleep(0.2)
-                if serialdata:
+                if serialdata is not None:
                     flag = False
                     global lastresult
                     result = ''
@@ -745,10 +748,10 @@ if __name__ == "__main__":
         devicestatucl = tk.Label(frame1, text='设备已关闭', bg='skyblue', width=10, height=1)
         devicestatuop = tk.Label(frame1, text='设备已开启', bg='skyblue', width=10, height=1)
         # 需要解开
-        enum_devices()
-        time.sleep(1)
-        open_device()
-        start_grabbing1()
+        # enum_devices()
+        # time.sleep(1)
+        # open_device()
+        # start_grabbing1()
 
         # commonuser
         xVariable1 = tkinter.StringVar()
@@ -852,23 +855,6 @@ if __name__ == "__main__":
                                     font=(18), width=90, height=1, anchor='w')
         text_frame1_tips.place(x=300, y=600)
 
-        # def getTemperature():
-        #     w = wmi.WMI(namespace="root\wmi")
-        #     temperature_info = w.MSAcpi_ThermalZoneTemperature()[0]
-        #     now_temp=temperature_info.CurrentTemperature/10-273.15
-        #     return round(now_temp,1)
-
-        # def update_temperature():
-        #     new_temperature=getTemperature()
-        #     label_TEMPERATURE_text.config(text=new_temperature)
-        #     frame1.after(1000,update_temperature)
-
-        # label_TEMPERATURE = tk.Label(frame1, text='温度：',width=6, height=1)
-        # label_TEMPERATURE.place(x=300, y=650) 
-        # label_TEMPERATURE_text=tk.Label(frame1,width=6, height=1)
-        # label_TEMPERATURE_text.place(x=350, y=650) 
-        # update_temperature()
-
         checkbutton = tk.Checkbutton(frame1, text="保存比对数据信息", variable=checked_val, state=DISABLED)
         checkbutton.place(x=80, y=120)
         checkbutton = tk.Checkbutton(frame2, text="保存比对数据信息", variable=checked_val, command=on_checked)
@@ -930,6 +916,7 @@ if __name__ == "__main__":
         btn_set_parameter = tk.Button(frame2, text='设置参数', width=15, height=1, command=set_parameter)
         btn_set_parameter.place(x=160, y=500)
         # window.state("zoomed")
+
         window.bind("<space>", handle_space)
 
         window.mainloop()
