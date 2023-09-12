@@ -65,14 +65,15 @@ def show_mianframe(frame):
     global loginflag
     loginflag = True
     # 需要解开
-    # stop_grabbing()
-    # show_frame(frame)
-    # start_grabbing1()
+    stop_grabbing()
+    show_frame(frame)
+    start_grabbing1()
 
 
 # 返回登陆结果信息
 
 loginflag = True
+
 
 @logger.catch
 def do_login(login_win, account_va, password_va, frame2):
@@ -156,12 +157,14 @@ def show_label(show):
         time.sleep(0.1)
         labelORIGIN.place_forget()
         labelNG.place_forget()
+        # print("ok放置了一次")
         labelOK.place(x=40, y=350)
     else:
         labelORIGIN.place(x=40, y=350)
         time.sleep(0.1)
         labelORIGIN.place_forget()
         labelOK.place_forget()
+        # print("ng放置了一次")
         labelNG.place(x=40, y=350)
 
 
@@ -211,7 +214,7 @@ if __name__ == "__main__":
 
         COM_sharedata = {'sedata': None}
         current_file = base_path('')
-        parentdir = current_file + 'image/test.jpg'
+        parentdir = current_file + 'image\\test.jpg'
         # 界面设计代码
         window = tk.Tk()
         window.title('条码比对系统')
@@ -397,7 +400,7 @@ if __name__ == "__main__":
             obj_cam_operation.Start_grabbing(frame1, panel1)
 
 
-        # ch:停止取流 | en:Stop grab image     
+        # ch:停止取流 | en:Stop grab image
         @logger.catch
         def stop_grabbing():
             global obj_cam_operation
@@ -458,8 +461,6 @@ if __name__ == "__main__":
             global obj_cam_operation
             obj_cam_operation.b_save_jpg = True
 
-
-
         @logger.catch
         def getSerialdata():
             ser1 = serial.Serial(COMGUNNUM, 9600, timeout=0.5)
@@ -467,10 +468,15 @@ if __name__ == "__main__":
                 # print(COMGUNNUM)
                 data = ser1.readline()
                 serialdata = data.decode().strip()
-                return serialdata
+                if(serialdata!=''):
+                    return serialdata
+                else:
+                    pass
+                    # print('串口传了一次数据')
+
             except:
                 time.sleep(1)  # 等待1秒后重试
-                return None
+                return False
             finally:
                 # Close the serial port
                 ser1.close()
@@ -478,8 +484,7 @@ if __name__ == "__main__":
 
         # 获得图片OCR识别结果
         @logger.catch
-        def getSnCode(ocrflag):
-            a = ocrflag
+        def getSnCode():
             sub = 'SN:'
             nub = 'PN:'
             serachnum = 'N:'
@@ -496,22 +501,23 @@ if __name__ == "__main__":
                             tempcode = ''.join(str(firstSnCode).split())
                             SnCode = tempcode[3:].replace(" ", "")
                             position = i['position']
-                            print(SnCode, 'subsubsubsubsub')
-                            print(len(SnCode))
+                            # print(SnCode, 'subsubsubsubsub')
+                            # print(len(SnCode))
                         else:
                             try:
                                 second_coourenceN = i['text'].index(serachnum, i['text'].index(serachnum) + 1)
                                 SnCode = str(i['text'][second_coourenceN + len(serachnum):]).replace(" ", "")
                                 position = i['position']
-                                print(SnCode, 'trytrytrytrytry')
+                                # print(SnCode, 'trytrytrytrytry')
                             except:
                                 firstSnCode = i['text']
                                 tempcode = ''.join(str(firstSnCode).split())
                                 SnCode = tempcode[-17:].replace(" ", "")
                                 position = i['position']
-                                print(SnCode, 'exceptexceptexceptexcept')  # 特殊情况取后十七位
+                                # print(SnCode, 'exceptexceptexceptexcept')  # 特殊情况取后十七位
                     else:
-                        print(i['text'], 'pass')
+                        pass
+                        # print(i['text'], 'pass')
                 if SnCode == '':
                     for i in res:
                         if 'text' in i and len(i['text']) == 17:
@@ -524,25 +530,22 @@ if __name__ == "__main__":
                 else:
                     pass
 
-            else:
-                SnCode = '没找到数据'
-                position = np.zeros((4, 2))
-            if SnCode:
+            elif SnCode:
                 preCode = SnCode[:1]
                 nextSnCode = SnCode[1:]
                 SnCode = (preCode + str(nextSnCode).replace('O', '0'))
             else:
-                SnCode = '没找到数据'
+                SnCode = '没有找到数据'
                 position = np.zeros((4, 2))
             return SnCode, position
 
 
         @logger.catch
-        def jpg_save1(event=None):
+        def jpg_save1():
             global obj_cam_operation
             obj_cam_operation.b_save_jpg1 = True
-            comflag = obj_cam_operation.comflag
-            return comflag
+            # comflag = obj_cam_operation.comflag
+            # return comflag
 
 
         @logger.catch
@@ -593,13 +596,14 @@ if __name__ == "__main__":
         def wait_for_response1():
             while True:
                 serialdata = getSerialdata()
-                if serialdata is not None:
+                if serialdata:
+                    # print('getSerialdata执行了一次')
                     flag = False
                     global lastresult
                     result = ''
-                    ocrflag = jpg_save1()
+                    jpg_save1()
                     time.sleep(0.2)
-                    SnCode, position = getSnCode(ocrflag)
+                    SnCode, position = getSnCode()
                     rect = canvas.create_rectangle(0, 0, canvas.winfo_width(), canvas.winfo_height(), fill='white',
                                                    outline='white')
                     canvas.update()
@@ -615,7 +619,9 @@ if __name__ == "__main__":
                     photo1 = ImageTk.PhotoImage(image1.resize((640, 480), Image.LANCZOS))
                     canvas.itemconfig(image_item, image=photo1)
                     canvas.update()
+                    # print("图片更新了")
                     if serialdata == lastresult:
+                        # print("请更换下一个")
                         flag = False
                         result = 'continue'
                         show_label(flag)
@@ -683,11 +689,12 @@ if __name__ == "__main__":
             t.join()
 
 
-        # @logger.catch
-        # def start_reset_task():
-        #     t=threading.Thread(target=reset_result)
-        #     t.daemon=True
-        #     t.start()
+        @logger.catch
+        def start_jpg_save1():
+            t=threading.Thread(target=jpg_save1())
+            t.daemon=True
+            t.start()
+            t.join()
 
         @logger.catch
         def updateimg(position):
@@ -697,7 +704,7 @@ if __name__ == "__main__":
                 x, y, w, h = cv2.boundingRect(position)
                 # cv2.rectangle(image,(x-15,y-10),(x+w+5,y+h+5),color,6)
                 cv2.rectangle(image, (x, y), (x + w, y + h), color, 6)
-                cv2.imwrite(current_file + "\image\\test.jpg", image)
+                cv2.imwrite(current_file + "image\\test.jpg", image)
             else:
                 pass
 
@@ -748,10 +755,10 @@ if __name__ == "__main__":
         devicestatucl = tk.Label(frame1, text='设备已关闭', bg='skyblue', width=10, height=1)
         devicestatuop = tk.Label(frame1, text='设备已开启', bg='skyblue', width=10, height=1)
         # 需要解开
-        # enum_devices()
-        # time.sleep(1)
-        # open_device()
-        # start_grabbing1()
+        enum_devices()
+        time.sleep(1)
+        open_device()
+        start_grabbing1()
 
         # commonuser
         xVariable1 = tkinter.StringVar()

@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="格式修改">
+    <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/CamOperation_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/CamOperation_class.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/Comparsion.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/Comparsion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/comport.dat" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/comport.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/parameter.dat" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/parameter.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +51,28 @@
       <recent name="C:\pycharm\pythonProject\ComparsionProject\venv\Scripts" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.tktest">
+  <component name="RunManager" selected="Python.Comparsion">
+    <configuration name="CamOperation_class" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ComparsionProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/CamOperation_class.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Comparsion" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ComparsionProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -114,9 +138,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.tktest" />
         <item itemvalue="Python.Comparsion" />
         <item itemvalue="Python.test" />
+        <item itemvalue="Python.CamOperation_class" />
+        <item itemvalue="Python.tktest" />
       </list>
     </recent_temporary>
   </component>
@@ -204,7 +229,23 @@
       <option name="project" value="LOCAL" />
       <updated>1693297582802</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="格式修改">
+      <option name="closed" value="true" />
+      <created>1694173836066</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1694173836066</updated>
+    </task>
+    <task id="LOCAL-00011" summary="修改串口问题，准备测试">
+      <option name="closed" value="true" />
+      <created>1694173909773</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1694173909773</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -256,6 +297,18 @@
     <MESSAGE value="修改OCR代码" />
     <MESSAGE value="修改测试代码" />
     <MESSAGE value="格式修改" />
-    <option name="LAST_COMMIT_MESSAGE" value="格式修改" />
+    <MESSAGE value="修改串口问题，准备测试" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改串口问题，准备测试" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/BasicDemo/tktest.py</url>
+          <line>731</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
