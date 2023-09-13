@@ -24,9 +24,6 @@ import pandas as pd
 from loguru import logger
 import concurrent.futures
 import serial.tools.list_ports
-import binascii
-
-# import wmi
 
 logger.add('log\\runtime_{time}.log', rotation='00:00', retention='15 days', backtrace=True, diagnose=True)
 
@@ -73,7 +70,6 @@ def show_mianframe(frame):
 # 返回登陆结果信息
 
 loginflag = True
-
 
 @logger.catch
 def do_login(login_win, account_va, password_va, frame2):
@@ -123,7 +119,7 @@ def show_login_page(frame2):
     if loginflag:
         login_win = tk.Toplevel()
         login_win.title('登陆')
-        login_win.iconbitmap(current_file + 'constract.ico')
+        login_win.iconbitmap(current_file + 'logo.ico')
         login_win.geometry('300x200+300+300')
         login_win.protocol("WM_DELETE_WINDOW", lambda: on_exit(login_win))
         # 用户登陆
@@ -218,7 +214,7 @@ if __name__ == "__main__":
         # 界面设计代码
         window = tk.Tk()
         window.title('条码比对系统')
-        window.iconbitmap(current_file + 'constract.ico')
+        window.iconbitmap(current_file + 'logo.ico')
         window.geometry('1650x800')
         # window.grid_rowconfigure(0, weight=1)
         # window.grid_columnconfigure(0, weight=1)
@@ -290,7 +286,7 @@ if __name__ == "__main__":
         try:
             image = Image.open(parentdir)
         except:
-            image = Image.open(current_file + 'constract.ico')
+            image = Image.open(current_file + 'logo.ico')
         photo = ImageTk.PhotoImage(image.resize((640, 480), Image.LANCZOS))
         image_item = canvas.create_image(0, 0, anchor=tk.NW, image=photo)
         # print(parentdir)
