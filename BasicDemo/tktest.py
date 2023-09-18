@@ -24,6 +24,9 @@ import pandas as pd
 from loguru import logger
 import concurrent.futures
 import serial.tools.list_ports
+import matplotlib
+matplotlib.use('TkAgg')
+from matplotlib import pyplot as plt
 
 logger.add('log\\runtime_{time}.log', rotation='00:00', retention='15 days', backtrace=True, diagnose=True)
 
@@ -214,12 +217,13 @@ if __name__ == "__main__":
         window = tk.Tk()
         window.title('条码比对系统')
         window.iconbitmap(current_file + 'logo.ico')
-        window.geometry('1280x720')
+        window.geometry('1400x800')
         main_menu = tk.Menu(window)
         picklename = 'settings.dat'
         picklename1 = 'parameter.dat'
         compickle = 'comport.dat'
         signaldata = 'signal.dat'
+        imagepickle = 'imagepickle.dat'
         event = threading.Event()
         try:
             with open(signaldata, 'rb') as f:
@@ -242,7 +246,13 @@ if __name__ == "__main__":
                 # COMSIGNALNUM=pickle.load(f)
         except:
             COMGUNNUM = ""
-            # COMSIGNALNUM=""
+
+        try:
+            with open(imagepickle, 'rb') as f:
+                IMAGEMatchValue = pickle.load(f)
+        except:
+            IMAGEMatchValue = "TM_CCOEFF_NORMED"
+
         global frame1
         frame1 = tk.Frame(window)
         frame2 = tk.Frame(window)
@@ -257,11 +267,47 @@ if __name__ == "__main__":
         frame1.grid_columnconfigure(1, weight=0)
         frame1.grid_columnconfigure(2, weight=1)
         frame1.grid_columnconfigure(3, weight=1)
+        frame1.grid_rowconfigure(0, weight=1)
+        frame1.grid_rowconfigure(1, weight=1)
+        frame1.grid_rowconfigure(2, weight=1)
+        frame1.grid_rowconfigure(3, weight=1)
+        frame1.grid_rowconfigure(4, weight=1)
+        frame1.grid_rowconfigure(5, weight=1)
+        frame1.grid_rowconfigure(6, weight=1)
+        frame1.grid_rowconfigure(7, weight=1)
+        frame1.grid_rowconfigure(7, weight=1)
+        frame1.grid_rowconfigure(8, weight=1)
+        frame1.grid_rowconfigure(9, weight=1)
+        frame1.grid_rowconfigure(10, weight=1)
+        frame1.grid_rowconfigure(11, weight=1)
+        frame1.grid_rowconfigure(12, weight=1)
+        frame1.grid_rowconfigure(13, weight=1)
+        frame1.grid_rowconfigure(14, weight=1)
+        frame1.grid_rowconfigure(15, weight=1)
+        frame1.grid_rowconfigure(16, weight=1)
 
         frame2.grid_columnconfigure(0, weight=0)
         frame2.grid_columnconfigure(1, weight=0)
         frame2.grid_columnconfigure(2, weight=1)
         frame2.grid_columnconfigure(3, weight=1)
+        frame2.grid_rowconfigure(0, weight=1)
+        frame2.grid_rowconfigure(1, weight=1)
+        frame2.grid_rowconfigure(2, weight=1)
+        frame2.grid_rowconfigure(3, weight=1)
+        frame2.grid_rowconfigure(4, weight=1)
+        frame2.grid_rowconfigure(5, weight=1)
+        frame2.grid_rowconfigure(6, weight=1)
+        frame2.grid_rowconfigure(7, weight=1)
+        frame2.grid_rowconfigure(7, weight=1)
+        frame2.grid_rowconfigure(8, weight=1)
+        frame2.grid_rowconfigure(9, weight=1)
+        frame2.grid_rowconfigure(10, weight=1)
+        frame2.grid_rowconfigure(11, weight=1)
+        frame2.grid_rowconfigure(12, weight=1)
+        frame2.grid_rowconfigure(13, weight=1)
+        frame2.grid_rowconfigure(14, weight=1)
+        frame2.grid_rowconfigure(15, weight=1)
+        frame2.grid_rowconfigure(16, weight=1)
         frame1.tkraise()
         checked_val = tk.BooleanVar()
         checked_val.set(checked)
@@ -282,7 +328,7 @@ if __name__ == "__main__":
         labelOK = tk.Label(frame1, text="OK", background="green", font=('黑体', 40, 'bold'), padx=80, pady=80)
         labelNG = tk.Label(frame1, text="NG", background="red", font=('黑体', 40, 'bold'), padx=80, pady=80)
         labelORIGIN = tk.Label(frame1, text="AB", font=('黑体', 40, 'bold'), background="white", padx=80, pady=80)
-        labelOK.grid(row=7, column=0, columnspan=2, sticky='w', padx=30, pady=10)
+        labelOK.grid(row=7, column=0, columnspan=2, sticky='we', padx=30, pady=10)
         canvas = tk.Canvas(frame1, width=512, height=384, bg='gray')
         canvas.grid(row=3, column=2, rowspan=10, padx=10, pady=10, )
         try:
@@ -295,7 +341,6 @@ if __name__ == "__main__":
         ocr = CnOcr(rec_model_name='densenet_lite_136-gru', det_model_name='en_PP-OCRv3_det',
                     det_more_configs={'use_angle_clf': True})
         now = datetime.datetime.now()
-
         year = now.year
         month = now.month
 
@@ -480,6 +525,21 @@ if __name__ == "__main__":
                 ser1.close()
 
 
+        @logger.catch  # 发送扫描命令
+        def sendSerialOrder():
+            ser1 = serial.Serial(COMGUNNUM, 9600, timeout=0.5)
+            try:
+                hexStr = "03 53 80 ff 2a"
+                bytes_hex = bytes.fromhex(hexStr)
+                ser1.write(bytes_hex)
+            except:
+                time.sleep(0.5)  # 等待1秒后重试
+                return False
+            finally:
+                # Close the serial port
+                ser1.close()
+
+
         # 获得图片OCR识别结果
         @logger.catch
         def getSnCode():
@@ -491,7 +551,6 @@ if __name__ == "__main__":
             res = ocr.ocr(parentdir)
             # print(res)
             if (res):
-                max_length_dict = None
                 for i in res:
                     if sub in i['text'] or nub in i['text'] and len(i['text']) >= 17:
                         if sub in i['text'] and len(i['text']) <= 21:
@@ -834,19 +893,19 @@ if __name__ == "__main__":
                 ng_count = pickle.load(f)
                 all_count = pickle.load(f)
                 text_frame1_rate4.config(text=ok_count)
-                text_frame1_rate4.grid(row=14, column=1, padx=10, pady=10, sticky="w")
+                text_frame1_rate4.grid(row=14, column=1, padx=10, pady=10, sticky="nsew")
                 text_frame1_rate5.config(text=ng_count)
-                text_frame1_rate5.grid(row=15, column=1, padx=10, pady=10, sticky="w")
+                text_frame1_rate5.grid(row=15, column=1, padx=10, pady=10, sticky="nsew")
                 text_frame1_rate6.config(text=all_count)
-                text_frame1_rate6.grid(row=16, column=1, padx=10, pady=10, sticky="w")
+                text_frame1_rate6.grid(row=16, column=1, padx=10, pady=10, sticky="nsew")
         except:
             result_list = ['0', '0', '0%']
             text_frame1_rate4.config(text=result_list[0])
-            text_frame1_rate4.grid(row=14, column=1, padx=10, pady=10, sticky="w")
+            text_frame1_rate4.grid(row=14, column=1, padx=10, pady=10, sticky="nsew")
             text_frame1_rate5.config(text=result_list[1])
-            text_frame1_rate5.grid(row=15, column=1, padx=10, pady=10, sticky="w")
+            text_frame1_rate5.grid(row=15, column=1, padx=10, pady=10, sticky="nsew")
             text_frame1_rate6.config(text=result_list[2])
-            text_frame1_rate6.grid(row=16, column=1, padx=10, pady=10, sticky="w")
+            text_frame1_rate6.grid(row=16, column=1, padx=10, pady=10, sticky="nsew")
 
         label_frame_rate1 = tk.Label(frame1, text='上一个SN：', font=('黑体', 12, "bold"), bg='skyblue', height=1)
         label_frame_rate2 = tk.Label(frame1, text='  本次SN：', font=('黑体', 12, "bold"), bg='skyblue', height=1)
@@ -854,10 +913,11 @@ if __name__ == "__main__":
         label_frame_rate4 = tk.Label(frame1, text='', font=('Arial', 12), width=18, height=1, bg='red')
         label_frame_rate5 = tk.Label(frame1, text='', font=('Arial', 12), width=18, height=1)
         label_frame_rate6 = tk.Label(frame1, text='', font=('Arial', 12), width=18, height=1)
-        label_frame_rate4.grid(row=4, column=1, padx=10, pady=10, sticky="w")
-        label_frame_rate1.grid(row=4, column=0, padx=10, pady=10, sticky="e")
-        label_frame_rate2.grid(row=5, column=0, padx=10, pady=10, sticky="e")
-        label_frame_rate3.grid(row=6, column=0, padx=10, pady=10, sticky="e")
+        label_frame_rate4.config(text='A2001021448325486')
+        label_frame_rate4.grid(row=4, column=1, pady=10, sticky="nsew")
+        label_frame_rate1.grid(row=4, column=0, padx=10, pady=10, sticky="nsew")
+        label_frame_rate2.grid(row=5, column=0, padx=10, pady=10, sticky="nsew")
+        label_frame_rate3.grid(row=6, column=0, padx=10, pady=10, sticky="nsew")
         text_frame1_tips = tk.Label(frame1,
                                     text='如果点击开始后扫码枪为一天内的第一次开机，请等待扫码枪开机声音结束后再次点击开始比对按钮',
                                     font=(12), width=90, height=1, anchor='w')
@@ -920,16 +980,76 @@ if __name__ == "__main__":
         btn_get_parameter.grid(row=10, column=0, padx=10, pady=10, sticky="we")
         btn_set_parameter = tk.Button(frame2, text='设置参数', width=15, height=1)  # , command=set_parameter
         btn_set_parameter.grid(row=10, column=1, padx=10, pady=10, sticky="we")
+
+        # 图片截取功能
+        left_left = tk.Label(frame2, text='左上距左', width=8, height=1)
+        left_left.grid(row=2, column=2, padx=10, pady=10, sticky="w")
+        left_left_text = tk.Text(frame2, width=8, height=1)
+        left_left_text.grid(row=2, column=2, padx=80, pady=10, sticky="w")
+
+        def look_picture():
+            img = cv2.imread(parentdir)
+            plt.subplot(111), plt.imshow(img),
+            plt.title('Detected Point'), plt.axis('off')
+            plt.show()
+
+        def add_picture():
+            pass
+
+
+        btn_look_picture = tk.Button(frame2, text='查看目标图片', width=10, height=1, command=look_picture)  #
+        btn_look_picture.grid(row=2, column=2, padx=160, pady=10, sticky="w")
+        btn_add_picture = tk.Button(frame2, text='查看目标图片', width=10, height=1, command=look_picture)  #
+        btn_add_picture.grid(row=2, column=2, padx=240, pady=10, sticky="w")
+
+        # 图片截取功能
+        left_upper = tk.Label(frame2, text='左上距上', width=8, height=1)
+        left_upper.grid(row=3, column=2, padx=10, pady=10, sticky="w")
+        left_upper_text = tk.Text(frame2, width=8, height=1)
+        left_upper_text.grid(row=3, column=2, padx=80, pady=10, sticky="w")
+
+        # 图片截取功能
+        right_left = tk.Label(frame2, text='右下距左', width=8, height=1)
+        right_left.grid(row=4, column=2, padx=10, pady=10, sticky="w")
+        right_left_text = tk.Text(frame2, width=8, height=1)
+        right_left_text.grid(row=4, column=2, padx=80, pady=10, sticky="w")
+
+        # 图片截取功能
+        right_upper = tk.Label(frame2, text='右下距上', width=8, height=1)
+        right_upper.grid(row=5, column=2, padx=10, pady=10, sticky="w")
+        right_upper_text = tk.Text(frame2, width=8, height=1)
+        right_upper_text.grid(row=5, column=2, padx=80, pady=10, sticky="w")
+
+        # 阈值
+        threshold = tk.Label(frame2, text='阈值', width=8, height=1)
+        threshold.grid(row=7, column=2, padx=10, pady=10, sticky="w")
+        threshold_text = tk.Text(frame2, width=10, height=1)
+        threshold_text.grid(row=7, column=2, padx=80, pady=10, sticky="w")
+
+
+        def changeImageMethods(event):
+            global IMAGEMatchValue
+            IMAGEMatchValue = xVariableMatch.get()
+            if IMAGEMatchValue:
+                with open(imagepickle, 'wb') as f:
+                    pickle.dump(IMAGEMatchValue, f)
+                tkinter.messagebox.showinfo('show info', '修改成功！')
+            else:
+                tk.messagebox.showerror('show error', "请选择方法！")
+
+
+        IMAGEMatch = tk.Label(frame2, text='图片匹配方法', width=10, height=1)
+        IMAGEMatch.grid(row=6, column=2, padx=10, pady=10, sticky="w")
+        xVariableMatch = tkinter.StringVar(value=IMAGEMatchValue)
+        ImageMatch_list = ttk.Combobox(frame2, textvariable=xVariableMatch, width=23)
+        methods = ['cv2.TM_CCOEFF', 'cv2.TM_CCOEFF_NORMED', 'cv2.TM_CCORR',
+                   'cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
+        ImageMatch_list['value'] = methods
+        ImageMatch_list.grid(row=6, column=2, padx=100, pady=10, sticky="w")
+        ImageMatch_list.bind("<<ComboboxSelected>>", changeImageMethods)
+
         window.bind("<space>", handle_space)
 
-
-        def on_resize(event):
-            # 获取窗口的新尺寸
-            new_width = event.width
-            new_height = event.height
-
-
-        window.bind("<Configure>", on_resize)
         window.mainloop()
         try:
             win32event.ReleaseMutex(mutex)
