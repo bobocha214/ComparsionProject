@@ -6,7 +6,7 @@ import _tkinter
 import tkinter.messagebox
 import tkinter as tk
 import sys, os
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from MvImport.MvCameraControl_class import *
 import datetime
 from CamOperation_class import *
@@ -25,6 +25,7 @@ from loguru import logger
 import concurrent.futures
 import serial.tools.list_ports
 import matplotlib
+
 matplotlib.use('TkAgg')
 from matplotlib import pyplot as plt
 
@@ -213,6 +214,7 @@ if __name__ == "__main__":
         COM_sharedata = {'sedata': None}
         current_file = base_path('')
         parentdir = current_file + 'image\\test.jpg'
+        folder_path = current_file + 'cuts'
         # 界面设计代码
         window = tk.Tk()
         window.title('条码比对系统')
@@ -224,6 +226,10 @@ if __name__ == "__main__":
         compickle = 'comport.dat'
         signaldata = 'signal.dat'
         imagepickle = 'imagepickle.dat'
+        cut_Pos = np.zeros((2, 2), int)
+        global screenshotNum
+        screenshotNum=0
+        global screen_img
         event = threading.Event()
         try:
             with open(signaldata, 'rb') as f:
@@ -252,7 +258,10 @@ if __name__ == "__main__":
                 IMAGEMatchValue = pickle.load(f)
         except:
             IMAGEMatchValue = "TM_CCOEFF_NORMED"
-
+        output_directory = 'image'
+        os.makedirs(output_directory, exist_ok=True)
+        output_directory = 'csv'
+        os.makedirs(output_directory, exist_ok=True)
         global frame1
         frame1 = tk.Frame(window)
         frame2 = tk.Frame(window)
@@ -320,7 +329,7 @@ if __name__ == "__main__":
         # page1.pack(expand=True, fill=BOTH)
         # panel = Label(page)
         # panel1 = Label(page1)
-        page2.grid(row=2, column=3, rowspan=10, padx=10, pady=10, )
+        page2.grid(row=2, column=6, rowspan=10, padx=10, pady=10, )
         page1.grid(row=3, column=3, rowspan=10, padx=10, pady=10, )
         global labelOK
         global labelNG
@@ -929,6 +938,7 @@ if __name__ == "__main__":
         checkbutton.grid(row=11, column=0, columnspan=2, padx=10, pady=10, sticky="we")
 
 
+        @logger.catch
         def getCOMS():
             all_comports = serial.tools.list_ports.comports()
             available_ports = []
@@ -943,6 +953,7 @@ if __name__ == "__main__":
         COMGUN_list = ttk.Combobox(frame2, textvariable=xVariableCOM, width=8)
 
 
+        @logger.catch
         def changeCOMS(event):
             global COMGUNNUM
             global previous_COMGUNNUM
@@ -956,6 +967,7 @@ if __name__ == "__main__":
         COMGUN_list.bind("<<ComboboxSelected>>", changeCOMS)
 
 
+        @logger.catch
         def comportfunction():
             global COMGUNNUM
             COMGUNNUM = xVariableCOM.get()
@@ -981,50 +993,215 @@ if __name__ == "__main__":
         btn_set_parameter = tk.Button(frame2, text='设置参数', width=15, height=1)  # , command=set_parameter
         btn_set_parameter.grid(row=10, column=1, padx=10, pady=10, sticky="we")
 
-        # 图片截取功能
-        left_left = tk.Label(frame2, text='左上距左', width=8, height=1)
-        left_left.grid(row=2, column=2, padx=10, pady=10, sticky="w")
-        left_left_text = tk.Text(frame2, width=8, height=1)
-        left_left_text.grid(row=2, column=2, padx=80, pady=10, sticky="w")
 
+        @logger.catch
         def look_picture():
             img = cv2.imread(parentdir)
             plt.subplot(111), plt.imshow(img),
             plt.title('Detected Point'), plt.axis('off')
             plt.show()
 
-        def add_picture():
+
+        @logger.catch
+        def look_diff_picture():
+            pic_path = current_file + 'image/diff_image.jpg'
+            img = cv2.imread(pic_path)
+            plt.subplot(111), plt.imshow(img),
+            plt.title('Different Point'), plt.axis('off')
+            plt.show()
+
+
+        @logger.catch
+        def show_cut(path, left, upper, right, lower):
+            """
+                原图与所截区域相比较
+            :param path: 图片路径
+            :param left: 区块左上角位置的像素点离图片左边界的距离
+            :param upper：区块左上角位置的像素点离图片上边界的距离
+            :param right：区块右下角位置的像素点离图片左边界的距离
+            :param lower：区块右下角位置的像素点离图片上边界的距离
+             故需满足：lower > upper、right > left
+            """
+
+            img = cv2.imread(path)
+
+            plt.figure("Image Contrast")
+            plt.subplot(1, 2, 1)
+            plt.title('origin')
+            plt.imshow(img)  # 展示图片的颜色会改变
+            plt.axis('off')
+
+            cropped = img[upper:lower, left:right]
+
+            plt.subplot(1, 2, 2)
+            plt.title('roi')
+            plt.imshow(cropped)
+            plt.axis('off')
+            plt.show()
+
+
+        @logger.catch
+        def image_cut_save(path, left, upper, right, lower, save_path):
+            """
+                所截区域图片保存
+            :param path: 图片路径
+            :param left: 区块左上角位置的像素点离图片左边界的距离
+            :param upper：区块左上角位置的像素点离图片上边界的距离
+            :param right：区块右下角位置的像素点离图片左边界的距离
+            :param lower：区块右下角位置的像素点离图片上边界的距离
+             故需满足：lower > upper、right > left
+            :param save_path: 所截图片保存位置
+            """
+            img = cv2.imread(path)  # 打开图像
+            cropped = img[upper:lower, left:right]
+
+            # 保存截取的图片
+            cv2.imwrite(save_path + '/line.jpg', cropped)
+
+
+        @logger.catch
+        def add_Template_picture():
+            pic_save_dir_path = folder_path
+            if not os.path.isdir(pic_save_dir_path):
+                os.makedirs(pic_save_dir_path)
+            left_left = int(left_left_text.get("1.0", "end-1c"))
+            left_upper = int(left_upper_text.get("1.0", "end-1c"))
+            right_left = int(right_left_text.get("1.0", "end-1c"))
+            right_lower = int(right_lower_text.get("1.0", "end-1c"))
+            if left_left == '' or left_upper == '' or right_left == '' or right_lower == '':
+                messagebox.showinfo(title='提示', message='请输入模板图片位置')
+            else:
+                print(type(left_left))
+                print(left_left, left_upper, right_left, right_lower)
+                show_cut(parentdir, left_left, left_upper, right_left, right_lower)
+                image_cut_save(parentdir, left_left, left_upper, right_left, right_lower, pic_save_dir_path)
             pass
 
 
-        btn_look_picture = tk.Button(frame2, text='查看目标图片', width=10, height=1, command=look_picture)  #
-        btn_look_picture.grid(row=2, column=2, padx=160, pady=10, sticky="w")
-        btn_add_picture = tk.Button(frame2, text='查看目标图片', width=10, height=1, command=look_picture)  #
-        btn_add_picture.grid(row=2, column=2, padx=240, pady=10, sticky="w")
+        @logger.catch
+        def look_this_picture():
+            selected_item = listbox.get(listbox.curselection())
+            if selected_item:
+                file_path = os.path.join(folder_path, selected_item)
+                img = cv2.imread(file_path)
+                image_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                plt.subplot(111), plt.imshow(image_rgb),
+                plt.title(selected_item), plt.axis('off')
+                plt.show()
 
+
+        @logger.catch
+        def delete_this_picture():
+            selected_indices = listbox.curselection()
+            if selected_indices:
+                selected_item = listbox.get(selected_indices[0])  # 获取第一个选定的项目
+                file_path = os.path.join(folder_path, selected_item)
+                try:
+                    os.remove(file_path)
+                    listbox.delete(selected_indices)  # 从列表框中删除选定的项目
+                    messagebox.showinfo("删除成功", f"文件 {selected_item} 已删除")
+                except Exception as e:
+                    messagebox.showerror("删除失败", f"无法删除文件 {selected_item}: {str(e)}")
+
+
+        @logger.catch
+        def refresh():
+            listbox.delete(0, tk.END)
+            image_files = [f for f in os.listdir(folder_path) if f.endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
+            # 将图片文件名添加到列表框中
+            for file in image_files:
+                listbox.insert(tk.END, file)
+
+
+        @logger.catch
+        def on_mouse(event, x, y, flags, param):
+            global screen_img, point1, point2,screenshotNum
+            img2 = screen_img.copy()
+            if event == cv2.EVENT_LBUTTONDOWN:
+                point1 = (x, y)
+                cv2.circle(img2, point1, 10, (0, 255, 0), 2)  # 点击左键，显示绿色圆圈
+                cv2.imshow('image', img2)
+            elif event == cv2.EVENT_MOUSEMOVE and (flags & cv2.EVENT_FLAG_LBUTTON):
+                cv2.rectangle(img2, point1, (x, y), (255, 0, 0), 2)  # 移动点击下的左键，画出蓝色截图框
+                cv2.imshow('image', img2)
+            elif event == cv2.EVENT_LBUTTONUP:
+                point2 = (x, y)
+                cv2.rectangle(img2, point1, point2, (0, 0, 255), 2)  # 松开左键，显示最终的红色截图框
+                cv2.imshow('image', img2)
+
+                cut_Pos[0][0] = min(point1[0], point2[0])
+                cut_Pos[0][1] = max(point1[0], point2[0])
+                cut_Pos[1][0] = min(point1[1], point2[1])
+                cut_Pos[1][1] = max(point1[1], point2[1])
+                cv2.imshow('image', screen_img[cut_Pos[1][0]:cut_Pos[1][1], cut_Pos[0][0]:cut_Pos[0][1]])
+                file_name = folder_path + f"\\screen_img_{screenshotNum + 1}.jpg"
+                screenshotNum += 1
+                cv2.imwrite(file_name, screen_img[cut_Pos[1][0]:cut_Pos[1][1], cut_Pos[0][0]:cut_Pos[0][1]])
+
+
+        @logger.catch
+        def screen_shot():
+            global screenshotNum
+            global screen_img
+            screen_img = cv2.imread('image/test.jpg')
+            cv2.namedWindow('image')
+            cv2.setMouseCallback('image', on_mouse)
+            cv2.imshow('image', screen_img)
+            cv2.waitKey(0)
+
+
+        btn_look_picture = tk.Button(frame2, text='查看目标图片', width=10, height=1, command=look_picture)  #
+        btn_look_picture.grid(row=2, column=4, padx=10, pady=10, sticky="w")
+        btn_add_picture = tk.Button(frame2, text='查看不同图片', width=12, height=1, command=look_diff_picture)  #
+        btn_add_picture.grid(row=2, column=5, padx=10, pady=10, sticky="w")
+        btn_add_template = tk.Button(frame2, text='添加模板图片', width=12, height=1, command=add_Template_picture)  #
+        btn_add_template.grid(row=6, column=2, padx=10, pady=10, sticky="wens")
+        btn_screenshot = tk.Button(frame2, text='目标位置截图', width=12, height=1, command=screen_shot)  #
+        btn_screenshot.grid(row=6, column=3, padx=10, pady=10, sticky="wens")
+        btn_refresh = tk.Button(frame2, text='刷新', width=12, height=1, command=refresh)  #
+        btn_refresh.grid(row=6, column=4, padx=10, pady=10, sticky="wens")
+        # 图片截取功能
+        left_left = tk.Label(frame2, text='左上距左', width=8, height=1)
+        left_left.grid(row=2, column=2, padx=10, pady=10, sticky="e")
+        left_left_text = tk.Text(frame2, width=8, height=1)
+        left_left_text.grid(row=2, column=3, padx=10, pady=10, sticky="w")
         # 图片截取功能
         left_upper = tk.Label(frame2, text='左上距上', width=8, height=1)
-        left_upper.grid(row=3, column=2, padx=10, pady=10, sticky="w")
+        left_upper.grid(row=3, column=2, padx=10, pady=10, sticky="e")
         left_upper_text = tk.Text(frame2, width=8, height=1)
-        left_upper_text.grid(row=3, column=2, padx=80, pady=10, sticky="w")
+        left_upper_text.grid(row=3, column=3, padx=10, pady=10, sticky="w")
 
         # 图片截取功能
         right_left = tk.Label(frame2, text='右下距左', width=8, height=1)
-        right_left.grid(row=4, column=2, padx=10, pady=10, sticky="w")
+        right_left.grid(row=4, column=2, padx=10, pady=10, sticky="e")
         right_left_text = tk.Text(frame2, width=8, height=1)
-        right_left_text.grid(row=4, column=2, padx=80, pady=10, sticky="w")
+        right_left_text.grid(row=4, column=3, padx=10, pady=10, sticky="w")
 
         # 图片截取功能
-        right_upper = tk.Label(frame2, text='右下距上', width=8, height=1)
-        right_upper.grid(row=5, column=2, padx=10, pady=10, sticky="w")
-        right_upper_text = tk.Text(frame2, width=8, height=1)
-        right_upper_text.grid(row=5, column=2, padx=80, pady=10, sticky="w")
+        right_lower = tk.Label(frame2, text='右下距上', width=8, height=1)
+        right_lower.grid(row=5, column=2, padx=10, pady=10, sticky="e")
+        right_lower_text = tk.Text(frame2, width=8, height=1)
+        right_lower_text.grid(row=5, column=3, padx=10, pady=10, sticky="w")
 
         # 阈值
         threshold = tk.Label(frame2, text='阈值', width=8, height=1)
-        threshold.grid(row=7, column=2, padx=10, pady=10, sticky="w")
+        threshold.grid(row=8, column=2, padx=10, pady=10, sticky="e")
         threshold_text = tk.Text(frame2, width=10, height=1)
-        threshold_text.grid(row=7, column=2, padx=80, pady=10, sticky="w")
+        threshold_text.grid(row=8, column=3, padx=10, pady=10, sticky="w")
+
+        listbox = Listbox(frame2, width=20, height=10)
+        listbox.grid(row=3, rowspan=3, column=4, padx=10, pady=10, sticky="e")
+        scrollbar = Scrollbar(frame2, command=listbox.yview)
+        scrollbar.grid(row=4, column=5, sticky="w", padx=10, pady=20)
+        listbox.config(yscrollcommand=scrollbar.set)
+        image_files = [f for f in os.listdir(folder_path) if f.endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
+        # 将图片文件名添加到列表框中
+        for file in image_files:
+            listbox.insert(tk.END, file)
+        btn_look_this = tk.Button(frame2, text='查看选中图片', width=12, height=1, command=look_this_picture)  #
+        btn_look_this.grid(row=3, column=5, padx=10, pady=10, sticky="w")
+        btn_delete_this = tk.Button(frame2, text='删除选中图片', width=12, height=1, command=delete_this_picture)  #
+        btn_delete_this.grid(row=5, column=5, padx=10, pady=10, sticky="w")
 
 
         def changeImageMethods(event):
@@ -1039,17 +1216,14 @@ if __name__ == "__main__":
 
 
         IMAGEMatch = tk.Label(frame2, text='图片匹配方法', width=10, height=1)
-        IMAGEMatch.grid(row=6, column=2, padx=10, pady=10, sticky="w")
+        IMAGEMatch.grid(row=7, column=2, padx=10, pady=10, sticky="e")
         xVariableMatch = tkinter.StringVar(value=IMAGEMatchValue)
-        ImageMatch_list = ttk.Combobox(frame2, textvariable=xVariableMatch, width=23)
-        methods = ['cv2.TM_CCOEFF', 'cv2.TM_CCOEFF_NORMED', 'cv2.TM_CCORR',
-                   'cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
+        ImageMatch_list = ttk.Combobox(frame2, textvariable=xVariableMatch)
+        methods = ['cv2.TM_CCOEFF_NORMED', 'cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF_NORMED']
         ImageMatch_list['value'] = methods
-        ImageMatch_list.grid(row=6, column=2, padx=100, pady=10, sticky="w")
+        ImageMatch_list.grid(row=7, column=3, padx=10, pady=10, sticky="w")
         ImageMatch_list.bind("<<ComboboxSelected>>", changeImageMethods)
-
         window.bind("<space>", handle_space)
-
         window.mainloop()
         try:
             win32event.ReleaseMutex(mutex)
