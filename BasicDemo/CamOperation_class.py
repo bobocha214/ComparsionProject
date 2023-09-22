@@ -70,7 +70,7 @@ class CameraOperation():
                  b_start_grabbing1=False, h_thread_handle=None, \
                  b_thread_closed=False, st_frame_info=None, b_exit=False, b_save_bmp=False, b_save_jpg=False,
                  b_save_jpg1=False, buf_save_image=None, \
-                 n_save_image_size=0, n_win_gui_id=0, frame_rate=0, exposure_time=0, gain=0, comflag=False):
+                 n_save_image_size=0, n_win_gui_id=0, frame_rate=0, exposure_time=0, gain=0, flag=False):
 
         self.obj_cam = obj_cam
         self.st_device_list = st_device_list
@@ -92,7 +92,7 @@ class CameraOperation():
         self.frame_rate = frame_rate
         self.exposure_time = exposure_time
         self.gain = gain
-        self.comflag = comflag
+        self.flag = flag
 
     def To_hex_str(self, num):
         chaDic = {10: 'a', 11: 'b', 12: 'c', 13: 'd', 14: 'e', 15: 'f'}
@@ -427,7 +427,6 @@ class CameraOperation():
             else:
                 k += 1
         global test_path
-
         test_path = current_path + "\img\\" + ymdname + "\\train" + randomfilename + "-{b}.jpg".format(a=k, b=i)
         self.n_save_image_size = self.st_frame_info.nWidth * self.st_frame_info.nHeight * 3 + 2048
         if self.buf_save_image is None:
@@ -467,9 +466,12 @@ class CameraOperation():
         with Image.open(file_path.encode('ascii')) as img:
             flipped_img = img.transpose(Image.ROTATE_180)
             flipped_img.save(file_path)
-        with Image.open(test_path.encode('ascii')) as img1:
-            flipped_img1 = img1.transpose(Image.ROTATE_180)
-            flipped_img1.save(test_path)
+        if self.flag:
+            with Image.open(test_path.encode('ascii')) as img1:
+                flipped_img1 = img1.transpose(Image.ROTATE_180)
+                flipped_img1.save(test_path)
+        else:
+            pass
         if None != img_buff:
             del img_buff
         if None != self.buf_save_image:

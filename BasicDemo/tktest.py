@@ -1,19 +1,10 @@
 # -- coding: utf-8 --
-import sys
-from tkinter import *
-from tkinter.messagebox import *
-import _tkinter
 import tkinter.messagebox
-import tkinter as tk
-import sys, os
-from tkinter import ttk, messagebox
-from MvImport.MvCameraControl_class import *
-import datetime
+from tkinter import messagebox
 from CamOperation_class import *
 from PIL import Image, ImageTk
 import serial
 import csv
-import cnocr
 from cnocr import CnOcr
 import threading
 import pickle
@@ -22,9 +13,9 @@ import win32api
 import winerror
 import pandas as pd
 from loguru import logger
-import concurrent.futures
 import serial.tools.list_ports
 import matplotlib
+# from bounding import bounding
 
 matplotlib.use('TkAgg')
 from matplotlib import pyplot as plt
@@ -219,16 +210,19 @@ if __name__ == "__main__":
         window = tk.Tk()
         window.title('条码比对系统')
         window.iconbitmap(current_file + 'logo.ico')
-        window.geometry('1400x800')
+        # window.geometry('1400x800')
         main_menu = tk.Menu(window)
         picklename = 'settings.dat'
         picklename1 = 'parameter.dat'
         compickle = 'comport.dat'
         signaldata = 'signal.dat'
         imagepickle = 'imagepickle.dat'
+        screenshot = 'screenshot.dat'
+        saveImg = 'saveImg.dat'
+        thresholdpickle = 'thresholdpickle.dat'
         cut_Pos = np.zeros((2, 2), int)
         global screenshotNum
-        screenshotNum=0
+        screenshotNum = 0
         global screen_img
         event = threading.Event()
         try:
@@ -247,17 +241,28 @@ if __name__ == "__main__":
         except:
             checked = False
         try:
+            with open(saveImg, 'rb') as f:
+                img_checked = pickle.load(f)
+        except:
+            img_checked = False
+        try:
             with open(compickle, 'rb') as f:
                 COMGUNNUM = pickle.load(f)
                 # COMSIGNALNUM=pickle.load(f)
         except:
             COMGUNNUM = ""
+        try:
+            with open(screenshot, 'rb') as f:
+                screenshotNum = int(pickle.load(f))
+        except:
+            screenshotNum = 0
 
         try:
             with open(imagepickle, 'rb') as f:
                 IMAGEMatchValue = pickle.load(f)
         except:
             IMAGEMatchValue = "TM_CCOEFF_NORMED"
+
         output_directory = 'image'
         os.makedirs(output_directory, exist_ok=True)
         output_directory = 'csv'
@@ -297,8 +302,11 @@ if __name__ == "__main__":
 
         frame2.grid_columnconfigure(0, weight=0)
         frame2.grid_columnconfigure(1, weight=0)
-        frame2.grid_columnconfigure(2, weight=1)
-        frame2.grid_columnconfigure(3, weight=1)
+        frame2.grid_columnconfigure(2, weight=0)
+        frame2.grid_columnconfigure(3, weight=0)
+        frame2.grid_columnconfigure(4, weight=0)
+        frame2.grid_columnconfigure(5, weight=0)
+        frame2.grid_columnconfigure(6, weight=1)
         frame2.grid_rowconfigure(0, weight=1)
         frame2.grid_rowconfigure(1, weight=1)
         frame2.grid_rowconfigure(2, weight=1)
@@ -320,6 +328,8 @@ if __name__ == "__main__":
         frame1.tkraise()
         checked_val = tk.BooleanVar()
         checked_val.set(checked)
+        on_save_img_val = tk.BooleanVar()
+        on_save_img_val.set(img_checked)
         model_val = tk.StringVar()
         global triggercheck_val
         triggercheck_val = tk.IntVar()
@@ -613,8 +623,17 @@ if __name__ == "__main__":
         def jpg_save1(event=None):
             global obj_cam_operation
             obj_cam_operation.b_save_jpg1 = True
-            # comflag = obj_cam_operation.comflag
+
             # return comflag
+
+
+        @logger.catch
+        def on_save_img(event=None):
+            with open(picklename, 'wb') as f:
+                pickle.dump(on_save_img_val.get(), f)
+            flag = on_save_img_val.get()
+            global obj_cam_operation
+            obj_cam_operation.flag = flag
 
 
         @logger.catch
@@ -933,9 +952,14 @@ if __name__ == "__main__":
         text_frame1_tips.grid(row=13, column=2, columnspan=2, sticky="w", padx=10, pady=10, )
 
         checkbutton = tk.Checkbutton(frame1, text="保存比对数据信息", variable=checked_val, state=DISABLED)
-        checkbutton.grid(row=3, column=0, columnspan=2, padx=10, pady=10, sticky="we")
+        checkbutton.grid(row=3, column=0, padx=10, pady=10, sticky="we")
         checkbutton = tk.Checkbutton(frame2, text="保存比对数据信息", variable=checked_val)  # , command=on_checked
-        checkbutton.grid(row=11, column=0, columnspan=2, padx=10, pady=10, sticky="we")
+        checkbutton.grid(row=11, column=0, padx=10, pady=10, sticky="we")
+
+        leidiaobutton = tk.Checkbutton(frame1, text="镭雕机模式", state=DISABLED)
+        leidiaobutton.grid(row=3, column=1, padx=10, pady=10, sticky="we")
+        leidiaobutton = tk.Checkbutton(frame2, text="镭雕机模式")  # , command=on_checked
+        leidiaobutton.grid(row=11, column=1, padx=10, pady=10, sticky="we")
 
 
         @logger.catch
@@ -1115,7 +1139,7 @@ if __name__ == "__main__":
 
         @logger.catch
         def on_mouse(event, x, y, flags, param):
-            global screen_img, point1, point2,screenshotNum
+            global screen_img, point1, point2, screenshotNum
             img2 = screen_img.copy()
             if event == cv2.EVENT_LBUTTONDOWN:
                 point1 = (x, y)
@@ -1150,6 +1174,20 @@ if __name__ == "__main__":
             cv2.waitKey(0)
 
 
+        @logger.catch
+        def threshold_confirm():
+            param1 = img_threshold_text.get(1.0, tk.END)
+            param2 = binary_image_threshold_text.get(1.0, tk.END)
+            param3 = kernel_threshold_text.get(1.0, tk.END)
+            params = (param1, param2, param3)  # 将三个参数打包成元组
+            if params:
+                with open(thresholdpickle, "wb") as f:
+                    pickle.dump(params, f)
+                tkinter.messagebox.showinfo('show info', '提交成功！')
+            else:
+                tk.messagebox.showerror('show error', "填写数据！")
+
+
         btn_look_picture = tk.Button(frame2, text='查看目标图片', width=10, height=1, command=look_picture)  #
         btn_look_picture.grid(row=2, column=4, padx=10, pady=10, sticky="w")
         btn_add_picture = tk.Button(frame2, text='查看不同图片', width=12, height=1, command=look_diff_picture)  #
@@ -1163,31 +1201,67 @@ if __name__ == "__main__":
         # 图片截取功能
         left_left = tk.Label(frame2, text='左上距左', width=8, height=1)
         left_left.grid(row=2, column=2, padx=10, pady=10, sticky="e")
-        left_left_text = tk.Text(frame2, width=8, height=1)
+        left_left_text = tk.Text(frame2, width=10, height=1)
         left_left_text.grid(row=2, column=3, padx=10, pady=10, sticky="w")
         # 图片截取功能
         left_upper = tk.Label(frame2, text='左上距上', width=8, height=1)
         left_upper.grid(row=3, column=2, padx=10, pady=10, sticky="e")
-        left_upper_text = tk.Text(frame2, width=8, height=1)
+        left_upper_text = tk.Text(frame2, width=10, height=1)
         left_upper_text.grid(row=3, column=3, padx=10, pady=10, sticky="w")
 
         # 图片截取功能
         right_left = tk.Label(frame2, text='右下距左', width=8, height=1)
         right_left.grid(row=4, column=2, padx=10, pady=10, sticky="e")
-        right_left_text = tk.Text(frame2, width=8, height=1)
+        right_left_text = tk.Text(frame2, width=10, height=1)
         right_left_text.grid(row=4, column=3, padx=10, pady=10, sticky="w")
 
         # 图片截取功能
         right_lower = tk.Label(frame2, text='右下距上', width=8, height=1)
         right_lower.grid(row=5, column=2, padx=10, pady=10, sticky="e")
-        right_lower_text = tk.Text(frame2, width=8, height=1)
+        right_lower_text = tk.Text(frame2, width=10, height=1)
         right_lower_text.grid(row=5, column=3, padx=10, pady=10, sticky="w")
 
         # 阈值
-        threshold = tk.Label(frame2, text='阈值', width=8, height=1)
-        threshold.grid(row=8, column=2, padx=10, pady=10, sticky="e")
-        threshold_text = tk.Text(frame2, width=10, height=1)
-        threshold_text.grid(row=8, column=3, padx=10, pady=10, sticky="w")
+        img_threshold = tk.Label(frame2, text='图片比对阈值', width=10, height=1)
+        img_threshold.grid(row=8, column=2, padx=10, pady=10, sticky="e")
+        img_threshold_text = tk.Text(frame2, width=10, height=1)
+        img_threshold_text.grid(row=8, column=3, padx=10, pady=10, sticky="w")
+        # 二值化阈值
+        binary_image_threshold = tk.Label(frame2, text='二值化阈值', width=10, height=1)
+        binary_image_threshold.grid(row=9, column=2, padx=10, pady=10, sticky="e")
+        binary_image_threshold_text = tk.Text(frame2, width=10, height=1)
+        binary_image_threshold_text.grid(row=9, column=3, padx=10, pady=10, sticky="w")
+        # 卷积核
+        kernel_threshold = tk.Label(frame2, text='卷积核', width=10, height=1)
+        kernel_threshold.grid(row=10, column=2, padx=10, pady=10, sticky="e")
+        kernel_threshold_text = tk.Text(frame2, width=10, height=1)
+        kernel_threshold_text.grid(row=10, column=3, padx=10, pady=10, sticky="w")
+
+        thresholdbutton = tk.Button(frame2, text='提交', bg='skyblue', width=10, height=1,
+                                    command=threshold_confirm)  # , command=comportfunction
+        thresholdbutton.grid(row=8, column=4, padx=10, pady=10, sticky="w")
+
+        try:
+            with open(thresholdpickle, "rb") as f:
+                loaded_params = pickle.load(f)
+                param1_loaded, param2_loaded, param3_loaded = loaded_params
+                img_threshold_text.delete("1.0", "end")  # 清空Text组件
+                img_threshold_text.insert("1.0", param1_loaded)
+                binary_image_threshold_text.delete("1.0", "end")
+                binary_image_threshold_text.insert("1.0", param2_loaded)
+                kernel_threshold_text.delete("1.0", "end")
+                kernel_threshold_text.insert("1.0", param3_loaded)
+        except FileNotFoundError:
+            img_threshold_text.delete("1.0", "end")  # 清空Text组件
+            img_threshold_text.insert("1.0", '0')
+            binary_image_threshold_text.delete("1.0", "end")
+            binary_image_threshold_text.insert("1.0", '0')
+            kernel_threshold_text.delete("1.0", "end")
+            kernel_threshold_text.insert("1.0", '0')
+
+        img_save_button = tk.Checkbutton(frame2, text="保存比对图片", variable=on_save_img_val,
+                                         command=on_save_img)  # , command=on_checked
+        img_save_button.grid(row=11, column=2, padx=10, pady=10, sticky="we")
 
         listbox = Listbox(frame2, width=20, height=10)
         listbox.grid(row=3, rowspan=3, column=4, padx=10, pady=10, sticky="e")
@@ -1204,6 +1278,7 @@ if __name__ == "__main__":
         btn_delete_this.grid(row=5, column=5, padx=10, pady=10, sticky="w")
 
 
+        @logger.catch()
         def changeImageMethods(event):
             global IMAGEMatchValue
             IMAGEMatchValue = xVariableMatch.get()
@@ -1215,6 +1290,15 @@ if __name__ == "__main__":
                 tk.messagebox.showerror('show error', "请选择方法！")
 
 
+        @logger.catch()
+        def on_closing():
+            if messagebox.askokcancel("关闭窗口", "你确定要关闭窗口吗？"):
+                # 执行其他关闭窗口前需要进行的操作
+                with open(screenshot, 'wb') as f:
+                    pickle.dump(screenshotNum, f)
+                window.destroy()
+
+
         IMAGEMatch = tk.Label(frame2, text='图片匹配方法', width=10, height=1)
         IMAGEMatch.grid(row=7, column=2, padx=10, pady=10, sticky="e")
         xVariableMatch = tkinter.StringVar(value=IMAGEMatchValue)
@@ -1224,6 +1308,7 @@ if __name__ == "__main__":
         ImageMatch_list.grid(row=7, column=3, padx=10, pady=10, sticky="w")
         ImageMatch_list.bind("<<ComboboxSelected>>", changeImageMethods)
         window.bind("<space>", handle_space)
+        window.protocol("WM_DELETE_WINDOW", on_closing)
         window.mainloop()
         try:
             win32event.ReleaseMutex(mutex)

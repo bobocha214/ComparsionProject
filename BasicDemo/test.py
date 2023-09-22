@@ -2,9 +2,9 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-img = cv2.imread('image/1.jpg')
+img = cv2.imread('image/TEST/TE2.jpg')
 img2 = img.copy()
-template = cv2.imread('image/cut.jpg')
+template = cv2.imread('image/TEST/TE2.jpg')
 if template is not None:
     h, w, _ = template.shape  # 获取模板的高度和宽度
     print("模板图像的宽度和高度：", w, h)
