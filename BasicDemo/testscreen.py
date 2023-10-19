@@ -28,7 +28,7 @@ def on_mouse(event, x, y, flags, param):
 
 def main():
     global img
-    img = cv2.imread('image/test.jpg')
+    img = cv2.imread('image/111.jpg')
     cv2.namedWindow('image')
     cv2.setMouseCallback('image', on_mouse)
     cv2.imshow('image', img)

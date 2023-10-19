@@ -700,7 +700,7 @@ if __name__ == "__main__":
                 x, y, w, h = cv2.boundingRect(position)
                 # cv2.rectangle(image,(x-15,y-10),(x+w+5,y+h+5),color,6)
                 cv2.rectangle(image, (x, y), (x + w, y + h), color, 6)
-                cv2.imwrite(current_file + "image\\test.jpg", image)
+                cv2.imwrite(current_file + "image\\111.jpg", image)
             else:
                 pass
 

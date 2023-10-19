@@ -266,6 +266,7 @@ class CameraOperation():
             tkinter.messagebox.showinfo('show info', 'set parameter success!')
 
     def Work_thread(self, root, panel):
+        # print(self.b_save_jpg,'b_save_jpg')
         stOutFrame = MV_FRAME_OUT()
         img_buff = None
         buf_cache = None
@@ -354,9 +355,8 @@ class CameraOperation():
                 mode = "L"
             # 合并OpenCV到Tkinter界面中
             current_image = Image.frombuffer(mode, (self.st_frame_info.nWidth, self.st_frame_info.nHeight),
-                                             numArray.astype('uint8')).resize((640, 480), Image.LANCZOS)
-            imgtk = ImageTk.PhotoImage(image=current_image.transpose(Image.ROTATE_180),
-                                       master=root)  # .transpose(Image.ROTATE_180)
+                                             numArray.astype('uint8')).resize((512, 384), Image.LANCZOS)
+            imgtk = ImageTk.PhotoImage(image=current_image.transpose(Image.ROTATE_180), master=root)  # .transpose(Image.ROTATE_180)
             panel.imgtk = imgtk
             panel.config(image=imgtk)
             root.obr = imgtk
@@ -369,10 +369,13 @@ class CameraOperation():
                 break
 
     def Save_jpg(self, buf_cache):
+        print('CamSave_jpg执行力')
         if (None == buf_cache):
             return
         self.buf_save_image = None
-        file_path = str(self.st_frame_info.nFrameNum) + ".jpg"
+        current_path = os.path.dirname(__file__)
+        # file_path = str(self.st_frame_info.nFrameNum) + ".jpg"
+        file_path = current_path + "\image\\test.jpg"
         self.n_save_image_size = self.st_frame_info.nWidth * self.st_frame_info.nHeight * 3 + 2048
         if self.buf_save_image is None:
             self.buf_save_image = (c_ubyte * self.n_save_image_size)()
@@ -395,6 +398,7 @@ class CameraOperation():
             return
         file_open = open(file_path.encode('ascii'), 'wb+')
         img_buff = (c_ubyte * stParam.nImageLen)()
+        print(file_path,'file_path')
         try:
             cdll.msvcrt.memcpy(byref(img_buff), stParam.pImageBuffer, stParam.nImageLen)
             file_open.write(img_buff)
@@ -403,6 +407,9 @@ class CameraOperation():
         except:
             self.b_save_jpg = False
             raise Exception("get one frame failed:%s" % e.message)
+        with Image.open(file_path.encode('ascii')) as img:
+            flipped_img = img.transpose(Image.ROTATE_180)  # .transpose(Image.ROTATE_180)
+            flipped_img.save(file_path)
         if None != img_buff:
             del img_buff
         if None != self.buf_save_image:
@@ -427,6 +434,7 @@ class CameraOperation():
             else:
                 k += 1
         global test_path
+
         test_path = current_path + "\img\\" + ymdname + "\\train" + randomfilename + "-{b}.jpg".format(a=k, b=i)
         self.n_save_image_size = self.st_frame_info.nWidth * self.st_frame_info.nHeight * 3 + 2048
         if self.buf_save_image is None:
@@ -451,27 +459,33 @@ class CameraOperation():
         file_open = open(file_path.encode('ascii'), 'wb+')
 
         img_buff = (c_ubyte * stParam.nImageLen)()
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            future = executor.submit(mythread, test_path)
-            file_test = future.result()
+
+        if self.flag:
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                future = executor.submit(mythread, test_path)
+                file_test = future.result()
         try:
             cdll.msvcrt.memcpy(byref(img_buff), stParam.pImageBuffer, stParam.nImageLen)
             file_open.write(img_buff)
-            file_test.write(img_buff)
+            if self.flag:
+                file_test.write(img_buff)
+            else:
+                pass
             self.b_save_jpg1 = False
             # tkinter.messagebox.showinfo('show info','save jpg success!')
         except:
             self.b_save_jpg1 = False
             raise Exception("get one frame failed:%s" % e.message)
-        with Image.open(file_path.encode('ascii')) as img:
-            flipped_img = img.transpose(Image.ROTATE_180)
-            flipped_img.save(file_path)
         if self.flag:
             with Image.open(test_path.encode('ascii')) as img1:
-                flipped_img1 = img1.transpose(Image.ROTATE_180)
+                flipped_img1 = img1.transpose(Image.ROTATE_180)  # .transpose(Image.ROTATE_180)
                 flipped_img1.save(test_path)
         else:
             pass
+        with Image.open(file_path.encode('ascii')) as img:
+            flipped_img = img.transpose(Image.ROTATE_180)  # .transpose(Image.ROTATE_180)
+            flipped_img.save(file_path)
+
         if None != img_buff:
             del img_buff
         if None != self.buf_save_image:
