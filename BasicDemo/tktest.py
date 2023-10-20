@@ -1,7 +1,9 @@
 # -- coding: utf-8 --
+import asyncio
 import time
 import tkinter.messagebox
 from functools import partial
+from math import fabs, sin, radians, cos
 from multiprocessing import Pool, Manager
 from tkinter import messagebox
 from CamOperation_class import *
@@ -24,7 +26,6 @@ import numpy as np
 import concurrent.futures
 matplotlib.use('TkAgg')
 from matplotlib import pyplot as plt
-from image_diff import match_and_extract_region
 
 
 def custom_filter(record):
@@ -232,12 +233,13 @@ if __name__ == "__main__":
         weight_threshold_NUM = 0
         pattern_compare_threshold_NUM = 0
         image_threading_NUM=0
-        different_threshold_NUM=0
+        # different_threshold_NUM=0
         COM_sharedata = {'sedata': None}
         current_file = base_path('')
         parentdir = current_file + 'image\\test.jpg'
         parentdirsign = current_file + 'image\\sign.jpg'
         parentdirdemo = current_file + 'image\\demo.jpg'
+        parentdirmarked = current_file + 'image\\marked_difference.jpg'
         folder_path = current_file + 'cuts'
         folder_path1 = current_file + 'cut1'
         imagepath = current_file + 'image'
@@ -259,8 +261,8 @@ if __name__ == "__main__":
         comparea = 'comparea.dat'
         # 创建一个空列表以存储所有图片
         image_list = []
-        pool = Pool()
         image_lock = threading.Lock()
+        image_rectangle = False
         cut_Pos = np.zeros((2, 2), int)
         global screenshotNum
         screenshotNum = 0
@@ -269,7 +271,7 @@ if __name__ == "__main__":
         try:
             with open(thresholdpickle, "rb") as f:
                 loaded_params = pickle.load(f)
-                param1_loaded, param2_loaded, param3_loaded, param4_loaded, param5_loaded, param6_loaded, param7_loaded,param8_loaded,param9_loaded,param10_loaded = loaded_params
+                param1_loaded, param2_loaded, param3_loaded, param4_loaded, param5_loaded, param6_loaded, param7_loaded,param8_loaded,param9_loaded = loaded_params
                 process_threshold_NUM = int(param1_loaded)
                 compare_threshold_NUM = int(param2_loaded)
                 process_kernel_x_threshold_NUM = int(param3_loaded)
@@ -279,19 +281,19 @@ if __name__ == "__main__":
                 weight_threshold_NUM = int(param7_loaded)
                 pattern_compare_threshold_NUM=int(param8_loaded)
                 image_threading_NUM = int(param9_loaded)
-                different_threshold_NUM = int(param10_loaded)
+                # different_threshold_NUM = int(param10_loaded)
 
         except:
             process_threshold_NUM = 200
-            compare_threshold_NUM = 60
+            compare_threshold_NUM = 100
             process_kernel_x_threshold_NUM = 75
             process_kernel_y_threshold_NUM = 1
             process_area_low_threshold_NUM = 4000
             process_area_threshold_high_NUM = 250000
-            weight_threshold_NUM = 10
-            pattern_compare_threshold_NUM=30
-            image_threading_NUM = 9
-            different_threshold_NUM = 200
+            weight_threshold_NUM = 5
+            pattern_compare_threshold_NUM=300
+            image_threading_NUM = 8
+            # different_threshold_NUM = 200
         thread_pool = concurrent.futures.ThreadPoolExecutor(max_workers=image_threading_NUM)
         try:
             with open(signaldata, 'rb') as f:
@@ -380,6 +382,7 @@ if __name__ == "__main__":
         frame1.grid_columnconfigure(1, weight=0)
         frame1.grid_columnconfigure(2, weight=1)
         frame1.grid_columnconfigure(3, weight=1)
+        frame1.grid_columnconfigure(4, weight=1)
         frame1.grid_rowconfigure(0, weight=1)
         frame1.grid_rowconfigure(1, weight=1)
         frame1.grid_rowconfigure(2, weight=1)
@@ -446,7 +449,7 @@ if __name__ == "__main__":
         labelOK = tk.Label(frame1, text="OK", background="green", font=('黑体', 40, 'bold'), padx=80, pady=80)
         labelNG = tk.Label(frame1, text="NG", background="red", font=('黑体', 40, 'bold'), padx=80, pady=80)
         labelORIGIN = tk.Label(frame1, text="AB", font=('黑体', 40, 'bold'), background="white", padx=80, pady=80)
-        labelOK.grid(row=6, column=0, columnspan=2, sticky='wens', padx=30, pady=10)
+        # labelOK.grid(row=6, column=0, columnspan=2, sticky='wens', padx=30, pady=10)
 
         try:
             image = Image.open(parentdirsign)
@@ -577,6 +580,233 @@ if __name__ == "__main__":
             obj_cam_operation.Stop_grabbing()
 
 
+        def process_and_display_difference_images(partial_image, matched_region, threshold=compare_threshold_NUM):
+            global image_rectangle
+            try:
+                # 确保partial_image与matched_region具有相同的尺寸
+                partial_image = cv2.resize(partial_image, (matched_region.shape[1], matched_region.shape[0]))
+                gray_matched_region = cv2.cvtColor(matched_region, cv2.COLOR_BGR2GRAY)
+                _, binary_matched_region = cv2.threshold(gray_matched_region, process_threshold_NUM, 255, cv2.THRESH_BINARY_INV)
+                all_pixel_count = np.sum(binary_matched_region == 255)
+                # 计算两图像的差异
+                difference = cv2.absdiff(matched_region, partial_image)
+
+                # 转换差异图像为灰度
+                gray_difference = cv2.cvtColor(difference, cv2.COLOR_BGR2GRAY)
+
+                # 二值化差异图像
+                _, binary_difference = cv2.threshold(gray_difference, threshold, 255, cv2.THRESH_BINARY)
+                white_pixel_count = np.sum(binary_difference == 255)
+                percent=(white_pixel_count*weight_threshold_NUM)/all_pixel_count
+                # print(white_pixel_count, 'white_pixel_count',compare_threshold_NUM,all_pixel_count,'all_pixel_count',percent)
+                # 寻找差异区域的轮廓
+                contours, _ = cv2.findContours(binary_difference, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+                # 合并相邻的轮廓
+                merged_contours = []
+                current_contour = None
+                for contour in contours:
+                    area = cv2.contourArea(contour)
+                    # print(area, 'area')
+                    if area > 20:
+                        x1, y1, w1, h1 = cv2.boundingRect(current_contour)
+                        x2, y2, w2, h2 = cv2.boundingRect(contour)
+                        if current_contour is None:
+                            current_contour = contour
+                        elif x2 - (x1 + w1) < 50:
+                            # 如果相邻，则合并两个轮廓
+                            current_contour = np.concatenate((current_contour, contour))
+                        else:
+                            # 如果不相邻，则将当前轮廓添加到合并列表中，并更新当前轮廓为下一个轮廓
+                            merged_contours.append(current_contour)
+                            current_contour = contour
+                    else:
+                        pass
+
+                # 将最后一个轮廓添加到合并列表中
+                if current_contour is not None:
+                    merged_contours.append(current_contour)
+
+                # 在matched_region上绘制合并后的边界框
+                result = matched_region.copy()
+                for contour in merged_contours:
+                    area = cv2.contourArea(contour)
+                    # print(area, 'area') #and percent > 0.15
+                    if area > pattern_compare_threshold_NUM:
+                        image_rectangle=True
+                        x, y, w, h = cv2.boundingRect(contour)
+                        # 绘制方框
+                        cv2.rectangle(result, (x, y), (x + w, y + h), (0, 0, 255), 6)
+                return result
+            except Exception as e:
+                # print(f"An exception occurred: {str(e)}")
+                return None
+
+
+        def process_and_insert_cropped_region(image1, image2):
+            def extract_rotated_rect(image):
+                gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                blurred_image = cv2.GaussianBlur(gray, (5, 5), 0)
+                _, binary_image = cv2.threshold(blurred_image, process_threshold_NUM, 255, cv2.THRESH_BINARY_INV)
+                kernel = np.ones((3, 3), np.uint8)
+                opening = cv2.morphologyEx(binary_image, cv2.MORPH_OPEN, kernel)
+                contours, _ = cv2.findContours(opening, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                merged_contour = np.concatenate(contours)
+                rect = cv2.minAreaRect(merged_contour)
+                angle = rect[2]
+                return rect, merged_contour
+
+            def rotate_image(image, angle, rect2):
+                center_x, center_y = image.shape[1] // 2, image.shape[0] // 2
+                h, w = image.shape[:2]
+                rotation_matrix = cv2.getRotationMatrix2D(rect2, angle, 1)
+                new_H = int(w * fabs(sin(radians(angle))) + h * fabs(cos(radians(angle))))
+                new_W = int(h * fabs(sin(radians(angle))) + w * fabs(cos(radians(angle))))
+                # 2.3 平移
+                rotation_matrix[0, 2] += (new_W - w) / 2
+                rotation_matrix[1, 2] += (new_H - h) / 2
+                rotated_image = cv2.warpAffine(image, rotation_matrix, (new_W, new_H),
+                                               borderMode=cv2.BORDER_CONSTANT, borderValue=(255, 255, 255))
+                return rotated_image
+
+            rect1, merged_contour1 = extract_rotated_rect(image1)
+            rect2, merged_contour2 = extract_rotated_rect(image2)
+
+            box1 = cv2.boxPoints(cv2.minAreaRect(merged_contour1))
+            box2 = cv2.boxPoints(cv2.minAreaRect(merged_contour2))
+
+            mask1 = np.ones_like(image1) * 255
+            mask2 = np.ones_like(image2) * 255
+
+            cv2.fillPoly(mask1, [np.int0(box1)], (255, 255, 255))
+            cv2.fillPoly(mask2, [np.int0(box2)], (255, 255, 255))
+
+            result1 = cv2.bitwise_and(image1, mask1)
+            result2 = cv2.bitwise_and(image2, mask2)
+
+            x1, y1, w1, h1 = cv2.boundingRect(np.int0(box1))
+            x2, y2, w2, h2 = cv2.boundingRect(np.int0(box2))
+
+            image3 = result1[y1:y1 + h1, x1:x1 + w1]
+            image4 = result2[y2:y2 + h2, x2:x2 + w2]
+
+            angle1 = rect1[2]
+            angle2 = rect2[2]
+            # print(angle1, angle2)
+            if (angle1 > 45):
+                angle1 = angle1 - 90
+            if (angle2 > 45):
+                angle2 = angle2 - 90
+            # print(angle1, angle2)
+            if abs(angle1 - angle2) < 25:
+                # print(angle1 - angle2)
+                # print('1111')
+                image3 = rotate_image(image3, angle1 - angle2, rect1[0])
+            else:
+                # print(angle1 - angle2)
+                # print('2222')
+                x1, y1, w1, h1 = cv2.boundingRect(merged_contour1)
+                x2, y2, w2, h2 = cv2.boundingRect(merged_contour2)
+                image3 = image1[y1:y1 + h1, x1:x1 + w1]
+                image4 = image2[y2:y2 + h2, x2:x2 + w2]
+            # time.sleep(0.2)
+            gray3 = cv2.cvtColor(image3, cv2.COLOR_BGR2GRAY)
+            gray4 = cv2.cvtColor(image4, cv2.COLOR_BGR2GRAY)
+            _, binary_image3 = cv2.threshold(gray3, process_threshold_NUM, 255, cv2.THRESH_BINARY_INV)
+            _, binary_image4 = cv2.threshold(gray4, process_threshold_NUM, 255, cv2.THRESH_BINARY_INV)
+
+            contours3, _ = cv2.findContours(binary_image3, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            contours4, _ = cv2.findContours(binary_image4, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+            merged_contour3 = np.concatenate(contours3)
+            merged_contour4 = np.concatenate(contours4)
+
+            x3, y3, w3, h3 = cv2.boundingRect(merged_contour3)
+            x4, y4, w4, h4 = cv2.boundingRect(merged_contour4)
+
+            image5 = image3.copy()
+            image6 = image4.copy()
+
+            cv2.rectangle(image5, (x3, y3), (x3 + w3, y3 + h3), (0, 255, 0), 1)
+            cv2.rectangle(image6, (x4, y4), (x4 + w4, y4 + h4), (0, 255, 0), 1)
+
+            roi1 = image3[y3:y3 + h3, x3:x3 + w3]
+            roi2 = image4[y4:y4 + h4, x4:x4 + w4]
+
+            roi1 = cv2.resize(roi1, (roi2.shape[1], roi2.shape[0]))
+
+            # cv2.imwrite('cuttest/roi1', roi1)
+            # cv2.imwrite('cuttest/roi2', roi2)
+            # cv2.waitKey(0)
+            image7 = process_and_display_difference_images(roi1, roi2)
+            # cv2.imshow('image7', image7)
+            image4[y4:y4 + h4, x4:x4 + w4] = image7
+            # cv2.imshow('image4', image4)
+            result2[y2:y2 + h2, x2:x2 + w2] = image4
+            # cv2.imshow('result2', result2)
+            return result2
+
+
+        def match_and_extract_region(partial_image, full_image):
+            # partial_image = cv2.imread(partial_image)
+            # image = cv2.imread(input_image_path)
+            # 转换图像为灰度
+            gray_full_image = cv2.cvtColor(full_image, cv2.COLOR_BGR2GRAY)
+            gray_partial_image = cv2.cvtColor(partial_image, cv2.COLOR_BGR2GRAY)
+
+            # 使用SIFT特征检测和匹配
+            sift = cv2.SIFT_create()
+            kp1, des1 = sift.detectAndCompute(gray_partial_image, None)
+            kp2, des2 = sift.detectAndCompute(gray_full_image, None)
+
+            # # 使用FLANN匹配器进行特征匹配
+            # FLANN_INDEX_KDTREE = 0
+            # index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
+            # search_params = dict(checks=50)
+            # flann = cv2.FlannBasedMatcher(index_params, search_params)
+            # matches = flann.knnMatch(des1, des2, k=2)
+            # 创建BFMatcher（暴力匹配器）对象
+            bf = cv2.BFMatcher()
+
+            # 使用KNN匹配
+            matches = bf.knnMatch(des1, des2, k=2)
+            # 选择良好的匹配项
+            good_matches = [m for m, n in matches if m.distance < 0.98 * n.distance]
+
+            # 绘制匹配结果
+            # matched_image = cv2.drawMatches(full_image, kp1, partial_image, kp2, good_matches, None,
+            #                                 flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+
+            # 获取局部图片和完整图片中的对应点
+            partial_pts = np.float32([kp1[m.queryIdx].pt for m in good_matches]).reshape(-1, 1, 2)
+            full_pts = np.float32([kp2[m.trainIdx].pt for m in good_matches]).reshape(-1, 1, 2)
+
+            # 计算单映射变换矩阵H
+            H, _ = cv2.findHomography(partial_pts, full_pts, cv2.RANSAC, 5.0)
+
+            # 使用透视变换来截取匹配区域
+            h, w = partial_image.shape[:2]
+            corners = np.float32([[0, 0], [0, h - 1], [w - 1, h - 1], [w - 1, 0]]).reshape(-1, 1, 2)
+            transformed_corners = cv2.perspectiveTransform(corners, H)
+
+            # 计算匹配区域的尺寸
+            min_x = np.min(transformed_corners[:, :, 0])
+            max_x = np.max(transformed_corners[:, :, 0])
+            min_y = np.min(transformed_corners[:, :, 1])
+            max_y = np.max(transformed_corners[:, :, 1])
+            # 裁剪匹配区域
+            matched_region = full_image[int(min_y):int(max_y), int(min_x):int(max_x)]
+
+            # 调用函数处理和插入裁剪区域
+            image7 =process_and_insert_cropped_region(partial_image, matched_region)
+            with image_lock:
+                # 将处理后的区域放回原始图像
+                full_image[int(min_y):int(max_y), int(min_x):int(max_x)] = image7
+                # 保存结果图像
+                # cv2.imwrite(full_image_path, full_image)
+                # cv2.imshow('full_image_path', full_image)
+                # cv2.waitKey(0)
+            return full_image
 
 
 
@@ -586,92 +816,6 @@ if __name__ == "__main__":
             # print(y, x, 'xyyyy')
             y_group = y // 40  # 除以10用于忽略10像素范围内的误差
             return (y_group, x, y)
-
-        @logger.catch()
-        def process_image(input_image_path, outputdir, threshold, kernel_threshold_x, kernel_threshold_y,
-                          process_area_low_threshold,
-                          process_area_threshold_high):
-            print(threshold, kernel_threshold_x, kernel_threshold_y, process_area_low_threshold,
-                  process_area_threshold_high)
-            print(process_threshold_NUM, compare_threshold_NUM)
-            global contour_info_list
-            # 读取图像
-            image = cv2.imread(input_image_path)
-
-            # 转换为灰度图像
-            gray_image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-
-            # 对灰度图像进行二值化处理
-            _, binary_image = cv2.threshold(gray_image, threshold, 255, cv2.THRESH_BINARY)
-            # cv2.namedWindow("binary_image", cv2.WINDOW_NORMAL)
-            # cv2.imshow("binary_image", binary_image)
-            # cv2.waitKey(0)
-            # 执行边缘检测，例如使用Canny算法
-            edges = cv2.Canny(binary_image, 30, 255)
-            # cv2.namedWindow("edges", cv2.WINDOW_NORMAL)
-            # cv2.imshow("edges", edges)
-            # cv2.waitKey(0)
-            # 使用形态学操作来连接相邻的轮廓
-            kernel = np.ones((kernel_threshold_y, kernel_threshold_x), np.uint8)
-            closed_image = cv2.morphologyEx(edges, cv2.MORPH_CLOSE, kernel)
-            # cv2.namedWindow("closed_image", cv2.WINDOW_NORMAL)
-            # cv2.imshow("closed_image", closed_image)
-            # cv2.waitKey(0)
-            # 寻找轮廓
-            contours, _ = cv2.findContours(closed_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-            # 创建一个副本以绘制方框
-            image_with_boxes = image.copy()
-
-            # 创建一个列表来存储满足面积阈值条件的轮廓
-            filtered_contours = []
-
-            # 遍历轮廓
-            for contour in contours:
-                # 计算轮廓的面积
-                area = cv2.contourArea(contour)
-                # print(area)
-                # 如果面积在阈值范围内，则添加到列表中
-                if process_area_low_threshold < area < process_area_threshold_high:
-                    filtered_contours.append(contour)
-                    x, y, w, h = cv2.boundingRect(contour)
-                    # 绘制方框
-                    cv2.rectangle(image_with_boxes, (x, y), (x + w, y + h), (0, 255, 0), 2)
-
-            # 保存带有方框的图像
-            output_image_path = os.path.join(imagepath, 'image_with_boxes.jpg')
-            cv2.imwrite(output_image_path, image_with_boxes)
-            # 列出文件夹中的所有文件
-            file_list = os.listdir(outputdir)
-            # 遍历文件列表并删除图片文件
-            for filename in file_list:
-                file_path = os.path.join(folder_path1, filename)
-                if filename.endswith((".jpg", ".jpeg", ".png", ".gif")):  # 指定图片文件扩展名
-                    os.remove(file_path)
-
-            # 保存满足条件的轮廓图像
-            sorted_contours = sorted(filtered_contours, key=contour_sort_key)
-            # print(sorted_contours, 'sorted_contours = sorted(filtered_contours, key=contour_sort_key)')
-            for i, contour in enumerate(sorted_contours):
-                x, y, w, h = cv2.boundingRect(contour)
-                # print(x,y,'xxxxx')
-                # print(contour_info_list[i]['h'])
-                roi = image[y - 5:y + h + 5, x - 5:x + w + 5]
-                filename = os.path.join(outputdir, f'cut_{i}.jpg')
-                cv2.imwrite(filename, roi)
-                contour_info_list.append({
-                    'x': x - 5,
-                    'y': y - 5,
-                    'w': w + 5,
-                    'h': h + 5,
-                    'filename': f'cut_{i}.jpg'
-                })
-
-            if outputdir == folder_path1:
-                return True
-            else:
-                return False
-
 
         @logger.catch()
         def process_image1(input_image_path, outputdir, threshold, kernel_threshold_x, kernel_threshold_y,
@@ -768,84 +912,6 @@ if __name__ == "__main__":
             else:
                 return False
 
-
-        @logger.catch()
-        def compare_images(imageA_path, imageB_path,filename1,filename2, threshold):
-            # 读取两张图片
-            image1 = cv2.imread(imageA_path)
-            image2 = cv2.imread(imageB_path)
-            # plt.subplot(121), plt.imshow(image1),
-            # plt.title('Matching Result'), plt.axis('off')
-            # plt.subplot(122), plt.imshow(image2),
-            # plt.title('Detected Point'), plt.axis('off')
-            # plt.show()
-
-            # 检查是否成功读取了图片
-            if image1 is None or image2 is None:
-                return False
-            print(image1.shape, image2.shape, 'image1.shape,image2.shape1111111111')
-            # 确保两张图片具有相同的尺寸
-            if image1.shape != image2.shape:
-                image1 = cv2.resize(image1, (image2.shape[1], image2.shape[0]))
-            print(image1.shape, image2.shape, 'image1.shape,image2.shape222222222')
-
-
-
-            # 将两张图片转换为灰度图像
-            gray_image1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
-            gray_image2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
-
-            # 比较两张灰度图像的每个像素，找出不同之处
-            difference = cv2.absdiff(gray_image1, gray_image2)
-            # cv2.namedWindow(imageB_path, cv2.WINDOW_NORMAL)
-            # cv2.imshow(imageB_path, difference)
-            # cv2.waitKey(0)
-            # 根据阈值创建二值图像
-            _, thresholded_difference = cv2.threshold(difference, threshold, 255, cv2.THRESH_BINARY)
-            # 计算白色像素数量
-            white_pixel_count = np.sum(thresholded_difference == 255)
-            black_pixel_count = np.sum(thresholded_difference == 0)
-            image_area = gray_image1.shape[0] * gray_image1.shape[1]
-            print(white_pixel_count, black_pixel_count, 'blacnandwhite')
-            if white_pixel_count < 100:
-                weighted_white_pixel_count = white_pixel_count
-            else:
-                white_pixel_weight = weight_threshold_NUM
-                weighted_white_pixel_count = white_pixel_count * white_pixel_weight
-
-            # 获取整张图片的像素数量
-            total_pixel_count = thresholded_difference.size
-
-            # 计算加权后的比例
-            weighted_white_to_black_ratio = 1 - weighted_white_pixel_count / total_pixel_count
-
-            # 查找轮廓
-            contours, _ = cv2.findContours(thresholded_difference, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-            # 在一张新的图像上绘制圆圈以标记不同之处
-            marked_image = image1.copy()
-            for contour in contours:
-                area = cv2.contourArea(contour)
-                # print(area)
-                if area > 100:
-                    x, y, w, h = cv2.boundingRect(contour)
-                    # print(x, y, w, h, 'counter')
-                    cv2.rectangle(image2, (x, y), (x + w, y + h), (0, 0, 255), 2)  # 使用红色绘制方框
-                    cv2.imwrite(imageB_path, image2)
-                    # for contour_info in contour_info_list:
-                    #     filename = contour_info['filename']
-                    #     # print(filename,'filename')
-                    #     if filename == filename2:
-                    #         print(filename,filename1,filename2,imageB_path,'filename,filename1,filename2')
-                    #         image = cv2.imread(parentdirdemo)
-                    #         x, y, w, h = contour_info['x'], contour_info['y'], contour_info['w'], contour_info['h']
-                    #         roi = cv2.imread(imageB_path)
-                    #         # 读取切割的轮廓图像
-                    #         # 将切割的轮廓图像放回原位置
-                    #         image[y:y + h, x:x + w] = roi
-            # cv2.imwrite('marked_difference.jpg', marked_image)
-            print('weighted_white_to_black_ratio', weighted_white_to_black_ratio)
-
         def read_all_img():
             for filename1 in os.listdir(folder_path):
                 if filename1.endswith(('.jpg', '.jpeg', '.png')):  # 确保文件是图片文件
@@ -857,46 +923,28 @@ if __name__ == "__main__":
         def read_files():
             # 遍历文件夹1中的图片
             imagetest=cv2.imread(parentdir)
+            # imagedemo=cv2.imread(parentdirdemo)
             # 读取完整图片和局部图片
             full_image = cv2.imread(parentdirdemo)
-            partial_match_and_paste = partial(match_and_extract_region, full_image=input_image_path2)
-
-            # 使用进程池并行执行匹配和粘贴操作
-            full_image = pool.map(partial_match_and_paste, input_image_path1)
-            full_demo = process_images(full_image,imagetest)
-            cv2.imwrite('marked_difference.jpg', full_demo)
+            full_demo = process_images(full_image)
+            cv2.imwrite(parentdirmarked, full_demo)
             return full_demo,imagetest
-        # @logger.catch()
-        # def read_files():
-        #     # 遍历文件夹1中的图片
-        #     imagetest = cv2.imread(parentdir)
-        #     # 读取完整图片和局部图片
-        #     full_image = cv2.imread(parentdirdemo)
-        #     for image in image_list:
-        #         fulldemo = match_and_extract_region(image, full_image)
-        #         # cv2.imshow('fulldemo',fulldemo)
-        #     # imagetest[left_upper_NUM:right_lower_NUM, left_left_NUM:right_left_NUM] = fulldemo
-        #     # cv2.imshow('imagetest',imagetest)
-        #     # cv2.waitKey(0)
-        #     imagetest[left_upper_NUM:right_lower_NUM, left_left_NUM:right_left_NUM] = fulldemo
-        #     # cv2.imshow('imagetest',imagetest)
-        #     # cv2.waitKey(0)
-        #     cv2.imwrite(parentdirsign, imagetest)
+
         # 多线程处理图片
-        def process_images(full_image,imagetest):
+        def process_images(full_image):
             start = time.time()
-            # 调用函数并传入参数
-            manager = Manager()
-            shared_demo_image = manager.Value("i", 0)  # 创建共享的demo_image
-            shared_demo_image.value = full_image
-            # 使用进程池并行执行匹配和粘贴操作
-            fulldemo = pool.starmap(match_and_extract_region, [(image_path, full_image) for image_path in image_list])
-            # 处理匹配和粘贴的结果
-            # for result in results:
-            #     print(result)
-
+            results = [thread_pool.submit(match_and_extract_region, image, full_image) for image in image_list]
+            end = time.time()
+            logger.info('thread_pool time: %s Seconds' % (end - start))
+            for result in concurrent.futures.as_completed(results):
+                full_image = result.result()
+            if full_image is not None:
+                fulldemo = full_image
+            else:
+                fulldemo=full_image
+            end1 = time.time()
+            logger.info('process_images time: %s Seconds' % (end1 - end))
             return fulldemo
-
 
         # ch:关闭设备 | Close device
         @logger.catch
@@ -964,8 +1012,7 @@ if __name__ == "__main__":
                     tkinter.messagebox.showinfo('show info', '串口未开启，将尝试为你打开串口')
                     ser1.open()
             except:
-                ser1.close()
-                tkinter.messagebox.showinfo('show info', '获取串口信息失败，串口已关闭！')
+                pass
 
 
         @logger.catch  # 发送扫描命令
@@ -1102,6 +1149,7 @@ if __name__ == "__main__":
 
         @logger.catch
         def wait_for_response1():
+            global image_rectangle
             while True:
                 serial_data = getSerialdata()
                 if serial_data:
@@ -1114,7 +1162,6 @@ if __name__ == "__main__":
                     time.sleep(0.3)
                     img_flag = get_pardemo(parentdir, left_left_NUM, left_upper_NUM, right_left_NUM, right_lower_NUM,
                                            parentdirdemo)
-                    print(img_flag)
                     if img_flag:
                         SnCode, position = get_sn_code()
                         rect = canvas.create_rectangle(0, 0, canvas.winfo_width(), canvas.winfo_height(), fill='white',
@@ -1122,13 +1169,28 @@ if __name__ == "__main__":
                         canvas.update()
                         # start_update_img_task(position)
                         updateimg(position)
-
-                        label_frame_rate4.config(text=last_result)
-                        label_frame_rate4.grid(row=3, column=1, padx=10, pady=10, sticky="w")
-                        label_frame_rate5.config(text=serial_data)
-                        label_frame_rate5.grid(row=4, column=1, padx=10, pady=10, sticky="w")
-                        label_frame_rate6.config(text=SnCode)
-                        label_frame_rate6.grid(row=5, column=1, padx=10, pady=10, sticky="w")
+                        # asyncio.run(updateimg(position))
+                        if SnCode == serial_data and serial_data!=last_result:
+                            label_frame_rate4.config(text=last_result)
+                            label_frame_rate4.grid(row=3, column=1, padx=10, pady=10, sticky="w")
+                            label_frame_rate5.config(text=serial_data,bg='green')
+                            label_frame_rate5.grid(row=4, column=1, padx=10, pady=10, sticky="w")
+                            label_frame_rate6.config(text=SnCode,bg='green')
+                            label_frame_rate6.grid(row=5, column=1, padx=10, pady=10, sticky="w")
+                        elif SnCode == serial_data ==last_result:
+                            label_frame_rate4.config(text=last_result,bg='red')
+                            label_frame_rate4.grid(row=3, column=1, padx=10, pady=10, sticky="w")
+                            label_frame_rate5.config(text=serial_data,bg='red')
+                            label_frame_rate5.grid(row=4, column=1, padx=10, pady=10, sticky="w")
+                            label_frame_rate6.config(text=SnCode)
+                            label_frame_rate6.grid(row=5, column=1, padx=10, pady=10, sticky="w")
+                        elif SnCode != serial_data and serial_data!=last_result:
+                            label_frame_rate4.config(text=last_result)
+                            label_frame_rate4.grid(row=3, column=1, padx=10, pady=10, sticky="w")
+                            label_frame_rate5.config(text=serial_data, bg='green')
+                            label_frame_rate5.grid(row=4, column=1, padx=10, pady=10, sticky="w")
+                            label_frame_rate6.config(text=SnCode, bg='red')
+                            label_frame_rate6.grid(row=5, column=1, padx=10, pady=10, sticky="w")
                         canvas.delete(rect)
                         image1 = Image.open(parentdirsign)
                         photo1 = ImageTk.PhotoImage(image1.resize((512, 384), Image.LANCZOS))
@@ -1141,7 +1203,7 @@ if __name__ == "__main__":
                             result = 'continue'
                             show_label(flag)
                         else:
-                            if SnCode == serial_data:
+                            if SnCode == serial_data and image_rectangle == False:
                                 flag = True
                                 result = 'OK'
                                 show_label(flag)
@@ -1167,6 +1229,7 @@ if __name__ == "__main__":
                     text_frame1_rate5.grid(row=14, column=1, padx=10, pady=10, sticky="w")
                     text_frame1_rate6.config(text=all_count)
                     text_frame1_rate6.grid(row=15, column=1, padx=10, pady=10, sticky="w")
+                    image_rectangle=False
                     end = time.time()
                     logger.info('Running time: %s Seconds' % (end - start))
                 else:
@@ -1183,12 +1246,12 @@ if __name__ == "__main__":
             showimg()
 
 
-        # @logger.catch
-        # def start_update_img_task(position):
-        #     t = threading.Thread(target=updateimg, args=(position,))
-        #     t.daemon = True
-        #     t.start()
-        #     t.join()
+        @logger.catch
+        def start_update_img_task(position):
+            t = threading.Thread(target=updateimg, args=(position,))
+            t.daemon = True
+            t.start()
+            t.join()
 
         @logger.catch()
         def get_cut_params():
@@ -1217,35 +1280,23 @@ if __name__ == "__main__":
         @logger.catch
         def updateimg(position):
             start = time.time()
-            # 遍历文件夹1中的图片
-            imagetest = cv2.imread(parentdir)
-            # 读取完整图片和局部图片
-            full_image = cv2.imread(parentdirdemo)
-            manager = Manager()
-            shared_full_image = manager.Value("i", 0)  # 创建共享的full_image
-            shared_full_image.value = full_image
-            results = pool.starmap(match_and_extract_region, [(image, full_image) for image in image_list])
-
-            # # full_demo = process_images(full_image, imagetest)
-            # for result in results:
-            #     cv2.imwrite('marked_difference.jpg', result)
-            # # full_demo,imagetest=read_files()
-            # if full_image is not None and np.all(position != 0):
-            #     color = (0, 255, 0)
-            #     x, y, w, h = cv2.boundingRect(position)
-            #     # cv2.rectangle(image,(x-15,y-10),(x+w+5,y+h+5),color,6)
-            #     cv2.rectangle(full_demo, (x, y), (x + w, y + h), color, 6)
-            #     result_image = imagetest.copy()
-            #     result_image[left_upper_NUM:right_lower_NUM, left_left_NUM:right_left_NUM] = full_demo
-            #     # cv2.imshow('full_demo',full_demo)
-            #     cv2.imwrite(parentdirsign, result_image)
-            #     # cv2.waitKey(0)
-            #     print('22222222222')
-            # else:
-            #     print('11111111')
-            #     pass
-            # end = time.time()
-            # logger.info('updateimg time: %s Seconds' % (end - start))
+            full_demo,imagetest = read_files()
+            if full_demo is not None and np.all(position != 0):
+                color = (0, 255, 0)
+                x, y, w, h = cv2.boundingRect(position)
+                # cv2.rectangle(image,(x-15,y-10),(x+w+5,y+h+5),color,6)
+                cv2.rectangle(full_demo, (x, y), (x + w, y + h), color, 6)
+                result_image = imagetest.copy()
+                result_image[left_upper_NUM:right_lower_NUM, left_left_NUM:right_left_NUM] = full_demo
+                # cv2.imshow('full_demo',full_demo)
+                cv2.imwrite(parentdirsign, result_image)
+                # cv2.waitKey(0)
+                # print('22222222222')
+            else:
+                # print('11111111')
+                pass
+            end = time.time()
+            logger.info('updateimg time: %s Seconds' % (end - start))
 
         @logger.catch
         def showimg():
@@ -1361,7 +1412,7 @@ if __name__ == "__main__":
         label_frame1_all = tk.Label(frame1, text='总数量：', bg='skyblue', width=8, height=1, anchor='e')
         label_frame1_ng = tk.Label(frame1, text='不良数量：', bg='skyblue', width=8, height=1, anchor='e')
         label_frame1_per = tk.Label(frame1, text='可靠率：', bg='skyblue', width=8, height=1, anchor='e')
-        text_frame1_rate4 = tk.Label(frame1, text='', width=20, height=1, anchor='w', bg='red')
+        text_frame1_rate4 = tk.Label(frame1, text='', width=20, height=1, anchor='w')
         text_frame1_rate4.grid(row=13, column=1, padx=10, pady=10, sticky="w")
         text_frame1_rate5 = tk.Label(frame1, text='', width=16, height=1, anchor='w')
         text_frame1_rate6 = tk.Label(frame1, text='', width=8, height=1, anchor='w')
@@ -1391,7 +1442,7 @@ if __name__ == "__main__":
         label_frame_rate1 = tk.Label(frame1, text='上一个SN：', font=('黑体', 12, "bold"), bg='skyblue', height=1)
         label_frame_rate2 = tk.Label(frame1, text='  本次SN：', font=('黑体', 12, "bold"), bg='skyblue', height=1)
         label_frame_rate3 = tk.Label(frame1, text=' OCR结果：', font=('黑体', 12, "bold"), bg='skyblue', height=1)
-        label_frame_rate4 = tk.Label(frame1, text='', font=('Arial', 12), width=18, height=1, bg='red')
+        label_frame_rate4 = tk.Label(frame1, text='', font=('Arial', 12), width=18, height=1)
         label_frame_rate5 = tk.Label(frame1, text='', font=('Arial', 12), width=18, height=1)
         label_frame_rate6 = tk.Label(frame1, text='', font=('Arial', 12), width=18, height=1)
         # label_frame_rate4.config(text='A2001021448325486')
@@ -1548,9 +1599,9 @@ if __name__ == "__main__":
             img = cv2.imread(path)  # 打开图像
             cropped = img[upper:lower, left:right]
             # 保存截取的图片
-            cv2.namedWindow("cropped", cv2.WINDOW_NORMAL)
-            cv2.imshow("cropped", cropped)
-            cv2.waitKey(0)
+            # cv2.namedWindow("cropped", cv2.WINDOW_NORMAL)
+            # cv2.imshow("cropped", cropped)
+            # cv2.waitKey(0)
             flag = cv2.imwrite(save_path, cropped)
             return flag
 
@@ -1592,6 +1643,13 @@ if __name__ == "__main__":
                 image_cut_save(parentdir, left_left_NUM, left_upper_NUM, right_left_NUM, right_lower_NUM,
                                pic_save_dir_path)
 
+
+        @logger.catch
+        def diff_this_picture():
+            img = cv2.imread(parentdirmarked)
+            plt.subplot(111), plt.imshow(img),
+            plt.title('Detected Point'), plt.axis('off')
+            plt.show()
 
         @logger.catch
         def look_this_picture():
@@ -1677,6 +1735,46 @@ if __name__ == "__main__":
 
 
         @logger.catch
+        def on_mouse1(event, x, y, flags, param, file_name):
+            global screen_img, point1, point2, screenshotNum, left_left_NUM, left_upper_NUM, right_left_NUM, right_lower_NUM
+            img2 = screen_img.copy()
+            if event == cv2.EVENT_LBUTTONDOWN:
+                point1 = (x, y)
+                cv2.circle(img2, point1, 10, (0, 255, 0), 2)  # 点击左键，显示绿色圆圈
+                cv2.imshow('image', img2)
+            elif event == cv2.EVENT_MOUSEMOVE and (flags & cv2.EVENT_FLAG_LBUTTON):
+                cv2.rectangle(img2, point1, (x, y), (255, 0, 0), 2)  # 移动点击下的左键，画出蓝色截图框
+                cv2.imshow('image', img2)
+            elif event == cv2.EVENT_LBUTTONUP:
+                point2 = (x, y)
+                cv2.rectangle(img2, point1, point2, (0, 0, 255), 2)  # 松开左键，显示最终的红色截图框
+                cv2.imshow('image', img2)
+
+                cut_Pos[0][0] = min(point1[0], point2[0])
+                cut_Pos[0][1] = max(point1[0], point2[0])
+                cut_Pos[1][0] = min(point1[1], point2[1])
+                cut_Pos[1][1] = max(point1[1], point2[1])
+                if file_name == imagepath:
+                    left_left_NUM = cut_Pos[0][0]
+                    left_upper_NUM = cut_Pos[1][0]
+                    right_left_NUM = cut_Pos[0][1]
+                    right_lower_NUM = cut_Pos[1][1]
+                    print(left_left_NUM, left_upper_NUM, right_left_NUM, right_lower_NUM)
+                    with open(comparea, 'wb') as f:
+                        pickle.dump(left_left_NUM, f)
+                        pickle.dump(left_upper_NUM, f)
+                        pickle.dump(right_left_NUM, f)
+                        pickle.dump(right_lower_NUM, f)
+                    cv2.namedWindow('image', cv2.WINDOW_NORMAL)
+                    cv2.imshow('image', screen_img[cut_Pos[1][0]:cut_Pos[1][1], cut_Pos[0][0]:cut_Pos[0][1]])
+                    folder_name = file_name + f"\\demo.jpg"
+                else:
+                    cv2.namedWindow('image', cv2.WINDOW_NORMAL)
+                    cv2.imshow('image', screen_img[cut_Pos[1][0]:cut_Pos[1][1], cut_Pos[0][0]:cut_Pos[0][1]])
+                    folder_name = file_name + f"\\screen_img_{screenshotNum + 1}.jpg"
+                    screenshotNum += 1
+                cv2.imwrite(folder_name, screen_img[cut_Pos[1][0]:cut_Pos[1][1], cut_Pos[0][0]:cut_Pos[0][1]])
+        @logger.catch
         def screen_shot(file):
             global screenshotNum
             global screen_img
@@ -1689,10 +1787,22 @@ if __name__ == "__main__":
 
 
         @logger.catch
+        def screen_shot1(file):
+            global screenshotNum
+            global screen_img
+            screen_img = cv2.imread('image\\test.jpg')
+            cv2.namedWindow('image', cv2.WINDOW_NORMAL)
+            on_mouse_callback = partial(on_mouse1, file_name=file)
+            cv2.setMouseCallback('image', on_mouse_callback)
+            cv2.imshow('image', screen_img)
+            cv2.waitKey(0)
+
+
+        @logger.catch
         def threshold_confirm():
             global process_threshold_NUM, compare_threshold_NUM, process_kernel_x_threshold_NUM,\
                 process_kernel_y_threshold_NUM, process_area_low_threshold_NUM, process_area_threshold_high_NUM,\
-                weight_threshold_NUM,pattern_compare_threshold_NUM, image_threading_NUM,different_threshold_NUM
+                weight_threshold_NUM,pattern_compare_threshold_NUM, image_threading_NUM
             param1 = process_binary_threshold_text.get(1.0, tk.END)
             param2 = compare_binary_threshold_text.get(1.0, tk.END)
             param3 = process_kernel_x_threshold_text.get(1.0, tk.END)
@@ -1702,9 +1812,9 @@ if __name__ == "__main__":
             param7 = weight_threshold_text.get(1.0, tk.END)
             param8 = pattern_compar_threshold_text.get(1.0, tk.END)
             param9 = image_threading_text.get(1.0, tk.END)
-            param10 = different_threshold_text.get(1.0, tk.END)
+            # param10 = different_threshold_text.get(1.0, tk.END)
 
-            params = (param1, param2, param3, param4, param5, param6, param7,param8,param9,param10)  # 将三个参数打包成元组
+            params = (param1, param2, param3, param4, param5, param6, param7,param8,param9)  # 将三个参数打包成元组
             if params:
                 with open(thresholdpickle, "wb") as f:
                     pickle.dump(params, f)
@@ -1717,7 +1827,7 @@ if __name__ == "__main__":
                 weight_threshold_NUM = int(param7)
                 pattern_compare_threshold_NUM = int(param8)
                 image_threading_NUM = int(param9)
-                different_threshold_NUM = int(param10)
+                # different_threshold_NUM = int(param10)
                 tkinter.messagebox.showinfo('show info', '提交成功！')
             else:
                 tk.messagebox.showerror('show error', "填写数据！")
@@ -1773,7 +1883,7 @@ if __name__ == "__main__":
         process_kernel_y_threshold_text = tk.Text(frame2, width=10, height=1)
         process_kernel_y_threshold_text.grid(row=10, column=3, padx=10, pady=10, sticky="w")
 
-        pattern_compar_threshold = tk.Label(frame2, text='图案比对阈值', width=10, height=1)
+        pattern_compar_threshold = tk.Label(frame2, text='最小缺漏像素数量', width=10, height=1)
         pattern_compar_threshold.grid(row=7, column=4, padx=10, pady=10, sticky="we")
         pattern_compar_threshold_text = tk.Text(frame2, width=10, height=1)
         pattern_compar_threshold_text.grid(row=7, column=5, padx=10, pady=10, sticky="w")
@@ -1803,10 +1913,10 @@ if __name__ == "__main__":
         image_threading_text = tk.Text(frame2, width=10, height=1)
         image_threading_text.grid(row=12, column=5, padx=10, pady=10, sticky="w")
 
-        different_threshold = tk.Label(frame2, text='不同像素阈值', width=10, height=1)
-        different_threshold.grid(row=13, column=4, padx=10, pady=10, sticky="we")
-        different_threshold_text = tk.Text(frame2, width=10, height=1)
-        different_threshold_text.grid(row=13, column=5, padx=10, pady=10, sticky="w")
+        # different_threshold = tk.Label(frame2, text='最小缺漏像素数量', width=10, height=1)
+        # different_threshold.grid(row=13, column=4, padx=10, pady=10, sticky="we")
+        # different_threshold_text = tk.Text(frame2, width=10, height=1)
+        # different_threshold_text.grid(row=13, column=5, padx=10, pady=10, sticky="w")
         # thresholdbutton = tk.Button(frame2, text='提交', bg='skyblue', width=10, height=1,
         #                             command=threshold_confirm)  #
         # thresholdbutton.grid(row=8, column=4, padx=10, pady=10, sticky="w")
@@ -1818,7 +1928,7 @@ if __name__ == "__main__":
         try:
             with open(thresholdpickle, "rb") as f:
                 loaded_params = pickle.load(f)
-                param1_loaded, param2_loaded, param3_loaded, param4_loaded, param5_loaded, param6_loaded, param7_loaded,param8_loaded,param9_loaded,param10_loaded = loaded_params
+                param1_loaded, param2_loaded, param3_loaded, param4_loaded, param5_loaded, param6_loaded, param7_loaded,param8_loaded,param9_loaded = loaded_params
                 process_binary_threshold_text.delete("1.0", "end")  # 清空Text组件
                 process_binary_threshold_text.insert("1.0", param1_loaded)
                 process_kernel_x_threshold_text.delete("1.0", "end")
@@ -1837,8 +1947,8 @@ if __name__ == "__main__":
                 pattern_compar_threshold_text.insert("1.0", param8_loaded)
                 image_threading_text.delete("1.0", "end")
                 image_threading_text.insert("1.0", param9_loaded)
-                different_threshold_text.delete("1.0", "end")
-                different_threshold_text.insert("1.0", param10_loaded)
+                # different_threshold_text.delete("1.0", "end")
+                # different_threshold_text.insert("1.0", param10_loaded)
         except FileNotFoundError:
             process_threshold_NUM = 200
             compare_threshold_NUM = 60
@@ -1846,10 +1956,10 @@ if __name__ == "__main__":
             process_kernel_y_threshold_NUM = 1
             process_area_low_threshold_NUM = 4000
             process_area_threshold_high_NUM = 250000
-            weight_threshold_NUM = 10
-            pattern_compare_threshold_NUM=30
-            image_threading_NUM = 9
-            different_threshold_NUM = 200
+            weight_threshold_NUM = 5
+            pattern_compare_threshold_NUM=300
+            image_threading_NUM = 8
+            # different_threshold_NUM = 200
             process_binary_threshold_text.delete("1.0", "end")  # 清空Text组件
             process_binary_threshold_text.insert("1.0", process_threshold_NUM)
             process_kernel_x_threshold_text.delete("1.0", "end")
@@ -1868,8 +1978,8 @@ if __name__ == "__main__":
             pattern_compar_threshold_text.insert("1.0", pattern_compare_threshold_NUM)
             image_threading_text.delete("1.0", "end")
             image_threading_text.insert("1.0", image_threading_NUM)
-            different_threshold_text.delete("1.0", "end")
-            different_threshold_text.insert("1.0", different_threshold_NUM)
+            # different_threshold_text.delete("1.0", "end")
+            # different_threshold_text.insert("1.0", different_threshold_NUM)
 
         img_save_button = tk.Checkbutton(frame2, text="保存比对图片", variable=on_save_img_val,
                                          command=on_save_img)  # , command=on_save_img
@@ -1888,7 +1998,8 @@ if __name__ == "__main__":
         btn_look_this.grid(row=3, column=5, padx=10, pady=10, sticky="w")
         btn_delete_this = tk.Button(frame2, text='删除选中图片', width=12, height=1, command=delete_this_picture)  #
         btn_delete_this.grid(row=5, column=5, padx=10, pady=10, sticky="w")
-
+        btn_diff_this = tk.Button(frame2, text='查看不同图片', width=12, height=1, command=diff_this_picture)  #
+        btn_diff_this.grid(row=6, column=5, padx=10, pady=10, sticky="w")
 
         # @logger.catch()
         # def changeImageMethods(event):
@@ -1914,7 +2025,7 @@ if __name__ == "__main__":
         IMAGEMatch = tk.Button(frame2, text='刷新截图参数', width=12, height=1, command=get_cut_params)
         IMAGEMatch.grid(row=7, column=2, padx=10, pady=10, sticky="wens")
         btn_cut_area = tk.Button(frame2, text='选择比对区域', width=12, height=1,
-                                 command=lambda: screen_shot(imagepath))  #
+                                 command=lambda: screen_shot1(imagepath))  #
         btn_cut_area.grid(row=7, column=3, padx=10, pady=10, sticky="wens")
         # xVariableMatch = tkinter.StringVar(value=IMAGEMatchValue)
         # ImageMatch_list = ttk.Combobox(frame2, textvariable=xVariableMatch)

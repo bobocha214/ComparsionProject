@@ -4,84 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="部分功能简单测试">
-      <change afterPath="$PROJECT_DIR$/BasicDemo/build/Comparsion/Analysis-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/build/Comparsion/COLLECT-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/build/Comparsion/Comparsion.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/build/Comparsion/Comparsion.exe.manifest" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/build/Comparsion/Comparsion.pkg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/build/Comparsion/EXE-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/build/Comparsion/PKG-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/build/Comparsion/PYZ-00.pyz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/build/Comparsion/PYZ-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/build/Comparsion/Tree-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/build/Comparsion/Tree-01.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/build/Comparsion/Tree-02.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/build/Comparsion/base_library.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/build/Comparsion/warn-Comparsion.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/build/Comparsion/xref-Comparsion.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/111.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/TEST/TE1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/TEST/TE2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/TEST/TE3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/TEST/TE4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/TEST/TE5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/ademo.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/bdemo.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/cut.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/cut/cut_1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/cut/cut_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/cut/cut_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/cut/cut_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/cut/cut_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/cut/cut_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/cut/cut_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/cut/cut_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/cut/cut_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/cut/cut_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/cut/cut_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/cut/cut_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/cut1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/cuts/line.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/diff_image.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/image_with_boxes.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/test1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/test10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/test11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/test12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/test2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/test4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/test5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/test6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/test7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/test9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/tri.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/log/runtime_2023-09-20_15-35-57_337597.log" afterDir="false" />
+    <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="暂存">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/CamOperation_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/CamOperation_class.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/Comparsion.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/Comparsion.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/bounding.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/img_bounding.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/comport.dat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cvmt.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/no/cvmt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/imglist.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/no/imglist.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/log/runtime_2023-07-06_09-57-42_800583.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/log/runtime_2023-07-06_10-06-27_869967.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/log/runtime_2023-07-06_11-10-44_080700.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/log/runtime_2023-07-06_11-23-46_909044.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/log/runtime_2023-07-06_11-28-50_198161.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/log/runtime_2023-07-06_11-30-33_818378.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/log/runtime_2023-07-06_12-44-36_895468.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/parameter.dat" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/parameter.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/sertest.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/sertest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/settings.dat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/signal.dat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/testscreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/testscreen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/testtest.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/sncut.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/image/image_with_boxes.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/image_with_boxes.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/tktest.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/tktest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/xiangsu.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/no/xiangsu.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +47,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/pycharm/pythonProject/ComparsionProject/BasicDemo/cuttest&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -139,7 +66,7 @@
       <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\cuts" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.diff">
+  <component name="RunManager" selected="Python.tktest">
     <configuration name="compar" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ComparsionProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -247,8 +174,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.diff" />
         <item itemvalue="Python.tktest" />
+        <item itemvalue="Python.diff" />
         <item itemvalue="Python.fangshe" />
         <item itemvalue="Python.ocrtest" />
         <item itemvalue="Python.compar" />
@@ -411,7 +338,15 @@
       <option name="project" value="LOCAL" />
       <updated>1695370186365</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="暂存">
+      <option name="closed" value="true" />
+      <created>1697681593770</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1697681593770</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -469,22 +404,7 @@
     <MESSAGE value="增加部分文件" />
     <MESSAGE value="完成各功能验证，下一步将进行整合" />
     <MESSAGE value="部分功能简单测试" />
-    <option name="LAST_COMMIT_MESSAGE" value="部分功能简单测试" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/BasicDemo/tktest.py</url>
-          <line>1222</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/BasicDemo/tktest.py</url>
-          <line>1226</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="暂存" />
+    <option name="LAST_COMMIT_MESSAGE" value="暂存" />
   </component>
 </project>
