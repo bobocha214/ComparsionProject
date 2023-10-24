@@ -369,7 +369,6 @@ class CameraOperation():
                 break
 
     def Save_jpg(self, buf_cache):
-        print('CamSave_jpg执行力')
         if (None == buf_cache):
             return
         self.buf_save_image = None
@@ -398,7 +397,6 @@ class CameraOperation():
             return
         file_open = open(file_path.encode('ascii'), 'wb+')
         img_buff = (c_ubyte * stParam.nImageLen)()
-        print(file_path,'file_path')
         try:
             cdll.msvcrt.memcpy(byref(img_buff), stParam.pImageBuffer, stParam.nImageLen)
             file_open.write(img_buff)

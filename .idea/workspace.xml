@@ -4,9 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="暂存">
+    <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="第一个版本，条件苛刻">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/CamOperation_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/CamOperation_class.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/Comparsion.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/Comparsion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/Comparsion.spec" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/Comparsion.spec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/build/Comparsion/Analysis-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/build/Comparsion/COLLECT-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/build/Comparsion/Comparsion.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/build/Comparsion/Comparsion.exe.manifest" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/build/Comparsion/Comparsion.pkg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/build/Comparsion/EXE-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/build/Comparsion/PKG-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/build/Comparsion/PYZ-00.pyz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/build/Comparsion/PYZ-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/build/Comparsion/Tree-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/build/Comparsion/Tree-01.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/build/Comparsion/Tree-02.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/build/Comparsion/base_library.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/build/Comparsion/warn-Comparsion.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/build/Comparsion/xref-Comparsion.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/image/image_with_boxes.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/image_with_boxes.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/tktest.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/tktest.py" afterDir="false" />
     </list>
@@ -47,7 +64,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/pycharm/pythonProject/ComparsionProject/BasicDemo/cuttest&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -59,15 +76,15 @@
       <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\image\TEST" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\cuttest" />
       <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\no" />
-      <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\cut1" />
-      <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo" />
       <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\cuts" />
+      <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\cut1" />
+      <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\cuttest" />
+      <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo" />
     </key>
   </component>
   <component name="RunManager" selected="Python.tktest">
-    <configuration name="compar" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="CamOperation_class" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ComparsionProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -79,7 +96,28 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/compar.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/CamOperation_class.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Comparsion" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ComparsionProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/Comparsion.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -109,48 +147,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="fangshe" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ComparsionProject" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo/cuttest" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/cuttest/fangshe.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="ocrtest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ComparsionProject" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/ocrtest.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="tktest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ComparsionProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -172,13 +168,34 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="wenxin" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ComparsionProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo/cuttest" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/cuttest/wenxin.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.tktest" />
         <item itemvalue="Python.diff" />
-        <item itemvalue="Python.fangshe" />
-        <item itemvalue="Python.ocrtest" />
-        <item itemvalue="Python.compar" />
+        <item itemvalue="Python.Comparsion" />
+        <item itemvalue="Python.wenxin" />
+        <item itemvalue="Python.CamOperation_class" />
       </list>
     </recent_temporary>
   </component>
@@ -346,7 +363,23 @@
       <option name="project" value="LOCAL" />
       <updated>1697681593770</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="第一个版本，条件苛刻">
+      <option name="closed" value="true" />
+      <created>1697787515161</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1697787515161</updated>
+    </task>
+    <task id="LOCAL-00021" summary="第一个版本，条件苛刻">
+      <option name="closed" value="true" />
+      <created>1697787565381</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1697787565381</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -405,6 +438,7 @@
     <MESSAGE value="完成各功能验证，下一步将进行整合" />
     <MESSAGE value="部分功能简单测试" />
     <MESSAGE value="暂存" />
-    <option name="LAST_COMMIT_MESSAGE" value="暂存" />
+    <MESSAGE value="第一个版本，条件苛刻" />
+    <option name="LAST_COMMIT_MESSAGE" value="第一个版本，条件苛刻" />
   </component>
 </project>

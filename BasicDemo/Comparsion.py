@@ -291,7 +291,7 @@ if __name__ == "__main__":
             process_area_low_threshold_NUM = 4000
             process_area_threshold_high_NUM = 250000
             weight_threshold_NUM = 5
-            pattern_compare_threshold_NUM=300
+            pattern_compare_threshold_NUM=20
             image_threading_NUM = 8
             # different_threshold_NUM = 200
         thread_pool = concurrent.futures.ThreadPoolExecutor(max_workers=image_threading_NUM)
@@ -605,6 +605,7 @@ if __name__ == "__main__":
                 # 合并相邻的轮廓
                 merged_contours = []
                 current_contour = None
+                # 合并相邻的轮廓
                 for contour in contours:
                     area = cv2.contourArea(contour)
                     # print(area, 'area')
@@ -613,7 +614,7 @@ if __name__ == "__main__":
                         x2, y2, w2, h2 = cv2.boundingRect(contour)
                         if current_contour is None:
                             current_contour = contour
-                        elif x2 - (x1 + w1) < 50:
+                        elif x2 - (x1 + w1) < 100:
                             # 如果相邻，则合并两个轮廓
                             current_contour = np.concatenate((current_contour, contour))
                         else:
@@ -637,6 +638,7 @@ if __name__ == "__main__":
                         x, y, w, h = cv2.boundingRect(contour)
                         # 绘制方框
                         cv2.rectangle(result, (x, y), (x + w, y + h), (0, 0, 255), 6)
+
                 return result
             except Exception as e:
                 # print(f"An exception occurred: {str(e)}")
@@ -667,6 +669,7 @@ if __name__ == "__main__":
                 rotation_matrix[1, 2] += (new_H - h) / 2
                 rotated_image = cv2.warpAffine(image, rotation_matrix, (new_W, new_H),
                                                borderMode=cv2.BORDER_CONSTANT, borderValue=(255, 255, 255))
+
                 return rotated_image
 
             rect1, merged_contour1 = extract_rotated_rect(image1)
@@ -932,18 +935,13 @@ if __name__ == "__main__":
 
         # 多线程处理图片
         def process_images(full_image):
-            start = time.time()
             results = [thread_pool.submit(match_and_extract_region, image, full_image) for image in image_list]
-            end = time.time()
-            logger.info('thread_pool time: %s Seconds' % (end - start))
             for result in concurrent.futures.as_completed(results):
                 full_image = result.result()
             if full_image is not None:
                 fulldemo = full_image
             else:
                 fulldemo=full_image
-            end1 = time.time()
-            logger.info('process_images time: %s Seconds' % (end1 - end))
             return fulldemo
 
         # ch:关闭设备 | Close device
@@ -1046,6 +1044,10 @@ if __name__ == "__main__":
                     if any(keyword in text for keyword in keywords) and len(text) >= 17:
                         text = ''.join(text.split())
                         sn_code = text.replace(" ", "")[-17:]
+                        # 检查sn_code的第一位数字是否为8
+                        if sn_code[0] == '8':
+                            sn_code = 'B' + sn_code[1:]  # 将第一位数字替换成B
+                        # print(sn_code, 'sn_code')
                         position = i.get('position', position)
                         break
                 #需改进
@@ -1196,6 +1198,7 @@ if __name__ == "__main__":
                         photo1 = ImageTk.PhotoImage(image1.resize((512, 384), Image.LANCZOS))
                         canvas.itemconfig(image_item, image=photo1)
                         canvas.update()
+                        # print(image_rectangle,'image_rectangle')
                         # print("图片更新了")
                         if serial_data == last_result:
                             # print("请更换下一个")
@@ -1230,8 +1233,6 @@ if __name__ == "__main__":
                     text_frame1_rate6.config(text=all_count)
                     text_frame1_rate6.grid(row=15, column=1, padx=10, pady=10, sticky="w")
                     image_rectangle=False
-                    end = time.time()
-                    logger.info('Running time: %s Seconds' % (end - start))
                 else:
                     pass
 
@@ -1279,7 +1280,6 @@ if __name__ == "__main__":
 
         @logger.catch
         def updateimg(position):
-            start = time.time()
             full_demo,imagetest = read_files()
             if full_demo is not None and np.all(position != 0):
                 color = (0, 255, 0)
@@ -1295,8 +1295,6 @@ if __name__ == "__main__":
             else:
                 # print('11111111')
                 pass
-            end = time.time()
-            logger.info('updateimg time: %s Seconds' % (end - start))
 
         @logger.catch
         def showimg():
@@ -1759,7 +1757,7 @@ if __name__ == "__main__":
                     left_upper_NUM = cut_Pos[1][0]
                     right_left_NUM = cut_Pos[0][1]
                     right_lower_NUM = cut_Pos[1][1]
-                    print(left_left_NUM, left_upper_NUM, right_left_NUM, right_lower_NUM)
+                    # print(left_left_NUM, left_upper_NUM, right_left_NUM, right_lower_NUM)
                     with open(comparea, 'wb') as f:
                         pickle.dump(left_left_NUM, f)
                         pickle.dump(left_upper_NUM, f)
