@@ -1,7 +1,10 @@
 # -- coding: utf-8 --
 import asyncio
+import functools
+import multiprocessing
 import time
 import tkinter.messagebox
+from concurrent.futures import ThreadPoolExecutor
 from functools import partial
 from math import fabs, sin, radians, cos
 from multiprocessing import Pool, Manager
@@ -26,8 +29,25 @@ import numpy as np
 import concurrent.futures
 matplotlib.use('TkAgg')
 from matplotlib import pyplot as plt
+from opcua import Client,ua
 
 
+class SubHandler(object):
+
+    """
+    Subscription Handler. To receive events from server for a subscription
+    data_change and event methods are called directly from receiving thread.
+    Do not do expensive, slow or network operation there. Create another
+    thread if you need to do such a thing
+    """
+    def datachange_notification(self, node, val, data):
+        print(val)
+        if(val==1):
+            sendSerialOrder()
+
+    #
+    # def event_notification(self, event):
+    #     print("Python: New event", event)
 def custom_filter(record):
     # 如果消息与上一条消息相同，返回False，表示丢弃该消息
     if hasattr(custom_filter, "last_message") and custom_filter.last_message == record["message"]:
@@ -193,6 +213,9 @@ def base_path(path):
     return os.path.join(basedir, path)
 
 
+
+
+
 if __name__ == "__main__":
     mutex = win32event.CreateMutex(None, False, 'MyMutexName')
     if win32api.GetLastError() == winerror.ERROR_ALREADY_EXISTS:
@@ -233,6 +256,7 @@ if __name__ == "__main__":
         weight_threshold_NUM = 0
         pattern_compare_threshold_NUM = 0
         image_threading_NUM=0
+        opcua_address='opc.tcp://127.0.0.1:4840'
         # different_threshold_NUM=0
         COM_sharedata = {'sedata': None}
         current_file = base_path('')
@@ -261,13 +285,16 @@ if __name__ == "__main__":
         comparea = 'comparea.dat'
         # 创建一个空列表以存储所有图片
         image_list = []
-        image_lock = threading.Lock()
+        manager = Manager()
+        result_list = manager.list()  # 创建共享列表
         image_rectangle = False
         cut_Pos = np.zeros((2, 2), int)
         global screenshotNum
         screenshotNum = 0
+        results_to_match=[]
         global screen_img
         event = threading.Event()
+
         try:
             with open(thresholdpickle, "rb") as f:
                 loaded_params = pickle.load(f)
@@ -294,7 +321,7 @@ if __name__ == "__main__":
             pattern_compare_threshold_NUM=20
             image_threading_NUM = 8
             # different_threshold_NUM = 200
-        thread_pool = concurrent.futures.ThreadPoolExecutor(max_workers=image_threading_NUM)
+        # thread_pool = concurrent.futures.ThreadPoolExecutor(max_workers=image_threading_NUM)
         try:
             with open(signaldata, 'rb') as f:
                 signalbuttonup = pickle.load(f)
@@ -467,7 +494,18 @@ if __name__ == "__main__":
         year = now.year
         month = now.month
 
+        def Opcua_Connect():
+            client = Client(opcua_address)
+            try:
+                client.connect()
+                client.load_type_definitions()
+                return client
+            except:
+                client.disconnect()
+                return None
 
+
+        client=Opcua_Connect()
         # 绑定下拉列表至设备信息索引
         def xFunc(event):
             global nSelCamIndex
@@ -586,18 +624,23 @@ if __name__ == "__main__":
                 # 确保partial_image与matched_region具有相同的尺寸
                 partial_image = cv2.resize(partial_image, (matched_region.shape[1], matched_region.shape[0]))
                 gray_matched_region = cv2.cvtColor(matched_region, cv2.COLOR_BGR2GRAY)
-                _, binary_matched_region = cv2.threshold(gray_matched_region, process_threshold_NUM, 255, cv2.THRESH_BINARY_INV)
+                _, binary_matched_region = cv2.threshold(gray_matched_region, process_threshold_NUM, 255,
+                                                         cv2.THRESH_BINARY_INV)
+                # cv2.imshow('binary_matched_region', binary_matched_region)
+                # cv2.waitKey(0)
                 all_pixel_count = np.sum(binary_matched_region == 255)
                 # 计算两图像的差异
                 difference = cv2.absdiff(matched_region, partial_image)
-
                 # 转换差异图像为灰度
                 gray_difference = cv2.cvtColor(difference, cv2.COLOR_BGR2GRAY)
-
+                # cv2.imshow('gray_difference', gray_difference)
+                # cv2.waitKey(0)
                 # 二值化差异图像
                 _, binary_difference = cv2.threshold(gray_difference, threshold, 255, cv2.THRESH_BINARY)
+                # cv2.imshow('binary_difference', binary_difference)
+                # cv2.waitKey(0)
                 white_pixel_count = np.sum(binary_difference == 255)
-                percent=(white_pixel_count*weight_threshold_NUM)/all_pixel_count
+                percent = (white_pixel_count * weight_threshold_NUM) / all_pixel_count
                 # print(white_pixel_count, 'white_pixel_count',compare_threshold_NUM,all_pixel_count,'all_pixel_count',percent)
                 # 寻找差异区域的轮廓
                 contours, _ = cv2.findContours(binary_difference, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -627,22 +670,24 @@ if __name__ == "__main__":
                 # 将最后一个轮廓添加到合并列表中
                 if current_contour is not None:
                     merged_contours.append(current_contour)
+                try:
+                    for contour in merged_contours:
+                        area = cv2.contourArea(contour)
+                        # print(area, 'area') #and percent > 0.15
+                        if area > pattern_compare_threshold_NUM:
+                            image_rectangle = True
+                            x, y, w, h = cv2.boundingRect(contour)
+                            # 绘制方框
+                            cv2.rectangle(matched_region, (x, y), (x + w, y + h), (0, 0, 255), 6)
+                except:
+                    image_rectangle = True
+                    matched_region = matched_region
+                return matched_region
 
-                # 在matched_region上绘制合并后的边界框
-                result = matched_region.copy()
-                for contour in merged_contours:
-                    area = cv2.contourArea(contour)
-                    # print(area, 'area') #and percent > 0.15
-                    if area > pattern_compare_threshold_NUM:
-                        image_rectangle=True
-                        x, y, w, h = cv2.boundingRect(contour)
-                        # 绘制方框
-                        cv2.rectangle(result, (x, y), (x + w, y + h), (0, 0, 255), 6)
-
-                return result
             except Exception as e:
                 # print(f"An exception occurred: {str(e)}")
-                return None
+                # return None
+                pass
 
 
         def process_and_insert_cropped_region(image1, image2):
@@ -686,13 +731,17 @@ if __name__ == "__main__":
 
             result1 = cv2.bitwise_and(image1, mask1)
             result2 = cv2.bitwise_and(image2, mask2)
-
-            x1, y1, w1, h1 = cv2.boundingRect(np.int0(box1))
-            x2, y2, w2, h2 = cv2.boundingRect(np.int0(box2))
-
-            image3 = result1[y1:y1 + h1, x1:x1 + w1]
-            image4 = result2[y2:y2 + h2, x2:x2 + w2]
-
+            # x1, y1, w1, h1 = cv2.boundingRect(np.int0(box1))
+            # x2, y2, w2, h2 = cv2.boundingRect(np.int0(box2))
+            # cv2.rectangle(result1, (x1, y1), (x1 + w1, y1 + h1), (0, 0, 255), 2)
+            # cv2.rectangle(result2, (x2, y2), (x2 + w2, y2 + h2), (0, 0, 255), 2)
+            # cv2.imshow('result11', result1)
+            # cv2.imshow('result21', result2)
+            # cv2.waitKey(0)
+            image3 = result1
+            image4 = result2
+            # cv2.imshow('image3', image3)
+            # cv2.imshow('image4', image4)
             angle1 = rect1[2]
             angle2 = rect2[2]
             # print(angle1, angle2)
@@ -709,15 +758,14 @@ if __name__ == "__main__":
                 # print(angle1 - angle2)
                 # print('2222')
                 x1, y1, w1, h1 = cv2.boundingRect(merged_contour1)
-                x2, y2, w2, h2 = cv2.boundingRect(merged_contour2)
-                image3 = image1[y1:y1 + h1, x1:x1 + w1]
-                image4 = image2[y2:y2 + h2, x2:x2 + w2]
+                image3 = image3[y1:y1 + h1, x1:x1 + w1]
             # time.sleep(0.2)
             gray3 = cv2.cvtColor(image3, cv2.COLOR_BGR2GRAY)
             gray4 = cv2.cvtColor(image4, cv2.COLOR_BGR2GRAY)
             _, binary_image3 = cv2.threshold(gray3, process_threshold_NUM, 255, cv2.THRESH_BINARY_INV)
             _, binary_image4 = cv2.threshold(gray4, process_threshold_NUM, 255, cv2.THRESH_BINARY_INV)
-
+            # cv2.imshow('binary_image3', binary_image3)
+            # cv2.imshow('binary_image4', binary_image4)
             contours3, _ = cv2.findContours(binary_image3, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
             contours4, _ = cv2.findContours(binary_image4, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -727,33 +775,19 @@ if __name__ == "__main__":
             x3, y3, w3, h3 = cv2.boundingRect(merged_contour3)
             x4, y4, w4, h4 = cv2.boundingRect(merged_contour4)
 
-            image5 = image3.copy()
-            image6 = image4.copy()
-
-            cv2.rectangle(image5, (x3, y3), (x3 + w3, y3 + h3), (0, 255, 0), 1)
-            cv2.rectangle(image6, (x4, y4), (x4 + w4, y4 + h4), (0, 255, 0), 1)
-
+            # cv2.rectangle(image5, (x3, y3), (x3 + w3, y3 + h3), (0, 255, 0), 1)
+            # cv2.rectangle(image6, (x4, y4), (x4 + w4, y4 + h4), (0, 255, 0), 1)
             roi1 = image3[y3:y3 + h3, x3:x3 + w3]
-            roi2 = image4[y4:y4 + h4, x4:x4 + w4]
-
+            roi2 = image2[y4:y4 + h4, x4:x4 + w4]
             roi1 = cv2.resize(roi1, (roi2.shape[1], roi2.shape[0]))
-
-            # cv2.imwrite('cuttest/roi1', roi1)
-            # cv2.imwrite('cuttest/roi2', roi2)
-            # cv2.waitKey(0)
-            image7 = process_and_display_difference_images(roi1, roi2)
-            # cv2.imshow('image7', image7)
-            image4[y4:y4 + h4, x4:x4 + w4] = image7
-            # cv2.imshow('image4', image4)
-            result2[y2:y2 + h2, x2:x2 + w2] = image4
-            # cv2.imshow('result2', result2)
-            return result2
+            return roi1, roi2, image2, x4, y4, w4, h4
 
 
         def match_and_extract_region(partial_image, full_image):
             # partial_image = cv2.imread(partial_image)
             # image = cv2.imread(input_image_path)
             # 转换图像为灰度
+            start = time.time()
             gray_full_image = cv2.cvtColor(full_image, cv2.COLOR_BGR2GRAY)
             gray_partial_image = cv2.cvtColor(partial_image, cv2.COLOR_BGR2GRAY)
 
@@ -761,21 +795,24 @@ if __name__ == "__main__":
             sift = cv2.SIFT_create()
             kp1, des1 = sift.detectAndCompute(gray_partial_image, None)
             kp2, des2 = sift.detectAndCompute(gray_full_image, None)
-
-            # # 使用FLANN匹配器进行特征匹配
-            # FLANN_INDEX_KDTREE = 0
-            # index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
-            # search_params = dict(checks=50)
-            # flann = cv2.FlannBasedMatcher(index_params, search_params)
-            # matches = flann.knnMatch(des1, des2, k=2)
+            end1 = time.time()
+            logger.info('matches time: %s Seconds' % (end1 - start))
+            # 使用FLANN匹配器进行特征匹配
+            FLANN_INDEX_KDTREE = 0
+            index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
+            search_params = dict(checks=50)
+            flann = cv2.FlannBasedMatcher(index_params, search_params)
+            matches = flann.knnMatch(des1, des2, k=2)
             # 创建BFMatcher（暴力匹配器）对象
-            bf = cv2.BFMatcher()
-
-            # 使用KNN匹配
-            matches = bf.knnMatch(des1, des2, k=2)
+            # bf = cv2.BFMatcher()
+            #
+            # # 使用KNN匹配
+            # matches = bf.knnMatch(des1, des2, k=2)
             # 选择良好的匹配项
-            good_matches = [m for m, n in matches if m.distance < 0.98 * n.distance]
 
+            good_matches = [m for m, n in matches if m.distance < 0.85 * n.distance]
+            end = time.time()
+            logger.info('good_matches time: %s Seconds' % (end - start))
             # 绘制匹配结果
             # matched_image = cv2.drawMatches(full_image, kp1, partial_image, kp2, good_matches, None,
             #                                 flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
@@ -797,20 +834,23 @@ if __name__ == "__main__":
             max_x = np.max(transformed_corners[:, :, 0])
             min_y = np.min(transformed_corners[:, :, 1])
             max_y = np.max(transformed_corners[:, :, 1])
+            end = time.time()
+            logger.info('full_image time: %s Seconds' % (end - start))
             # 裁剪匹配区域
             matched_region = full_image[int(min_y):int(max_y), int(min_x):int(max_x)]
-
-            # 调用函数处理和插入裁剪区域
-            image7 =process_and_insert_cropped_region(partial_image, matched_region)
-            with image_lock:
-                # 将处理后的区域放回原始图像
-                full_image[int(min_y):int(max_y), int(min_x):int(max_x)] = image7
-                # 保存结果图像
-                # cv2.imwrite(full_image_path, full_image)
-                # cv2.imshow('full_image_path', full_image)
-                # cv2.waitKey(0)
-            return full_image
-
+            return matched_region, int(min_y), int(max_y), int(min_x), int(max_x)
+        # 多线程处理图片
+        def process_all_image(image, template_image, results_to_match):
+            # for image in images_to_match:
+            # image, template_image, index, template_images_list = args
+            matched_region, min_y, max_y, min_x, max_x = match_and_extract_region(image, template_image)
+            roi1, roi2, image4, x4, y4, w4, h4 = process_and_insert_cropped_region(image, matched_region)
+            result = process_and_display_difference_images(roi1, roi2)
+            # image4[y4:y4 + h4, x4:x4 + w4] = result
+            # 将image4粘贴到template_image的指定位置
+            # 将image4和坐标信息封装到一个元组
+            image_info = (image4, min_y, max_y, min_x, max_x)
+            results_to_match.append(image_info)
 
 
         def contour_sort_key(contour):
@@ -916,6 +956,7 @@ if __name__ == "__main__":
                 return False
 
         def read_all_img():
+            global image_list
             for filename1 in os.listdir(folder_path):
                 if filename1.endswith(('.jpg', '.jpeg', '.png')):  # 确保文件是图片文件
                     filepath1 = os.path.join(folder_path, filename1)
@@ -924,26 +965,50 @@ if __name__ == "__main__":
 
         @logger.catch()
         def read_files():
-            # 遍历文件夹1中的图片
-            imagetest=cv2.imread(parentdir)
+            # global image_list
             # imagedemo=cv2.imread(parentdirdemo)
-            # 读取完整图片和局部图片
             full_image = cv2.imread(parentdirdemo)
-            full_demo = process_images(full_image)
-            cv2.imwrite(parentdirmarked, full_demo)
-            return full_demo,imagetest
+            start = time.time()
+            # 创建线程
+            threads = []
+            num_threads = len(image_list)
+            max_threads = 8
+            num_cores = multiprocessing.cpu_count()
+            print("可用的CPU核心数：", num_cores)
+            # partial_func = functools.partial(process_all_image, full_image)
+            # print('开始了')
+            # pool = multiprocessing.Pool(processes=num_cores)
+            # for result in pool.map(partial_func, image_list):
+            #     result_list.append(result)  # 将处理结果添加到共享列表中
+            # pool.close()
+            # pool.join()
+            end = time.time()
+            print('thread time: %s Seconds' % (end - start))
+            for image in image_list:
+                thread = threading.Thread(target=process_all_image, args=(image,full_image, results_to_match))
+                threads.append(thread)
+                thread.start()
+            # with ThreadPoolExecutor(max_workers=max_threads) as executor:
+            #     for i in range(num_threads):
+            #         executor.submit(process_all_image, image_list[i], full_image, results_to_match)
+            #     executor.shutdown(wait=True)  # 这将阻塞主线程直到所有任务完成
+            # for i in range(num_threads):
+            #     thread = threading.Thread(target=process_image,
+            #                               args=(image_list[i], full_image, results_to_match, lock))
+            #     threads.append(thread)
+            #     thread.start()
 
-        # 多线程处理图片
-        def process_images(full_image):
-            results = [thread_pool.submit(match_and_extract_region, image, full_image) for image in image_list]
-            for result in concurrent.futures.as_completed(results):
-                full_image = result.result()
-            if full_image is not None:
-                fulldemo = full_image
-            else:
-                fulldemo=full_image
-            return fulldemo
+            # 等待所有线程完成
+            for thread in threads:
+                thread.join()
+            for image_info in result_list:
+                image4, min_y, max_y, min_x, max_x = image_info
+                full_image[min_y:max_y, min_x:max_x] = image4
 
+            end1 = time.time()
+            logger.info('thread time: %s Seconds' % (end1 - start))
+            cv2.imwrite('full_image111.jpg', full_image)
+            return full_image
         # ch:关闭设备 | Close device
         @logger.catch
         def close_device():
@@ -990,8 +1055,6 @@ if __name__ == "__main__":
         def jpg_save():
             global obj_cam_operation
             obj_cam_operation.b_save_jpg = True
-
-
         @logger.catch
         def getSerialdata():
             global ser1
@@ -1018,6 +1081,7 @@ if __name__ == "__main__":
             try:
                 if ser1.is_open:
                     hexStr = "03 53 80 ff 2a"
+                    # hexStr = "16 54 0D"
                     bytes_hex = bytes.fromhex(hexStr)
                     ser1.write(bytes_hex)
                 else:
@@ -1044,10 +1108,6 @@ if __name__ == "__main__":
                     if any(keyword in text for keyword in keywords) and len(text) >= 17:
                         text = ''.join(text.split())
                         sn_code = text.replace(" ", "")[-17:]
-                        # 检查sn_code的第一位数字是否为8
-                        if sn_code[0] == '8':
-                            sn_code = 'B' + sn_code[1:]  # 将第一位数字替换成B
-                        # print(sn_code, 'sn_code')
                         position = i.get('position', position)
                         break
                 #需改进
@@ -1148,72 +1208,79 @@ if __name__ == "__main__":
                 pickle.dump(ng_count, f)
                 pickle.dump(all_count, f)
 
+        def subscribe_nodes():
+            handler = SubHandler()
+            myvar=client.get_node("ns=2;s=factory_1/line1/D301")
+            sub = client.create_subscription(500, handler)
+            handle = sub.subscribe_data_change(myvar)
+            time.sleep(0.1)
 
         @logger.catch
         def wait_for_response1():
             global image_rectangle
+            write_value_OK = ua.DataValue(ua.Variant(1, ua.VariantType.Int16))
+            write_value_NG = ua.DataValue(ua.Variant(2, ua.VariantType.Int16))
+            write_value_ERROR = ua.DataValue(ua.Variant(3, ua.VariantType.Int16))
             while True:
                 serial_data = getSerialdata()
+                print(serial_data,'serial_data')
                 if serial_data:
                     start = time.time()
                     # print('getSerialdata执行了一次')
                     flag = False
                     global last_result
                     result = ''
-                    flag=jpg_save1()
+                    jpg_save1()
                     time.sleep(0.3)
-                    img_flag = get_pardemo(parentdir, left_left_NUM, left_upper_NUM, right_left_NUM, right_lower_NUM,
-                                           parentdirdemo)
+                    img_flag = get_pardemo(parentdir, left_left_NUM, left_upper_NUM, right_left_NUM,
+                                               right_lower_NUM,
+                                               parentdirdemo)
+                    img_opcua_flag = client.get_node("ns=2;s=factory_1/line1/D311")
+                    temp_opc=img_opcua_flag.get_value()
+                    write_value = ua.DataValue(ua.Variant(1, ua.VariantType.Int16))
+                    if(temp_opc==0):
+                        img_opcua_flag.set_value(write_value)
                     if img_flag:
                         SnCode, position = get_sn_code()
                         rect = canvas.create_rectangle(0, 0, canvas.winfo_width(), canvas.winfo_height(), fill='white',
                                                        outline='white')
                         canvas.update()
-                        # start_update_img_task(position)
-                        updateimg(position)
+                        start_update_img_task(position)
+                        # updateimg(position)
+
+                        end3 = time.time()
+                        logger.info('start_update_img_task time: %s Seconds' % (end3 - start))
                         # asyncio.run(updateimg(position))
-                        if SnCode == serial_data and serial_data!=last_result:
+                        result_node = client.get_node("ns=2;s=factory_1/line1/D312")
+                        if SnCode == serial_data:
+                            if serial_data != last_result:
+                                label_frame_rate5.config(text=serial_data, bg='green')
+                                label_frame_rate6.config(text=SnCode, bg='green')
+                                label_frame_rate4.config(text=last_result)
+                                if not image_rectangle:
+                                    flag = True
+                                    result_node.set_value(write_value_OK)
+                                else:
+                                    flag = False
+                                    result_node.set_value(write_value_NG)
+                            else:
+                                label_frame_rate4.config(text=last_result, bg='red')
+                                label_frame_rate5.config(text=serial_data, bg='red')
+                                label_frame_rate6.config(text=SnCode, bg='red')
+                                flag = False
+                                result_node.set_value(write_value_NG)
+                        else:
                             label_frame_rate4.config(text=last_result)
-                            label_frame_rate4.grid(row=3, column=1, padx=10, pady=10, sticky="w")
-                            label_frame_rate5.config(text=serial_data,bg='green')
-                            label_frame_rate5.grid(row=4, column=1, padx=10, pady=10, sticky="w")
-                            label_frame_rate6.config(text=SnCode,bg='green')
-                            label_frame_rate6.grid(row=5, column=1, padx=10, pady=10, sticky="w")
-                        elif SnCode == serial_data ==last_result:
-                            label_frame_rate4.config(text=last_result,bg='red')
-                            label_frame_rate4.grid(row=3, column=1, padx=10, pady=10, sticky="w")
-                            label_frame_rate5.config(text=serial_data,bg='red')
-                            label_frame_rate5.grid(row=4, column=1, padx=10, pady=10, sticky="w")
-                            label_frame_rate6.config(text=SnCode)
-                            label_frame_rate6.grid(row=5, column=1, padx=10, pady=10, sticky="w")
-                        elif SnCode != serial_data and serial_data!=last_result:
-                            label_frame_rate4.config(text=last_result)
-                            label_frame_rate4.grid(row=3, column=1, padx=10, pady=10, sticky="w")
                             label_frame_rate5.config(text=serial_data, bg='green')
-                            label_frame_rate5.grid(row=4, column=1, padx=10, pady=10, sticky="w")
                             label_frame_rate6.config(text=SnCode, bg='red')
-                            label_frame_rate6.grid(row=5, column=1, padx=10, pady=10, sticky="w")
+                            flag = False
+                            result_node.set_value(write_value_NG)
+                        show_label(flag)
                         canvas.delete(rect)
                         image1 = Image.open(parentdirsign)
                         photo1 = ImageTk.PhotoImage(image1.resize((512, 384), Image.LANCZOS))
                         canvas.itemconfig(image_item, image=photo1)
                         canvas.update()
-                        # print(image_rectangle,'image_rectangle')
-                        # print("图片更新了")
-                        if serial_data == last_result:
-                            # print("请更换下一个")
-                            flag = False
-                            result = 'continue'
-                            show_label(flag)
-                        else:
-                            if SnCode == serial_data and image_rectangle == False:
-                                flag = True
-                                result = 'OK'
-                                show_label(flag)
-                            else:
-                                flag = False
-                                result = 'NG'
-                                show_label(flag)
                         if checked_val.get():
                             write_to_csv(serial_data, SnCode, result)
                         else:
@@ -1227,16 +1294,36 @@ if __name__ == "__main__":
                     all_count = result_list[2]
                     save_counts_to_pickle(ok_count, ng_count, all_count)
                     text_frame1_rate4.config(text=ok_count)
-                    text_frame1_rate4.grid(row=13, column=1, padx=10, pady=10, sticky="w")
                     text_frame1_rate5.config(text=ng_count)
-                    text_frame1_rate5.grid(row=14, column=1, padx=10, pady=10, sticky="w")
                     text_frame1_rate6.config(text=all_count)
-                    text_frame1_rate6.grid(row=15, column=1, padx=10, pady=10, sticky="w")
                     image_rectangle=False
+
+                    end = time.time()
+                    logger.info('Running time: %s Seconds' % (end - start))
                 else:
                     pass
 
 
+        def send_heartbeat():
+            timeout = 10  # 设置超时时间为10秒
+            last_heartbeat_time = time.time()  # 记录上次接收到心跳信号的时间
+            heartbeat = client.get_node("ns=2;s=factory_1/line1/D310")
+            while True:
+                current_time = time.time()  # 获取当前时间
+                elapsed_time = current_time - last_heartbeat_time  # 计算与上次心跳信号的时间间隔
+
+                # 如果超过了设定的超时时间，则触发报错操作
+                if elapsed_time >= timeout:
+                    tkinter.messagebox.showinfo('show info', '心跳超时，请检查设备！')
+                heartbeat_value = heartbeat.get_value()
+                if (heartbeat_value == 100):
+                    write_value = ua.DataValue(ua.Variant(200, ua.VariantType.Int16))
+                    heartbeat.set_value(write_value)
+                elif (heartbeat_value == 200):
+                    write_value = ua.DataValue(ua.Variant(100, ua.VariantType.Int16))
+                    heartbeat.set_value(write_value)
+                last_heartbeat_time = current_time  # 更新上次接收到心跳信号的时间
+                time.sleep(2)  # 等待1秒钟，避免频繁发送心跳
 
         @logger.catch
         def start_long_task():
@@ -1246,7 +1333,11 @@ if __name__ == "__main__":
             t.start()
             showimg()
 
-
+        @logger.catch
+        def heartbeat_thread_task():
+            heartbeat_thread = threading.Thread(target=send_heartbeat)
+            heartbeat_thread.daemon = True
+            heartbeat_thread.start()
         @logger.catch
         def start_update_img_task(position):
             t = threading.Thread(target=updateimg, args=(position,))
@@ -1280,14 +1371,18 @@ if __name__ == "__main__":
 
         @logger.catch
         def updateimg(position):
-            full_demo,imagetest = read_files()
-            if full_demo is not None and np.all(position != 0):
+            start=time.time()
+            imagetest = cv2.imread(parentdir)
+            full_demo = cv2.imread(parentdirdemo)
+            full_image=read_files()
+            # print(full_demo)
+            if full_image is not None and np.all(position != 0):
                 color = (0, 255, 0)
                 x, y, w, h = cv2.boundingRect(position)
                 # cv2.rectangle(image,(x-15,y-10),(x+w+5,y+h+5),color,6)
-                cv2.rectangle(full_demo, (x, y), (x + w, y + h), color, 6)
+                cv2.rectangle(full_image, (x, y), (x + w, y + h), color, 6)
                 result_image = imagetest.copy()
-                result_image[left_upper_NUM:right_lower_NUM, left_left_NUM:right_left_NUM] = full_demo
+                result_image[left_upper_NUM:right_lower_NUM, left_left_NUM:right_left_NUM] = full_image
                 # cv2.imshow('full_demo',full_demo)
                 cv2.imwrite(parentdirsign, result_image)
                 # cv2.waitKey(0)
@@ -1295,6 +1390,8 @@ if __name__ == "__main__":
             else:
                 # print('11111111')
                 pass
+            end = time.time()
+            logger.info('updateimg time: %s Seconds' % (end - start))
 
         @logger.catch
         def showimg():
@@ -1346,6 +1443,8 @@ if __name__ == "__main__":
         time.sleep(1)
         open_device()
         start_grabbing1()
+        heartbeat_thread_task()
+        subscribe_nodes()
         # commonuser
         device_list1 = ttk.Combobox(frame1, textvariable=xVariable)
         device_list1.grid(column=0, row=0, columnspan=2, padx=10, pady=10, sticky="we")
@@ -1417,6 +1516,12 @@ if __name__ == "__main__":
         label_frame1_all.grid(row=13, column=0, padx=10, pady=10, sticky="e")
         label_frame1_ng.grid(row=14, column=0, padx=10, pady=10, sticky="e")
         label_frame1_per.grid(row=15, column=0, padx=10, pady=10, sticky="e")
+        label_frame1_all = tk.Label(frame1, text='总数量：', bg='skyblue', width=8, height=1, anchor='e')
+        label_frame1_ng = tk.Label(frame1, text='不良数量：', bg='skyblue', width=8, height=1, anchor='e')
+        label_frame1_per = tk.Label(frame1, text='可靠率：', bg='skyblue', width=8, height=1, anchor='e')
+        text_frame1_rate4.grid(row=13, column=1, padx=10, pady=10, sticky="w")
+        text_frame1_rate5.grid(row=14, column=1, padx=10, pady=10, sticky="w")
+        text_frame1_rate6.grid(row=15, column=1, padx=10, pady=10, sticky="w")
         try:
             with open(picklename1, 'rb') as f:
                 ok_count = pickle.load(f)
@@ -1448,6 +1553,9 @@ if __name__ == "__main__":
         label_frame_rate1.grid(row=3, column=0, padx=10, pady=10, sticky="nsew")
         label_frame_rate2.grid(row=4, column=0, padx=10, pady=10, sticky="nsew")
         label_frame_rate3.grid(row=5, column=0, padx=10, pady=10, sticky="nsew")
+        label_frame_rate4.grid(row=3, column=1, padx=10, pady=10, sticky="w")
+        label_frame_rate5.grid(row=4, column=1, padx=10, pady=10, sticky="w")
+        label_frame_rate6.grid(row=5, column=1, padx=10, pady=10, sticky="w")
         text_frame1_tips = tk.Label(frame1,
                                     text='如果点击开始后扫码枪为一天内的第一次开机，请等待扫码枪开机声音结束后再次点击开始比对按钮',
                                     font=(12), width=90, height=1, anchor='w')
@@ -1949,13 +2057,13 @@ if __name__ == "__main__":
                 # different_threshold_text.insert("1.0", param10_loaded)
         except FileNotFoundError:
             process_threshold_NUM = 200
-            compare_threshold_NUM = 60
+            compare_threshold_NUM = 100
             process_kernel_x_threshold_NUM = 75
             process_kernel_y_threshold_NUM = 1
             process_area_low_threshold_NUM = 4000
             process_area_threshold_high_NUM = 250000
             weight_threshold_NUM = 5
-            pattern_compare_threshold_NUM=300
+            pattern_compare_threshold_NUM=20
             image_threading_NUM = 8
             # different_threshold_NUM = 200
             process_binary_threshold_text.delete("1.0", "end")  # 清空Text组件

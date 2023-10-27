@@ -932,7 +932,7 @@ if __name__ == "__main__":
             #     thread.start()
             with ThreadPoolExecutor(max_workers=max_threads) as executor:
                 for i in range(num_threads):
-                    executor.submit(process_image, image_list[i], full_image, results_to_match, lock)
+                    executor.submit(process_all_image, image_list[i], full_image, results_to_match, lock)
                 executor.shutdown(wait=True)  # 这将阻塞主线程直到所有任务完成
             # for i in range(num_threads):
             #     thread = threading.Thread(target=process_image,
@@ -955,7 +955,7 @@ if __name__ == "__main__":
 
 
         # 多线程处理图片
-        def process_image(image, template_image, results_to_match, lock):
+        def process_all_image(image, template_image, results_to_match):
             # for image in images_to_match:
             # image, template_image, index, template_images_list = args
             matched_region, min_y, max_y, min_x, max_x = match_and_extract_region(image, template_image)
@@ -1217,7 +1217,7 @@ if __name__ == "__main__":
                         canvas.itemconfig(image_item, image=photo1)
                         canvas.update()
                         # print("图片更新了")
-                        if serial_data == last_result:
+                        if serial_data == last_result :
                             # print("请更换下一个")
                             flag = False
                             result = 'continue'
