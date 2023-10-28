@@ -5,624 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="版本保存-2023.10.27.9：00">
-      <change afterPath="$PROJECT_DIR$/BasicDemo/comparea.dat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/comport.dat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/croppertest.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_0.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/ano.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut1pocopy.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_2copy.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_3copy.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_4copy.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_6copy.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_7copy.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_qinxie.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/demo1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/demo10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/demo16.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/demo17.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/demo20.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/demo4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/demo6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/demo9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/democe.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/image22.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/image3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/img_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/marked_difference.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/matched_image00copy.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/matched_regioncopy.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/oriject.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/result2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/rotated_region.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/cuttest/toushi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/detachimg.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/diffimg.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/NEW/cut_1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/NEW/cut_26.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/NEW/cut_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/NEW/cut_save1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/NEW/no0.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/NEW/noM.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/NEW/nop.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/NEW/tri.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/boxs/boxed_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/boxs/boxed_15.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/boxs/boxed_16.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/boxs/boxed_19.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/boxs/boxed_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/boxs/boxed_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/boxs/boxed_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/cut/cut_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/demo.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/marked_difference.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1000.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1004.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1006.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1007.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1009.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_101.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1010.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1013.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1017.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1019.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_102.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1021.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1022.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1026.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1027.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1031.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1032.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1034.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1035.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1037.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1038.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_104.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1041.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1044.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1045.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1047.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1048.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_105.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1051.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1054.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1055.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1057.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1058.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1061.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1064.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1065.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1067.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1068.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_107.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1071.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1074.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1077.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1078.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1082.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1083.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1087.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1088.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1092.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1093.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1095.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1098.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1099.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1100.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1102.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1103.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1105.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1108.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_111.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1110.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1112.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1113.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1116.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1119.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1120.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1122.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1123.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1125.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1126.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1129.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1130.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1132.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1133.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1135.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1136.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1139.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_114.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1142.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1143.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1145.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1146.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1149.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_115.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1152.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1153.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1155.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1156.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1158.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1159.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1160.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1163.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1164.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1166.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1168.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1169.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_117.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1170.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1171.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1173.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1177.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_118.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1180.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_1181.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_121.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_124.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_125.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_127.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_128.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_130.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_132.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_134.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_137.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_138.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_142.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_145.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_146.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_15.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_152.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_153.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_155.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_158.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_159.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_16.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_162.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_165.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_166.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_168.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_169.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_172.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_175.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_176.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_178.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_179.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_18.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_182.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_185.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_186.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_188.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_189.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_19.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_190.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_191.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_193.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_195.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_198.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_199.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_202.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_203.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_205.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_206.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_209.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_210.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_211.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_215.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_216.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_218.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_219.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_220.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_223.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_224.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_227.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_230.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_231.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_233.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_234.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_237.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_240.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_241.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_243.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_244.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_25.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_250.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_251.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_253.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_254.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_256.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_257.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_260.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_263.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_264.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_266.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_267.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_271.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_272.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_276.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_277.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_28.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_281.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_282.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_284.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_285.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_288.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_29.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_291.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_292.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_294.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_295.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_298.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_302.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_305.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_308.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_309.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_31.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_315.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_318.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_319.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_32.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_321.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_322.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_325.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_328.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_329.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_331.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_332.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_335.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_338.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_341.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_342.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_345.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_348.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_350.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_353.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_356.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_358.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_360.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_363.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_366.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_369.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_370.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_372.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_373.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_376.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_379.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_38.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_380.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_382.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_383.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_386.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_389.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_39.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_390.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_393.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_395.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_396.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_399.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_400.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_403.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_406.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_407.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_409.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_41.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_410.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_413.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_417.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_419.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_42.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_423.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_426.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_429.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_431.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_434.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_435.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_437.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_439.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_441.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_444.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_445.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_447.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_45.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_451.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_454.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_457.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_458.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_460.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_461.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_464.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_467.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_468.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_470.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_471.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_474.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_477.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_48.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_482.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_484.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_487.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_492.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_495.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_496.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_498.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_500.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_504.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_505.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_507.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_508.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_51.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_510.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_512.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_515.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_516.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_52.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_522.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_523.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_525.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_526.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_529.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_532.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_533.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_535.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_536.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_538.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_54.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_542.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_545.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_546.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_548.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_549.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_55.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_552.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_555.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_556.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_558.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_559.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_560.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_563.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_565.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_568.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_569.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_570.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_573.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_574.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_576.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_577.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_58.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_580.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_583.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_584.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_586.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_589.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_590.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_593.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_596.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_597.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_599.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_60.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_600.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_601.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_603.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_607.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_610.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_611.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_613.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_614.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_620.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_621.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_623.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_624.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_626.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_627.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_63.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_630.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_633.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_634.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_636.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_637.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_641.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_642.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_646.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_647.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_649.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_651.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_654.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_655.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_658.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_661.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_662.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_664.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_665.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_668.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_671.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_672.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_674.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_675.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_677.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_678.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_68.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_681.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_685.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_687.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_688.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_691.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_694.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_695.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_697.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_698.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_701.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_702.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_705.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_711.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_712.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_714.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_715.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_718.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_720.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_723.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_728.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_73.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_730.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_733.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_736.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_739.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_740.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_742.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_743.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_746.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_749.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_750.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_752.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_753.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_756.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_759.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_76.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_760.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_762.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_763.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_765.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_766.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_769.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_770.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_772.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_773.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_776.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_779.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_780.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_781.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_784.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_787.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_789.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_79.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_790.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_791.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_793.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_794.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_797.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_80.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_801.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_804.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_805.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_809.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_811.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_814.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_815.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_817.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_82.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_824.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_827.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_828.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_83.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_830.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_831.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_834.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_837.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_838.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_840.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_841.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_844.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_847.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_854.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_857.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_86.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_862.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_865.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_868.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_872.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_875.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_878.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_881.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_882.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_885.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_888.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_889.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_89.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_891.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_892.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_895.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_898.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_90.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_902.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_903.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_905.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_906.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_908.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_912.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_915.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_916.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_918.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_919.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_92.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_922.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_925.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_926.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_928.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_929.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_93.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_930.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_935.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_938.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_939.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_940.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_943.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_946.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_947.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_950.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_953.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_954.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_956.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_959.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_96.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_960.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_963.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_966.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_967.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_969.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_970.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_973.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_976.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_977.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_979.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_980.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_983.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_986.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_989.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_99.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_991.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_994.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_996.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/res/output_text_999.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/save3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/save4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/sign.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/test.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/image/train1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/img/2023.9.27/trainRKO5GDJ0K9-1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/imgtest.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/marked_difference.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/matched_region111.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/no/autocut.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/no/compar.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/opcuademo/custom_nodes.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/opcuademo/opecuserver.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BasicDemo/rotatetest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/Comparsion.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/Comparsion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/Comparsion.spec" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/Comparsion.spec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/comparea.dat" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/comparea.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_0.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_0.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_3.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_6.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_7.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_7.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_8.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_8.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/full_image111.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/full_image111.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/image/demo.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/demo.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/image/image_with_boxes.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/image_with_boxes.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/image/sign.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/sign.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/image/test.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/test.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/thresholdpickle.dat" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -650,6 +51,9 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2S8x9Ptq6U5anuLggBZU4gDKjRw" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -660,6 +64,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
@@ -684,8 +89,29 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.Comparsion">
+    <configuration name="CamOperation_class" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PyCharmProjects" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/CamOperation_class.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Comparsion" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ComparsionProject" />
+      <module name="PyCharmProjects" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -747,40 +173,19 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="gun" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ComparsionProject" />
+    <configuration name="opcuatest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PyCharmProjects" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo/controller" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo/opcuademo" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/controller/gun.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="tktest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ComparsionProject" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/tktest.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/opcuademo/opcuatest.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -792,10 +197,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.Comparsion" />
+        <item itemvalue="Python.CamOperation_class" />
+        <item itemvalue="Python.opcuatest" />
         <item itemvalue="Python.ano" />
         <item itemvalue="Python.diff" />
-        <item itemvalue="Python.tktest" />
-        <item itemvalue="Python.gun" />
       </list>
     </recent_temporary>
   </component>

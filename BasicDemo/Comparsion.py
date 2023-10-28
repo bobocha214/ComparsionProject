@@ -41,7 +41,7 @@ class SubHandler(object):
     thread if you need to do such a thing
     """
     def datachange_notification(self, node, val, data):
-        print(val)
+        # print(val)
         if(val==1):
             sendSerialOrder()
 
@@ -256,14 +256,18 @@ if __name__ == "__main__":
         weight_threshold_NUM = 0
         pattern_compare_threshold_NUM = 0
         image_threading_NUM=0
-        opcua_address='opc.tcp://127.0.0.1:4840'
+        opcua_address_NUM='0'
+        subscribe_node_NUM='0'
+        takephoto_NUM='0'
+        xintiao_NUM='0'
+        finalresult_NUM='0'
+        client=None
         # different_threshold_NUM=0
         COM_sharedata = {'sedata': None}
         current_file = base_path('')
         parentdir = current_file + 'image\\test.jpg'
         parentdirsign = current_file + 'image\\sign.jpg'
         parentdirdemo = current_file + 'image\\demo.jpg'
-        parentdirmarked = current_file + 'image\\marked_difference.jpg'
         folder_path = current_file + 'cuts'
         folder_path1 = current_file + 'cut1'
         imagepath = current_file + 'image'
@@ -278,7 +282,6 @@ if __name__ == "__main__":
         picklename1 = 'parameter.dat'
         compickle = 'comport.dat'
         signaldata = 'signal.dat'
-        imagepickle = 'imagepickle.dat'
         screenshot = 'screenshot.dat'
         saveImg = 'saveImg.dat'
         thresholdpickle = 'thresholdpickle.dat'
@@ -298,7 +301,7 @@ if __name__ == "__main__":
         try:
             with open(thresholdpickle, "rb") as f:
                 loaded_params = pickle.load(f)
-                param1_loaded, param2_loaded, param3_loaded, param4_loaded, param5_loaded, param6_loaded, param7_loaded,param8_loaded,param9_loaded = loaded_params
+                param1_loaded, param2_loaded, param3_loaded, param4_loaded, param5_loaded, param6_loaded, param7_loaded,param8_loaded,param9_loaded,param10_loaded,param11_loaded ,param12_loaded,param13_loaded,param14_loaded= loaded_params
                 process_threshold_NUM = int(param1_loaded)
                 compare_threshold_NUM = int(param2_loaded)
                 process_kernel_x_threshold_NUM = int(param3_loaded)
@@ -308,6 +311,11 @@ if __name__ == "__main__":
                 weight_threshold_NUM = int(param7_loaded)
                 pattern_compare_threshold_NUM=int(param8_loaded)
                 image_threading_NUM = int(param9_loaded)
+                opcua_address_NUM = str(param10_loaded).strip()
+                subscribe_node_NUM = str(param11_loaded).strip()
+                takephoto_NUM = str(param12_loaded).strip()
+                xintiao_NUM = str(param13_loaded).strip()
+                finalresult_NUM = str(param14_loaded).strip()
                 # different_threshold_NUM = int(param10_loaded)
 
         except:
@@ -320,6 +328,11 @@ if __name__ == "__main__":
             weight_threshold_NUM = 5
             pattern_compare_threshold_NUM=20
             image_threading_NUM = 8
+            opcua_address_NUM = '0'
+            subscribe_node_NUM = '0'
+            takephoto_NUM = '0'
+            xintiao_NUM = '0'
+            finalresult_NUM = '0'
             # different_threshold_NUM = 200
         # thread_pool = concurrent.futures.ThreadPoolExecutor(max_workers=image_threading_NUM)
         try:
@@ -363,12 +376,6 @@ if __name__ == "__main__":
                 screenshotNum = int(pickle.load(f))
         except:
             screenshotNum = 0
-
-        # try:
-        #     with open(imagepickle, 'rb') as f:
-        #         IMAGEMatchValue = pickle.load(f)
-        # except:
-        #     IMAGEMatchValue = "TM_CCOEFF_NORMED"
 
         output_directory1 = 'image'
         if not os.path.exists(imagepath):
@@ -468,7 +475,7 @@ if __name__ == "__main__":
         # page1.grid(row=0, column=0, sticky="nsew")
         panel2 = Label(frame2)
         panel1 = Label(frame1, height=384, width=512)
-        panel2.grid(row=2, column=6, rowspan=10, padx=10, pady=10)
+        panel2.grid(row=1, column=6, rowspan=10,columnspan=4,padx=10, pady=10)
         panel1.grid(row=2, column=3, rowspan=10, padx=10, pady=10)
         global labelOK
         global labelNG
@@ -495,7 +502,8 @@ if __name__ == "__main__":
         month = now.month
 
         def Opcua_Connect():
-            client = Client(opcua_address)
+            global client,opcua_address_NUM
+            client = Client(opcua_address_NUM)
             try:
                 client.connect()
                 client.load_type_definitions()
@@ -505,7 +513,7 @@ if __name__ == "__main__":
                 return None
 
 
-        client=Opcua_Connect()
+
         # 绑定下拉列表至设备信息索引
         def xFunc(event):
             global nSelCamIndex
@@ -974,7 +982,7 @@ if __name__ == "__main__":
             num_threads = len(image_list)
             max_threads = 8
             num_cores = multiprocessing.cpu_count()
-            print("可用的CPU核心数：", num_cores)
+            # print("可用的CPU核心数：", num_cores)
             # partial_func = functools.partial(process_all_image, full_image)
             # print('开始了')
             # pool = multiprocessing.Pool(processes=num_cores)
@@ -983,7 +991,7 @@ if __name__ == "__main__":
             # pool.close()
             # pool.join()
             end = time.time()
-            print('thread time: %s Seconds' % (end - start))
+            # print('thread time: %s Seconds' % (end - start))
             for image in image_list:
                 thread = threading.Thread(target=process_all_image, args=(image,full_image, results_to_match))
                 threads.append(thread)
@@ -1007,7 +1015,7 @@ if __name__ == "__main__":
 
             end1 = time.time()
             logger.info('thread time: %s Seconds' % (end1 - start))
-            cv2.imwrite('full_image111.jpg', full_image)
+            # cv2.imwrite('full_image111.jpg', full_image)
             return full_image
         # ch:关闭设备 | Close device
         @logger.catch
@@ -1209,21 +1217,22 @@ if __name__ == "__main__":
                 pickle.dump(all_count, f)
 
         def subscribe_nodes():
+            global client
             handler = SubHandler()
-            myvar=client.get_node("ns=2;s=factory_1/line1/D301")
+            myvar=client.get_node(subscribe_node_NUM)
             sub = client.create_subscription(500, handler)
             handle = sub.subscribe_data_change(myvar)
             time.sleep(0.1)
 
         @logger.catch
         def wait_for_response1():
-            global image_rectangle
+            global image_rectangle,client
             write_value_OK = ua.DataValue(ua.Variant(1, ua.VariantType.Int16))
             write_value_NG = ua.DataValue(ua.Variant(2, ua.VariantType.Int16))
             write_value_ERROR = ua.DataValue(ua.Variant(3, ua.VariantType.Int16))
             while True:
                 serial_data = getSerialdata()
-                print(serial_data,'serial_data')
+                # print(serial_data,'serial_data')
                 if serial_data:
                     start = time.time()
                     # print('getSerialdata执行了一次')
@@ -1235,7 +1244,7 @@ if __name__ == "__main__":
                     img_flag = get_pardemo(parentdir, left_left_NUM, left_upper_NUM, right_left_NUM,
                                                right_lower_NUM,
                                                parentdirdemo)
-                    img_opcua_flag = client.get_node("ns=2;s=factory_1/line1/D311")
+                    img_opcua_flag = client.get_node(takephoto_NUM)
                     temp_opc=img_opcua_flag.get_value()
                     write_value = ua.DataValue(ua.Variant(1, ua.VariantType.Int16))
                     if(temp_opc==0):
@@ -1245,13 +1254,13 @@ if __name__ == "__main__":
                         rect = canvas.create_rectangle(0, 0, canvas.winfo_width(), canvas.winfo_height(), fill='white',
                                                        outline='white')
                         canvas.update()
-                        start_update_img_task(position)
-                        # updateimg(position)
+                        # start_update_img_task(position)
+                        updateimg(position)
 
                         end3 = time.time()
                         logger.info('start_update_img_task time: %s Seconds' % (end3 - start))
                         # asyncio.run(updateimg(position))
-                        result_node = client.get_node("ns=2;s=factory_1/line1/D312")
+                        result_node = client.get_node(finalresult_NUM)
                         if SnCode == serial_data:
                             if serial_data != last_result:
                                 label_frame_rate5.config(text=serial_data, bg='green')
@@ -1305,9 +1314,10 @@ if __name__ == "__main__":
 
 
         def send_heartbeat():
+            global client
             timeout = 10  # 设置超时时间为10秒
             last_heartbeat_time = time.time()  # 记录上次接收到心跳信号的时间
-            heartbeat = client.get_node("ns=2;s=factory_1/line1/D310")
+            heartbeat = client.get_node(xintiao_NUM)
             while True:
                 current_time = time.time()  # 获取当前时间
                 elapsed_time = current_time - last_heartbeat_time  # 计算与上次心跳信号的时间间隔
@@ -1315,13 +1325,16 @@ if __name__ == "__main__":
                 # 如果超过了设定的超时时间，则触发报错操作
                 if elapsed_time >= timeout:
                     tkinter.messagebox.showinfo('show info', '心跳超时，请检查设备！')
-                heartbeat_value = heartbeat.get_value()
-                if (heartbeat_value == 100):
-                    write_value = ua.DataValue(ua.Variant(200, ua.VariantType.Int16))
+                try:
+                    heartbeat_value = heartbeat.get_value()
+                    if (heartbeat_value == 100):
+                        write_value = ua.DataValue(ua.Variant(200, ua.VariantType.Int16))
+                        heartbeat.set_value(write_value)
+                    elif (heartbeat_value == 200):
+                        write_value = ua.DataValue(ua.Variant(100, ua.VariantType.Int16))
                     heartbeat.set_value(write_value)
-                elif (heartbeat_value == 200):
-                    write_value = ua.DataValue(ua.Variant(100, ua.VariantType.Int16))
-                    heartbeat.set_value(write_value)
+                except:
+                    pass
                 last_heartbeat_time = current_time  # 更新上次接收到心跳信号的时间
                 time.sleep(2)  # 等待1秒钟，避免频繁发送心跳
 
@@ -1338,12 +1351,12 @@ if __name__ == "__main__":
             heartbeat_thread = threading.Thread(target=send_heartbeat)
             heartbeat_thread.daemon = True
             heartbeat_thread.start()
-        @logger.catch
-        def start_update_img_task(position):
-            t = threading.Thread(target=updateimg, args=(position,))
-            t.daemon = True
-            t.start()
-            t.join()
+        # @logger.catch
+        # def start_update_img_task(position):
+        #     t = threading.Thread(target=updateimg, args=(position,))
+        #     t.daemon = True
+        #     t.start()
+        #     t.join()
 
         @logger.catch()
         def get_cut_params():
@@ -1443,8 +1456,8 @@ if __name__ == "__main__":
         time.sleep(1)
         open_device()
         start_grabbing1()
-        heartbeat_thread_task()
-        subscribe_nodes()
+
+
         # commonuser
         device_list1 = ttk.Combobox(frame1, textvariable=xVariable)
         device_list1.grid(column=0, row=0, columnspan=2, padx=10, pady=10, sticky="we")
@@ -1604,7 +1617,7 @@ if __name__ == "__main__":
 
         @logger.catch
         def comportfunction():
-            global COMGUNNUM, ser1
+            global COMGUNNUM, ser1,opcua_address_NUM,client
             COMGUNNUM = xVariableCOM.get()
             if COMGUNNUM:  # and COMSIGNAL
                 with open(compickle, 'wb') as f:
@@ -1613,6 +1626,13 @@ if __name__ == "__main__":
             else:
                 tk.messagebox.showerror('show error', "请选择端口！")
             threshold_confirm()
+            try:
+                client.disconnect()
+            except:
+                pass
+            client = Opcua_Connect()
+            subscribe_nodes()
+            heartbeat_thread_task()
             try:
                 ser1.close()
                 ser1 = serial.Serial(COMGUNNUM, 9600, timeout=0.5)
@@ -1752,7 +1772,7 @@ if __name__ == "__main__":
 
         @logger.catch
         def diff_this_picture():
-            img = cv2.imread(parentdirmarked)
+            img = cv2.imread(parentdirsign)
             plt.subplot(111), plt.imshow(img),
             plt.title('Detected Point'), plt.axis('off')
             plt.show()
@@ -1908,7 +1928,8 @@ if __name__ == "__main__":
         def threshold_confirm():
             global process_threshold_NUM, compare_threshold_NUM, process_kernel_x_threshold_NUM,\
                 process_kernel_y_threshold_NUM, process_area_low_threshold_NUM, process_area_threshold_high_NUM,\
-                weight_threshold_NUM,pattern_compare_threshold_NUM, image_threading_NUM
+                weight_threshold_NUM,pattern_compare_threshold_NUM, image_threading_NUM,opcua_address_NUM,subscribe_node_NUM,takephoto_NUM,xintiao_NUM,finalresult_NUM,client
+
             param1 = process_binary_threshold_text.get(1.0, tk.END)
             param2 = compare_binary_threshold_text.get(1.0, tk.END)
             param3 = process_kernel_x_threshold_text.get(1.0, tk.END)
@@ -1918,9 +1939,13 @@ if __name__ == "__main__":
             param7 = weight_threshold_text.get(1.0, tk.END)
             param8 = pattern_compar_threshold_text.get(1.0, tk.END)
             param9 = image_threading_text.get(1.0, tk.END)
+            param10 = opcua_address_text.get(1.0, tk.END)
+            param11 = subscribe_node_text.get(1.0, tk.END)
+            param12 = takephoto_text.get(1.0, tk.END)
+            param13 = xintiao_text.get(1.0, tk.END)
+            param14 = finalresult_text.get(1.0, tk.END)
             # param10 = different_threshold_text.get(1.0, tk.END)
-
-            params = (param1, param2, param3, param4, param5, param6, param7,param8,param9)  # 将三个参数打包成元组
+            params = (param1, param2, param3, param4, param5, param6, param7,param8,param9,param10,param11,param12,param13,param14)  # 将三个参数打包成元组
             if params:
                 with open(thresholdpickle, "wb") as f:
                     pickle.dump(params, f)
@@ -1933,6 +1958,11 @@ if __name__ == "__main__":
                 weight_threshold_NUM = int(param7)
                 pattern_compare_threshold_NUM = int(param8)
                 image_threading_NUM = int(param9)
+                opcua_address_NUM = str(param10).strip()
+                subscribe_node_NUM = str(param11).strip()
+                takephoto_NUM = str(param12).strip()
+                xintiao_NUM = str(param13).strip()
+                finalresult_NUM = str(param14).strip()
                 # different_threshold_NUM = int(param10)
                 tkinter.messagebox.showinfo('show info', '提交成功！')
             else:
@@ -2019,6 +2049,33 @@ if __name__ == "__main__":
         image_threading_text = tk.Text(frame2, width=10, height=1)
         image_threading_text.grid(row=12, column=5, padx=10, pady=10, sticky="w")
 
+
+
+        opcua_address = tk.Label(frame2, text='OPCUA地址', width=10, height=1)
+        opcua_address.grid(row=10, column=6, padx=10, pady=10, sticky="we")
+        opcua_address_text = tk.Text(frame2, width=25, height=1)
+        opcua_address_text.grid(row=10, column=7, padx=10, pady=10, sticky="w")
+
+        subscribe_node = tk.Label(frame2, text='订阅节点', width=10, height=1)
+        subscribe_node.grid(row=11, column=6, padx=10, pady=10, sticky="we")
+        subscribe_node_text = tk.Text(frame2, width=25, height=1)
+        subscribe_node_text.grid(row=11, column=7, padx=10, pady=10, sticky="w")
+
+        xintiao = tk.Label(frame2, text='心跳节点', width=10, height=1)
+        xintiao.grid(row=11, column=8, padx=10, pady=10, sticky="we")
+        xintiao_text = tk.Text(frame2, width=25, height=1)
+        xintiao_text.grid(row=11, column=9, padx=10, pady=10, sticky="w")
+
+        takephoto = tk.Label(frame2, text='拍照节点', width=10, height=1)
+        takephoto.grid(row=12, column=6, padx=10, pady=10, sticky="we")
+        takephoto_text = tk.Text(frame2, width=25, height=1)
+        takephoto_text.grid(row=12, column=7, padx=10, pady=10, sticky="w")
+
+        finalresult = tk.Label(frame2, text='结果节点', width=10, height=1)
+        finalresult.grid(row=12, column=8, padx=10, pady=10, sticky="we")
+        finalresult_text = tk.Text(frame2, width=25, height=1)
+        finalresult_text.grid(row=12, column=9, padx=10, pady=10, sticky="w")
+
         # different_threshold = tk.Label(frame2, text='最小缺漏像素数量', width=10, height=1)
         # different_threshold.grid(row=13, column=4, padx=10, pady=10, sticky="we")
         # different_threshold_text = tk.Text(frame2, width=10, height=1)
@@ -2031,10 +2088,11 @@ if __name__ == "__main__":
             read_all_img()
         except:
             pass
+
         try:
             with open(thresholdpickle, "rb") as f:
                 loaded_params = pickle.load(f)
-                param1_loaded, param2_loaded, param3_loaded, param4_loaded, param5_loaded, param6_loaded, param7_loaded,param8_loaded,param9_loaded = loaded_params
+                param1_loaded, param2_loaded, param3_loaded, param4_loaded, param5_loaded, param6_loaded, param7_loaded,param8_loaded,param9_loaded,param10_loaded,param11_loaded ,param12_loaded,param13_loaded,param14_loaded = loaded_params
                 process_binary_threshold_text.delete("1.0", "end")  # 清空Text组件
                 process_binary_threshold_text.insert("1.0", param1_loaded)
                 process_kernel_x_threshold_text.delete("1.0", "end")
@@ -2053,6 +2111,16 @@ if __name__ == "__main__":
                 pattern_compar_threshold_text.insert("1.0", param8_loaded)
                 image_threading_text.delete("1.0", "end")
                 image_threading_text.insert("1.0", param9_loaded)
+                opcua_address_text.delete("1.0", "end")
+                opcua_address_text.insert("1.0", param10_loaded)
+                subscribe_node_text.delete("1.0", "end")
+                subscribe_node_text.insert("1.0", param11_loaded)
+                takephoto_text.delete("1.0", "end")
+                takephoto_text.insert("1.0", param12_loaded)
+                xintiao_text.delete("1.0", "end")
+                xintiao_text.insert("1.0", param13_loaded)
+                finalresult_text.delete("1.0", "end")
+                finalresult_text.insert("1.0", param14_loaded)
                 # different_threshold_text.delete("1.0", "end")
                 # different_threshold_text.insert("1.0", param10_loaded)
         except FileNotFoundError:
@@ -2084,6 +2152,16 @@ if __name__ == "__main__":
             pattern_compar_threshold_text.insert("1.0", pattern_compare_threshold_NUM)
             image_threading_text.delete("1.0", "end")
             image_threading_text.insert("1.0", image_threading_NUM)
+            opcua_address_text.delete("1.0", "end")
+            opcua_address_text.insert("1.0", opcua_address_NUM)
+            subscribe_node_text.delete("1.0", "end")
+            subscribe_node_text.insert("1.0", subscribe_node_NUM)
+            takephoto_text.delete("1.0", "end")
+            takephoto_text.insert("1.0", takephoto_NUM)
+            xintiao_text.delete("1.0", "end")
+            xintiao_text.insert("1.0", xintiao_NUM)
+            finalresult_text.delete("1.0", "end")
+            finalresult_text.insert("1.0", finalresult_NUM)
             # different_threshold_text.delete("1.0", "end")
             # different_threshold_text.insert("1.0", different_threshold_NUM)
 
@@ -2107,18 +2185,6 @@ if __name__ == "__main__":
         btn_diff_this = tk.Button(frame2, text='查看不同图片', width=12, height=1, command=diff_this_picture)  #
         btn_diff_this.grid(row=6, column=5, padx=10, pady=10, sticky="w")
 
-        # @logger.catch()
-        # def changeImageMethods(event):
-        #     global IMAGEMatchValue
-        #     IMAGEMatchValue = xVariableMatch.get()
-        #     if IMAGEMatchValue:
-        #         with open(imagepickle, 'wb') as f:
-        #             pickle.dump(IMAGEMatchValue, f)
-        #         tkinter.messagebox.showinfo('show info', '修改成功！')
-        #     else:
-        #         tk.messagebox.showerror('show error', "请选择方法！")
-        #
-
         @logger.catch()
         def on_closing():
             if messagebox.askokcancel("关闭窗口", "你确定要关闭窗口吗？"):
@@ -2127,18 +2193,13 @@ if __name__ == "__main__":
                     pickle.dump(screenshotNum, f)
                 window.destroy()
 
-
         IMAGEMatch = tk.Button(frame2, text='刷新截图参数', width=12, height=1, command=get_cut_params)
         IMAGEMatch.grid(row=7, column=2, padx=10, pady=10, sticky="wens")
         btn_cut_area = tk.Button(frame2, text='选择比对区域', width=12, height=1,
                                  command=lambda: screen_shot1(imagepath))  #
         btn_cut_area.grid(row=7, column=3, padx=10, pady=10, sticky="wens")
-        # xVariableMatch = tkinter.StringVar(value=IMAGEMatchValue)
-        # ImageMatch_list = ttk.Combobox(frame2, textvariable=xVariableMatch)
-        # methods = ['cv2.TM_CCOEFF_NORMED', 'cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF_NORMED']
-        # ImageMatch_list['value'] = methods
-        # ImageMatch_list.grid(row=7, column=3, padx=10, pady=10, sticky="w")
-        # ImageMatch_list.bind("<<ComboboxSelected>>", changeImageMethods)
+
+
         window.bind("<space>", handle_space)
         window.protocol("WM_DELETE_WINDOW", on_closing)
         window.mainloop()
