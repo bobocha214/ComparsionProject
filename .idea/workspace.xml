@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="版本保存-2023.10.27.9：00">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="版本保存-2023.10.28.15：00&#10;测试没问题，打包有问题">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/BasicDemo.spec" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/Comparsion.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/Comparsion.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/Comparsion.spec" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/Comparsion.spec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/Comparsion.spec" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/comparea.dat" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/comparea.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_0.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_0.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_1.jpg" afterDir="false" />
@@ -23,7 +23,8 @@
       <change beforePath="$PROJECT_DIR$/BasicDemo/image/image_with_boxes.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/image_with_boxes.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/image/sign.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/sign.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/image/test.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/test.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/thresholdpickle.dat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/parameter.dat" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/parameter.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/tktest.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/tktest.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,50 +69,29 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/pycharm/pythonProject/ComparsionProject/BasicDemo/cuttest&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Program Files/pycharm/PyCharmProjects/Comparsion/BasicDemo&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Program Files\pycharm\PyCharmProjects\Comparsion\BasicDemo" />
       <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\cuttest" />
       <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\image" />
       <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\cuts" />
       <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\image\NEW" />
-      <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\image\TEST" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Program Files\pycharm\PyCharmProjects\Comparsion\BasicDemo\no" />
       <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\cuts" />
       <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\cut1" />
       <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\opcua" />
       <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\opcuaclient" />
-      <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\no" />
     </key>
   </component>
   <component name="RunManager" selected="Python.Comparsion">
-    <configuration name="CamOperation_class" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyCharmProjects" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/CamOperation_class.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="Comparsion" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyCharmProjects" />
+      <module name="Comparsion" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -131,19 +111,19 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="ano" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ComparsionProject" />
+    <configuration name="Comparsion1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Comparsion" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo/cuttest" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/cuttest/ano.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/Comparsion1.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -152,40 +132,19 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="diff" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ComparsionProject" />
+    <configuration name="tktest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Comparsion" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo/cuttest" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/cuttest/diff.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="opcuatest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyCharmProjects" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo/opcuademo" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/opcuademo/opcuatest.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/tktest.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -197,10 +156,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.Comparsion" />
-        <item itemvalue="Python.CamOperation_class" />
-        <item itemvalue="Python.opcuatest" />
-        <item itemvalue="Python.ano" />
-        <item itemvalue="Python.diff" />
+        <item itemvalue="Python.tktest" />
+        <item itemvalue="Python.Comparsion1" />
       </list>
     </recent_temporary>
   </component>
@@ -408,7 +365,15 @@
       <option name="project" value="LOCAL" />
       <updated>1698368703541</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="版本保存-2023.10.28.15：00&#10;测试没问题，打包有问题">
+      <option name="closed" value="true" />
+      <created>1698477417234</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1698477417234</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -470,6 +435,7 @@
     <MESSAGE value="第一个版本，条件苛刻" />
     <MESSAGE value="第一个版本，基本ok，就是时间较长，需要优化" />
     <MESSAGE value="版本保存-2023.10.27.9：00" />
-    <option name="LAST_COMMIT_MESSAGE" value="版本保存-2023.10.27.9：00" />
+    <MESSAGE value="版本保存-2023.10.28.15：00&#10;测试没问题，打包有问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="版本保存-2023.10.28.15：00&#10;测试没问题，打包有问题" />
   </component>
 </project>

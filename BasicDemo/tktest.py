@@ -5,7 +5,6 @@ import tkinter.messagebox
 from concurrent.futures import ThreadPoolExecutor
 from functools import partial
 from math import fabs, sin, radians, cos
-from multiprocessing import Pool, Manager
 from tkinter import messagebox
 from CamOperation_class import *
 from PIL import Image, ImageTk
@@ -1174,7 +1173,6 @@ if __name__ == "__main__":
                 serial_data = getSerialdata()
                 if serial_data:
                     start = time.time()
-                    # print('getSerialdata执行了一次')
                     flag = False
                     global last_result
                     result = ''
