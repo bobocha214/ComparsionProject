@@ -1076,7 +1076,7 @@ if __name__ == "__main__":
             if ser1:
                 try:
                     if ser1.is_open:
-                        hexStr = "03 53 80 ff 2a"
+                        hexStr = "16 54 0D"
                         # hexStr = "16 54 0D"
                         bytes_hex = bytes.fromhex(hexStr)
                         ser1.write(bytes_hex)
@@ -1562,7 +1562,7 @@ if __name__ == "__main__":
         text_frame1_tips = tk.Label(frame1,
                                     text='如果点击开始后扫码枪为一天内的第一次开机，请等待扫码枪开机声音结束后再次点击开始比对按钮',
                                     font=(12), width=90, height=1, anchor='w')
-        text_frame1_tips.grid(row=13, column=2, columnspan=2, sticky="w", padx=10, pady=10, )
+        text_frame1_tips.grid(row=13, column=2, columnspan=2, sticky="w", padx=10, pady=10)
 
         checkbutton = tk.Checkbutton(frame1, text="保存比对数据信息", variable=checked_val, state=DISABLED)
         checkbutton.grid(row=2, column=0, padx=10, pady=10, sticky="we")

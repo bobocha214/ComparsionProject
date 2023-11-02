@@ -11,7 +11,7 @@ from PIL import Image, ImageTk
 from multiprocessing import Pool,Manager
 
 
-def process_and_display_difference_images(partial_image, matched_region, threshold=100):
+def process_and_display_difference_images(partial_image, matched_region, threshold=155):
     global image_rectangle
     try:
         # 确保partial_image与matched_region具有相同的尺寸
@@ -75,7 +75,7 @@ def process_and_display_difference_images(partial_image, matched_region, thresho
                     image_rectangle = True
                     x, y, w, h = cv2.boundingRect(contour)
                     # 绘制方框
-                    cv2.rectangle(result, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                    cv2.rectangle(result, (x, y), (x + w, y + h), (0, 0, 255), 2)
         except:
             result=result
         # cv2.imshow('result_bgr', result_bgr)
@@ -282,7 +282,7 @@ if __name__ == '__main__':
     template_image = cv2.imread('demo17.jpg')
     images_to_match = []
     results_to_match = []
-    for i in range(0, 8):
+    for i in range(1, 8):
         image = cv2.imread(f'cut_{i}.jpg')
         images_to_match.append(image)
     lock = threading.Lock()
@@ -299,7 +299,7 @@ if __name__ == '__main__':
     print('result_list time: %s Seconds' % (end1 - start))
     pool = Pool()
     for result in pool.map(partial_func, images_to_match):
-        result_list.append(result)  # 将处理结果添加到共享列表中
+        result_list.append(result)  #s 将处理结果添加到共享列表中
 
     end = time.time()
     print('result_list time: %s Seconds' % (end - start))
@@ -320,7 +320,8 @@ if __name__ == '__main__':
     for image_info in result_list:
         image4, min_y, max_y, min_x, max_x = image_info
         template_image[min_y:max_y, min_x:max_x] = image4
-    # cv2.imshow('template_image',template_image)
-    # cv2.waitKey(0)
+    cv2.imshow('template_image',template_image)
+    cv2.imwrite('result_template_image.jpg',template_image)
+    cv2.waitKey(0)
     end = time.time()
     print('thread_pool time: %s Seconds' % (end - start))
