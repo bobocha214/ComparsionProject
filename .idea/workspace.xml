@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="版本保存-2023.11.1&#10;python运行基本没问题，打包有问题">
+    <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="版本保存-2023.11.1&#10;基础版本国际化完成Comparsion2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/Comparsion.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/Comparsion.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/comport.dat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/controller/gun.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/controller/gun.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/ano.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/ano.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/image/111.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/111.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/image/test.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/test.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/parameter.dat" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/parameter.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/comparea.dat" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/comparea.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/image/demo.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/demo.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,27 +137,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="testi18n (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Comparsion" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/testi18n.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="testi18n" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Comparsion" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -188,7 +163,6 @@
         <item itemvalue="Python.Comparsion2" />
         <item itemvalue="Python.Comparsion" />
         <item itemvalue="Python.Comparsion1" />
-        <item itemvalue="Python.testi18n (1)" />
         <item itemvalue="Python.testi18n" />
       </list>
     </recent_temporary>
@@ -413,7 +387,15 @@
       <option name="project" value="LOCAL" />
       <updated>1698798274624</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="版本保存-2023.11.1&#10;基础版本国际化完成Comparsion2">
+      <option name="closed" value="true" />
+      <created>1698920368382</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1698920368382</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -477,6 +459,7 @@
     <MESSAGE value="版本保存-2023.10.27.9：00" />
     <MESSAGE value="版本保存-2023.10.28.15：00&#10;测试没问题，打包有问题" />
     <MESSAGE value="版本保存-2023.11.1&#10;python运行基本没问题，打包有问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="版本保存-2023.11.1&#10;python运行基本没问题，打包有问题" />
+    <MESSAGE value="版本保存-2023.11.1&#10;基础版本国际化完成Comparsion2" />
+    <option name="LAST_COMMIT_MESSAGE" value="版本保存-2023.11.1&#10;基础版本国际化完成Comparsion2" />
   </component>
 </project>

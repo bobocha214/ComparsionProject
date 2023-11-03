@@ -34,7 +34,7 @@ class SubHandler(object):
     thread if you need to do such a thing
     """
     def datachange_notification(self, node, val, data):
-        print(val)
+        # print(val)
         if(val==1):
             sendSerialOrder()
 
@@ -776,7 +776,6 @@ if __name__ == "__main__":
             # partial_image = cv2.imread(partial_image)
             # image = cv2.imread(input_image_path)
             # 转换图像为灰度
-            # start = time.time()
             gray_full_image = cv2.cvtColor(full_image, cv2.COLOR_BGR2GRAY)
             gray_partial_image = cv2.cvtColor(partial_image, cv2.COLOR_BGR2GRAY)
 
@@ -784,8 +783,6 @@ if __name__ == "__main__":
             sift = cv2.SIFT_create()
             kp1, des1 = sift.detectAndCompute(gray_partial_image, None)
             kp2, des2 = sift.detectAndCompute(gray_full_image, None)
-            # end1 = time.time()
-            # logger.info('matches time: %s Seconds' % (end1 - start))
             # 使用FLANN匹配器进行特征匹配
             FLANN_INDEX_KDTREE = 0
             index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
@@ -800,8 +797,6 @@ if __name__ == "__main__":
             # 选择良好的匹配项
 
             good_matches = [m for m, n in matches if m.distance < 0.85 * n.distance]
-            # end = time.time()
-            # logger.info('good_matches time: %s Seconds' % (end - start))
             # 绘制匹配结果
             # matched_image = cv2.drawMatches(full_image, kp1, partial_image, kp2, good_matches, None,
             #                                 flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
@@ -823,8 +818,6 @@ if __name__ == "__main__":
             max_x = np.max(transformed_corners[:, :, 0])
             min_y = np.min(transformed_corners[:, :, 1])
             max_y = np.max(transformed_corners[:, :, 1])
-            # end = time.time()
-            # logger.info('full_image time: %s Seconds' % (end - start))
             # 裁剪匹配区域
             matched_region = full_image[int(min_y):int(max_y), int(min_x):int(max_x)]
             return matched_region, int(min_y), int(max_y), int(min_x), int(max_x)
@@ -954,11 +947,9 @@ if __name__ == "__main__":
 
         @logger.catch()
         def read_files():
-            logger.info('read_files')
             # global image_list
             # imagedemo=cv2.imread(parentdirdemo)
             full_image = cv2.imread(parentdirdemo)
-            # start = time.time()
             # 创建线程
             threads = []
             results_to_match = []
@@ -995,10 +986,7 @@ if __name__ == "__main__":
             for image_info in results_to_match:
                 image4, min_y, max_y, min_x, max_x = image_info
                 full_image[min_y:max_y, min_x:max_x] = image4
-            # logger.info('results_to_match')
-            # end1 = time.time()
-            # logger.info('thread time: %s Seconds' % (end1 - start))
-            # cv2.imwrite('full_image111.jpg', full_image)
+            # cv2.imwrite('full_image.jpg', full_image)
             return full_image
         # ch:关闭设备 | Close device
         @logger.catch
@@ -1059,7 +1047,6 @@ if __name__ == "__main__":
                     if (serialdata != ''):
                         serialdata = data.decode().strip()
                         # print(serialdata,'serialdata')
-                        logger.info('serialdata',serialdata)
                         return serialdata
                     else:
                         time.sleep(0.1)
@@ -1093,7 +1080,6 @@ if __name__ == "__main__":
         # 获得图片OCR识别结果
         @logger.catch
         def get_sn_code():
-            logger.info('调用get_sn_code')
             keywords = ['SN', 'PN']
             search_prefix = 'N:'
             sn_code = ''
@@ -1218,7 +1204,6 @@ if __name__ == "__main__":
 
         @logger.catch
         def wait_for_response1():
-            logger.info('wait_for_response1')
             global image_rectangle,client
             write_value_OK = ua.DataValue(ua.Variant(1, ua.VariantType.Int16))
             write_value_NG = ua.DataValue(ua.Variant(2, ua.VariantType.Int16))
@@ -1226,35 +1211,24 @@ if __name__ == "__main__":
             while True:
                 serial_data = getSerialdata()
                 if serial_data:
-                    print(serial_data, 'serial_data')
-                    # start = time.time()
                     flag = False
                     global last_result
                     result = ''
-                    jpg_save1()
-                    time.sleep(0.3)
+                    start_jpg_save1()
+                    time.sleep(0.2)
                     img_flag = get_pardemo(parentdir, left_left_NUM, left_upper_NUM, right_left_NUM,
                                                right_lower_NUM,
                                                parentdirdemo)
                     img_opcua_flag = client.get_node(takephoto_NUM)
                     temp_opc=img_opcua_flag.get_value()
-                    print(temp_opc)
-                    logger.info('temp_opc')
                     if(temp_opc==0):
                         img_opcua_flag.set_value(write_value_OK)
-                        logger.info('temp_opc拍照')
                     if img_flag:
                         SnCode, position = get_sn_code()
                         rect = canvas.create_rectangle(0, 0, canvas.winfo_width(), canvas.winfo_height(), fill='white',
                                                        outline='white')
                         canvas.update()
-                        # logger.info('updateimg1')
-                        # start_update_img_task(position)
-                        updateimg(position)
-                        # logger.info('updateimg2')
-                        # end3 = time.time()
-                        # logger.info('start_update_img_task time: %s Seconds' % (end3 - start))
-                        # asyncio.run(updateimg(position))
+                        start_update_img_task(position)
                         result_node = client.get_node(finalresult_NUM)
                         if SnCode == serial_data:
                             if serial_data != last_result:
@@ -1301,9 +1275,6 @@ if __name__ == "__main__":
                     text_frame1_rate5.config(text=ng_count)
                     text_frame1_rate6.config(text=all_count)
                     image_rectangle=False
-                    logger.info('wait_for_response1结尾')
-                    # end = time.time()
-                    # logger.info('Running time: %s Seconds' % (end - start))
                 else:
                     pass
 
@@ -1374,12 +1345,12 @@ if __name__ == "__main__":
             right_lower_text.insert('1.0', right_lower_NUM)
 
 
-        # @logger.catch
-        # def start_jpg_save1():
-        #     t = threading.Thread(target=jpg_save1())
-        #     t.daemon = True
-        #     t.start()
-        #     t.join()
+        @logger.catch
+        def start_jpg_save1():
+            t = threading.Thread(target=jpg_save1())
+            t.daemon = True
+            t.start()
+            t.join()
         # @logger.catch
         # def start_reset_task():
         #     t=threading.Thread(target=reset_result)
@@ -1388,7 +1359,6 @@ if __name__ == "__main__":
 
         @logger.catch
         def updateimg(position):
-            # logger.info('updateimg')
             # start=time.time()
             imagetest = cv2.imread(parentdir)
             full_image=read_files()
