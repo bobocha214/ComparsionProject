@@ -112,6 +112,7 @@ def process_and_insert_cropped_region(image1, image2):
                                        borderMode=cv2.BORDER_CONSTANT, borderValue=(255, 255, 255))
 
         return rotated_image
+
     rect1, merged_contour1 = extract_rotated_rect(image1)
     rect2, merged_contour2 = extract_rotated_rect(image2)
 
@@ -126,20 +127,11 @@ def process_and_insert_cropped_region(image1, image2):
 
     result1 = cv2.bitwise_and(image1, mask1)
     result2 = cv2.bitwise_and(image2, mask2)
-    # cv2.imshow('result1', result1)
-    # cv2.imshow('result2', result2)
-    # cv2.waitKey(0)
-    # x1, y1, w1, h1 = cv2.boundingRect(np.int0(box1))
-    # x2, y2, w2, h2 = cv2.boundingRect(np.int0(box2))
-    # cv2.rectangle(result1, (x1, y1), (x1 + w1, y1 + h1), (0, 0, 255), 2)
-    # cv2.rectangle(result2, (x2, y2), (x2 + w2, y2 + h2), (0, 0, 255), 2)
-    # cv2.imshow('result11', result1)
-    # cv2.imshow('result21', result2)
-    # cv2.waitKey(0)
-    # image3 = result1[y1:y1 + h1, x1:x1 + w1]
-    # image4 = result2[y2:y2 + h2, x2:x2 + w2]
-    # cv2.imshow('image3', image3)
-    # cv2.imshow('image4', image4)
+
+
+
+
+
     angle1 = rect1[2]
     angle2 = rect2[2]
     # print(angle1, angle2)
@@ -182,9 +174,9 @@ def process_and_insert_cropped_region(image1, image2):
     # cv2.imshow('image6', image6)
     roi1 = image3[y3:y3 + h3, x3:x3 + w3]
     roi2 = image2[y4:y4 + h4, x4:x4 + w4]
-    # cv2.imshow('roi1', roi1)
-    # cv2.imshow('roi2', roi2)
-    # cv2.waitKey(0)
+    cv2.imshow('roi1', roi1)
+    cv2.imshow('roi2', roi2)
+    cv2.waitKey(0)
     roi1 = cv2.resize(roi1, (roi2.shape[1], roi2.shape[0]))
 
     # cv2.imwrite('cuttest/roi1', roi1)
@@ -269,6 +261,8 @@ def process_image(template_image,images_to_match):
     # image, template_image, index, template_images_list = args
     matched_region, min_y, max_y, min_x, max_x = match_and_extract_region(images_to_match, template_image)
     # print(matched_region.shape[1],matched_region.shape[0], min_y, max_y, min_x, max_x )
+    cv2.imshow('matched_region',matched_region)
+    cv2.waitKey(0)
     roi1, roi2, image4, x4, y4, w4, h4 = process_and_insert_cropped_region(images_to_match, matched_region)
     result = process_and_display_difference_images(roi1, roi2)
     image4[y4:y4 + h4, x4:x4 + w4] = result
@@ -279,10 +273,10 @@ def process_image(template_image,images_to_match):
 
 if __name__ == '__main__':
 
-    template_image = cv2.imread('demo17.jpg')
+    template_image = cv2.imread('demo21.jpg')
     images_to_match = []
     results_to_match = []
-    for i in range(1, 8):
+    for i in range(0, 8):
         image = cv2.imread(f'cut_{i}.jpg')
         images_to_match.append(image)
     lock = threading.Lock()
@@ -295,14 +289,10 @@ if __name__ == '__main__':
     partial_func = functools.partial(process_image, template_image)
     num_cores = multiprocessing.cpu_count()
     print("可用的CPU核心数：", num_cores)
-    end1 = time.time()
-    print('result_list time: %s Seconds' % (end1 - start))
     pool = Pool()
     for result in pool.map(partial_func, images_to_match):
         result_list.append(result)  #s 将处理结果添加到共享列表中
 
-    end = time.time()
-    print('result_list time: %s Seconds' % (end - start))
     pool.close()
     pool.join()
     # for i in range(num_threads):
