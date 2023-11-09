@@ -4,32 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="版本保存-2023.11.3&#10;Comparsion多线程完毕，整体ok，准备实现多进程">
+    <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="版本保存-2023.11.3&#10;Comparsion多进程实现，IDE OK，不可打包，有问题">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/Comparsion.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/Comparsion.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/comparea.dat" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/comparea.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_0.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_0.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_3.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_6.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_7.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_7.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_8.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_8.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/ano.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/ano.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/cut_0.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_0.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/cut_1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/cut_2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/cut_3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_3.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/cut_4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/cut_6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_6.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/cut_7.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_7.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/cut_8.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_8.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/image/demo.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/demo.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/image/image_with_boxes.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/image_with_boxes.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/image/sign.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/sign.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/image/test.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/test.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/parameter.dat" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/parameter.dat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -446,7 +423,15 @@
       <option name="project" value="LOCAL" />
       <updated>1698994757880</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="版本保存-2023.11.3&#10;Comparsion多进程实现，IDE OK，不可打包，有问题">
+      <option name="closed" value="true" />
+      <created>1699497460012</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1699497460012</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -512,6 +497,7 @@
     <MESSAGE value="版本保存-2023.11.1&#10;python运行基本没问题，打包有问题" />
     <MESSAGE value="版本保存-2023.11.1&#10;基础版本国际化完成Comparsion2" />
     <MESSAGE value="版本保存-2023.11.3&#10;Comparsion多线程完毕，整体ok，准备实现多进程" />
-    <option name="LAST_COMMIT_MESSAGE" value="版本保存-2023.11.3&#10;Comparsion多线程完毕，整体ok，准备实现多进程" />
+    <MESSAGE value="版本保存-2023.11.3&#10;Comparsion多进程实现，IDE OK，不可打包，有问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="版本保存-2023.11.3&#10;Comparsion多进程实现，IDE OK，不可打包，有问题" />
   </component>
 </project>
