@@ -6,13 +6,13 @@ import numpy as np
 from PIL import Image, ImageTk
 from multiprocessing import Pool
 
-def process_and_display_difference_images(partial_image, matched_region, threshold=80):
+def process_and_display_difference_images(partial_image, matched_region, threshold=130):
 
     partial_image = cv2.resize(partial_image, (matched_region.shape[1], matched_region.shape[0]))
     cv2.imshow("matched_region11", matched_region)
     cv2.imshow("partial_image11", partial_image)
     gray_matched_region = cv2.cvtColor(matched_region, cv2.COLOR_BGR2GRAY)
-    _, binary_matched_region = cv2.threshold(gray_matched_region, 150, 255, cv2.THRESH_BINARY_INV)
+    _, binary_matched_region = cv2.threshold(gray_matched_region, 200, 255, cv2.THRESH_BINARY_INV)
     cv2.imshow("binary_matched_region", binary_matched_region)
     # 计算两图像的差异
     difference = cv2.absdiff(matched_region, partial_image)
@@ -84,7 +84,7 @@ def process_and_insert_cropped_region(image1, image2):
         blurred_image = cv2.GaussianBlur(gray, (5, 5), 0)
         cv2.imshow("blurred_image", blurred_image)
         cv2.waitKey(0)
-        _, binary_image = cv2.threshold(blurred_image, 150, 255, cv2.THRESH_BINARY_INV)
+        _, binary_image = cv2.threshold(blurred_image, 200, 255, cv2.THRESH_BINARY_INV)
         cv2.imshow("binary_image", binary_image)
         cv2.waitKey(0)
         # kernel = np.ones((3, 3), np.uint8)
@@ -189,8 +189,8 @@ def process_and_insert_cropped_region(image1, image2):
 
     gray3 = cv2.cvtColor(image3, cv2.COLOR_BGR2GRAY)
     gray4 = cv2.cvtColor(image4, cv2.COLOR_BGR2GRAY)
-    _, binary_image3 = cv2.threshold(gray3, 150, 255, cv2.THRESH_BINARY_INV)
-    _, binary_image4 = cv2.threshold(gray4, 150, 255, cv2.THRESH_BINARY_INV)
+    _, binary_image3 = cv2.threshold(gray3, 200, 255, cv2.THRESH_BINARY_INV)
+    _, binary_image4 = cv2.threshold(gray4, 200, 255, cv2.THRESH_BINARY_INV)
     cv2.imshow('binary_image3', binary_image3)
     cv2.imshow('binary_image4', binary_image4)
     cv2.waitKey(0)
@@ -230,30 +230,30 @@ def process_and_insert_cropped_region(image1, image2):
 
 def match_and_extract_region(partial_image, full_image):
     # 读取完整图片和局部图片
-    full_image = cv2.imread('demo17.jpg')
-    partial_image = cv2.imread('cut_5.jpg')
+    full_image = cv2.imread('demo31.jpg')
+    partial_image = cv2.imread('cut_8.jpg')
     gray_full_image = cv2.cvtColor(full_image, cv2.COLOR_BGR2GRAY)
     gray_partial_image = cv2.cvtColor(partial_image, cv2.COLOR_BGR2GRAY)
     # 使用SIFT特征检测和匹配
     sift = cv2.SIFT_create()
     kp1, des1 = sift.detectAndCompute(gray_partial_image, None)
     kp2, des2 = sift.detectAndCompute(gray_full_image, None)
-    # # 使用FLANN匹配器进行特征匹配
-    # FLANN_INDEX_KDTREE = 0
-    # index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
-    # search_params = dict(checks=50)
-    # flann = cv2.FlannBasedMatcher(index_params, search_params)
-    # matches = flann.knnMatch(des1, des2, k=2)
+    # 使用FLANN匹配器进行特征匹配
+    FLANN_INDEX_KDTREE = 0
+    index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
+    search_params = dict(checks=50)
+    flann = cv2.FlannBasedMatcher(index_params, search_params)
+    matches = flann.knnMatch(des1, des2, k=2)
 
     # 创建BFMatcher（暴力匹配器）对象
-    bf = cv2.BFMatcher()
-
-    # 使用KNN匹配
-    matches = bf.knnMatch(des1, des2, k=2)
+    # bf = cv2.BFMatcher()
+    #
+    # # 使用KNN匹配
+    # matches = bf.knnMatch(des1, des2, k=2)
 
     good_matches = []
     for m, n in matches:
-        if m.distance < 0.85 * n.distance:
+        if m.distance < 0.7 * n.distance:
             good_matches.append(m)
     matched_image = cv2.drawMatches(full_image, kp1, partial_image, kp2, good_matches, None,
                                     flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)

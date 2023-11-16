@@ -194,6 +194,10 @@ start = time.time()
 def match_and_extract_region(partial_image, full_image):
     # partial_image = cv2.imread(partial_image)
     # image = cv2.imread(input_image_path)
+
+    cv2.imshow('partial_image', partial_image)
+    cv2.imshow("full_image", full_image)
+    cv2.waitKey(0)
     # 转换图像为灰度
     gray_full_image = cv2.cvtColor(full_image, cv2.COLOR_BGR2GRAY)
     gray_partial_image = cv2.cvtColor(partial_image, cv2.COLOR_BGR2GRAY)
@@ -255,8 +259,12 @@ def match_and_extract_region(partial_image, full_image):
     # cv2.waitKey(0)
     return matched_region,int(min_y),int(max_y),int(min_x),int(max_x)
 
-def process_image(template_image,images_to_match):
+def process_image(image, template_image, results_to_match):
     global start
+    cv2.imshow('image', image)
+    # cv2.imshow('images_to_match', images_to_match)
+    # cv2.imshow('template_image', template_image)
+    cv2.waitKey(0)
     # template_image=cv2.imread('demo17.jpg')
     # image, template_image, index, template_images_list = args
     matched_region, min_y, max_y, min_x, max_x = match_and_extract_region(images_to_match, template_image)
@@ -267,47 +275,45 @@ def process_image(template_image,images_to_match):
     result = process_and_display_difference_images(roi1, roi2)
     image4[y4:y4 + h4, x4:x4 + w4] = result
     image_info = (image4, min_y, max_y, min_x, max_x)
-    end = time.time()
-    print('process_image time: %s Seconds' % (end - start))
-    return image_info
+    results_to_match.append(image_info)
+    # end = time.time()
+    # print('process_image time: %s Seconds' % (end - start))
+    # return image_info
 
 if __name__ == '__main__':
 
-    template_image = cv2.imread('demo21.jpg')
+    template_image = cv2.imread('demo30.jpg')
     images_to_match = []
     results_to_match = []
     for i in range(0, 8):
-        image = cv2.imread(f'cut_{i}.jpg')
-        images_to_match.append(image)
-    lock = threading.Lock()
-
+       image = cv2.imread(f'cut_{i}.jpg')
+       images_to_match.append(image)
     # 创建线程
     threads = []
     num_threads = len(images_to_match)
-    manager = Manager()
-    result_list = manager.list()  # 创建共享列表
-    partial_func = functools.partial(process_image, template_image)
-    num_cores = multiprocessing.cpu_count()
-    print("可用的CPU核心数：", num_cores)
-    pool = Pool()
-    for result in pool.map(partial_func, images_to_match):
-        result_list.append(result)  #s 将处理结果添加到共享列表中
-
-    pool.close()
-    pool.join()
-    # for i in range(num_threads):
-    #     thread = threading.Thread(target=process_image,
-    #                               args=(images_to_match[i:i + 1], template_image, results_to_match, lock))
-    #     threads.append(thread)
-    #     thread.start()
+    # manager = Manager()
+    # result_list = manager.list()  # 创建共享列表
+    # partial_func = functools.partial(process_image, template_image)
+    # num_cores = multiprocessing.cpu_count()
+    # print("可用的CPU核心数：", num_cores)
+    # pool = Pool()
+    # for result in pool.map(partial_func, images_to_match):
+    #     result_list.append(result)  #s 将处理结果添加到共享列表中
     #
-    # # 等待所有线程完成
-    # for thread in threads:
-    #     thread.join()
+    # pool.close()
+    # pool.join()
+    for image in images_to_match:
+        thread = threading.Thread(target=process_image, args=(image, template_image, results_to_match))
+        threads.append(thread)
+        thread.start()
+
+    # 等待所有线程完成
+    for thread in threads:
+        thread.join()
 
     print(len(results_to_match))
 
-    for image_info in result_list:
+    for image_info in results_to_match:
         image4, min_y, max_y, min_x, max_x = image_info
         template_image[min_y:max_y, min_x:max_x] = image4
     cv2.imshow('template_image',template_image)

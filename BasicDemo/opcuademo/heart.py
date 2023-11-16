@@ -2,10 +2,11 @@ import time
 
 from opcua import Client, ua
 
-client = Client("opc.tcp://192.168.38.10:4840")
+client = Client("opc.tcp://127.0.0.1:4840")
 client.connect()
 client.load_type_definitions()  # load definition of server specific structures/extension objects
-
+takephoto_NUM='ns=2;s=factory_1/line1/D311'
+finalresult_NUM='ns=2;s=factory_1/line1/D312'
 timeout = 10  # 设置超时时间为10秒
 last_heartbeat_time = time.time()  # 记录上次接收到心跳信号的时间
 heartbeat = client.get_node("ns=4;s=TD38_Rec.D00")
@@ -46,5 +47,16 @@ def send_heartbeat():
         last_heartbeat_time = current_time  # 更新上次接收到心跳信号的时间
         time.sleep(2)  # 等待1秒钟，避免频繁发送心跳
 
+def send_order_to_zero():
+    global client
+    write_value_zero = ua.DataValue(ua.Variant(0, ua.VariantType.Int16))
+    take_photo_NUM_flag = client.get_node(takephoto_NUM)
+    final_result_NUM_flag = client.get_node(finalresult_NUM)
+    temp_take_photo_NUM = take_photo_NUM_flag.get_value()
+    temp_final_result_NUM = final_result_NUM_flag.get_value()
+    if temp_take_photo_NUM != 0:
+        take_photo_NUM_flag.set_value(write_value_zero)
+    if temp_final_result_NUM != 0:
+        final_result_NUM_flag.set_value(write_value_zero)
 
-send_heartbeat()
+send_order_to_zero()

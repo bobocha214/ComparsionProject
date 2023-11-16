@@ -5,6 +5,9 @@ import tkinter.messagebox
 from functools import partial
 from math import fabs, sin, radians, cos
 from tkinter import messagebox
+
+from opcua.ua import UaError
+
 from CamOperation_class import *
 from PIL import Image, ImageTk
 import serial
@@ -35,13 +38,14 @@ class SubHandler(object):
     thread if you need to do such a thing
     """
     def datachange_notification(self, node, val, data):
-        # print(val)
         if(val==1):
+            # print(val)
             sendSerialOrder()
 
-    #
-    # def event_notification(self, event):
-    #     print("Python: New event", event)
+
+    def event_notification(self, event):
+        print("Python: New event", event)
+
 def custom_filter(record):
     # 如果消息与上一条消息相同，返回False，表示丢弃该消息
     if hasattr(custom_filter, "last_message") and custom_filter.last_message == record["message"]:
@@ -228,6 +232,7 @@ if __name__ == "__main__":
         last_result = None
         threadflag = None
         COMGUNNUM = ""
+        matche_point=0
         COMSIGNALNUM = ""
         previous_COMGUNNUM = ""
         previous_COMSIGNALNUM = ""
@@ -253,6 +258,7 @@ if __name__ == "__main__":
         xintiao_NUM=None
         finalresult_NUM=None
         client=None
+        opc_connect=False
         # different_threshold_NUM=0
         COM_sharedata = {'sedata': None}
         current_file = base_path('')
@@ -272,7 +278,6 @@ if __name__ == "__main__":
         picklename = 'settings.dat'
         picklename1 = 'parameter.dat'
         compickle = 'comport.dat'
-        signaldata = 'signal.dat'
         screenshot = 'screenshot.dat'
         saveImg = 'saveImg.dat'
         thresholdpickle = 'thresholdpickle.dat'
@@ -325,14 +330,6 @@ if __name__ == "__main__":
             # different_threshold_NUM = 200
         # thread_pool = concurrent.futures.ThreadPoolExecutor(max_workers=image_threading_NUM)
         try:
-            with open(signaldata, 'rb') as f:
-                signalbuttonup = pickle.load(f)
-                signalbuttondown = pickle.load(f)
-                # print(checked,'withwith')
-        except:
-            signalbuttonup = ''
-            signalbuttondown = ''
-        try:
             with open(comparea, 'rb') as f:
                 left_left_NUM = int(pickle.load(f))
                 left_upper_NUM = int(pickle.load(f))
@@ -357,9 +354,11 @@ if __name__ == "__main__":
         try:
             with open(compickle, 'rb') as f:
                 COMGUNNUM = pickle.load(f)
+                matche_point = float(pickle.load(f))
                 # COMSIGNALNUM=pickle.load(f)
         except:
             COMGUNNUM = ""
+            matche_point = 0
         try:
             with open(screenshot, 'rb') as f:
                 screenshotNum = int(pickle.load(f))
@@ -381,7 +380,7 @@ if __name__ == "__main__":
             os.makedirs(folder_path1, exist_ok=True)
         global frame1
         try:
-            ser1 = serial.Serial(COMGUNNUM, 9600, timeout=0.5)
+            ser1 = serial.Serial(COMGUNNUM, 9600, timeout=1)
         except serial.SerialException as e:
             tkinter.messagebox.showinfo('show info', '串口打开失败，请选择端口后重试！')
         except Exception as e:
@@ -489,15 +488,19 @@ if __name__ == "__main__":
 
         @logger.catch
         def Opcua_Connect():
-            global client,opcua_address_NUM
+            global client,opcua_address_NUM,opc_connect
             client = Client(opcua_address_NUM)
+            # print("开始链结")
             try:
                 client.connect()
-                client.load_type_definitions()
                 subscribe_nodes()
-            except:
-                tkinter.messagebox.showinfo('show info', '连接不到OPCUA服务器，请检查!')
-                client.disconnect()
+                opc_connect=True
+
+            except Exception as e:
+                opc_connect=False
+                # print("链结失败")
+                pass
+
 
 
 
@@ -647,7 +650,7 @@ if __name__ == "__main__":
                 for contour in contours:
                     area = cv2.contourArea(contour)
                     # print(area, 'area')
-                    if area > 20:
+                    if area > 10:
                         x1, y1, w1, h1 = cv2.boundingRect(current_contour)
                         x2, y2, w2, h2 = cv2.boundingRect(contour)
                         if current_contour is None:
@@ -692,9 +695,9 @@ if __name__ == "__main__":
                 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
                 blurred_image = cv2.GaussianBlur(gray, (5, 5), 0)
                 _, binary_image = cv2.threshold(blurred_image, process_threshold_NUM, 255, cv2.THRESH_BINARY_INV)
-                kernel = np.ones((3, 3), np.uint8)
-                opening = cv2.morphologyEx(binary_image, cv2.MORPH_OPEN, kernel)
-                contours, _ = cv2.findContours(opening, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                # kernel = np.ones((3, 3), np.uint8)
+                # opening = cv2.morphologyEx(binary_image, cv2.MORPH_OPEN, kernel)
+                contours, _ = cv2.findContours(binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                 merged_contour = np.concatenate(contours)
                 rect = cv2.minAreaRect(merged_contour)
                 angle = rect[2]
@@ -798,7 +801,7 @@ if __name__ == "__main__":
             # matches = bf.knnMatch(des1, des2, k=2)
             # 选择良好的匹配项
 
-            good_matches = [m for m, n in matches if m.distance < 0.85 * n.distance]
+            good_matches = [m for m, n in matches if m.distance < float(matche_point) * n.distance]
             # 绘制匹配结果
             # matched_image = cv2.drawMatches(full_image, kp1, partial_image, kp2, good_matches, None,
             #                                 flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
@@ -827,22 +830,25 @@ if __name__ == "__main__":
         def process_all_image(image, template_image, results_to_match):
             # for image in images_to_match:
             # image, template_image, index, template_images_list = args
-            matched_region, min_y, max_y, min_x, max_x = match_and_extract_region(image, template_image)
-            matched_region_array=np.array(matched_region)
-            if matched_region_array.size!=0:
-                try:
-                    roi1, roi2, image4, x4, y4, w4, h4 = process_and_insert_cropped_region(image, matched_region)
-                    result = process_and_display_difference_images(roi1, roi2)
-                    image4[y4:y4 + h4, x4:x4 + w4] = result
-                    # 将image4粘贴到template_image的指定位置
-                    # 将image4和坐标信息封装到一个元组
-                    image_info = (image4, min_y, max_y, min_x, max_x)
-                    results_to_match.append(image_info)
-                except (TypeError, ValueError) as e:
-                    print(f"An error occurred: {e}")
-                    pass
-            else:
-                cv2.imwrite('image/not_match.jpg',image)
+            try:
+                matched_region, min_y, max_y, min_x, max_x = match_and_extract_region(image, template_image)
+                matched_region_array=np.array(matched_region)
+                if matched_region_array.size!=0:
+                    try:
+                        roi1, roi2, image4, x4, y4, w4, h4 = process_and_insert_cropped_region(image, matched_region)
+                        result = process_and_display_difference_images(roi1, roi2)
+                        image4[y4:y4 + h4, x4:x4 + w4] = result
+                        # 将image4粘贴到template_image的指定位置
+                        # 将image4和坐标信息封装到一个元组
+                        image_info = (image4, min_y, max_y, min_x, max_x)
+                        results_to_match.append(image_info)
+                    except (TypeError, ValueError) as e:
+                        # print(f"An error occurred: {e}")
+                        pass
+                else:
+                    cv2.imwrite('image/not_match.jpg',image)
+                    logger.info('有未识别到的图片！')
+            except:
                 logger.info('有未识别到的图片！')
         def contour_sort_key(contour):
             x, y, w, h = cv2.boundingRect(contour)
@@ -974,7 +980,6 @@ if __name__ == "__main__":
             #     result_list.append(result)  # 将处理结果添加到共享列表中
             # pool.close()
             # pool.join()
-            end = time.time()
             # print('thread time: %s Seconds' % (end - start))
             for image in image_list:
                 thread = threading.Thread(target=process_all_image, args=(image,full_image, results_to_match))
@@ -1207,10 +1212,26 @@ if __name__ == "__main__":
         def subscribe_nodes():
             global client
             handler = SubHandler()
-            myvar=client.get_node(subscribe_node_NUM)
+            myvar = client.get_node(subscribe_node_NUM)
             sub = client.create_subscription(500, handler)
             handle = sub.subscribe_data_change(myvar)
             time.sleep(0.1)
+
+        @logger.catch
+        def send_order_to_zero():
+            global client
+            try:
+                write_value_zero = ua.DataValue(ua.Variant(0, ua.VariantType.Int16))
+                take_photo_NUM_flag = client.get_node(takephoto_NUM)
+                final_result_NUM_flag = client.get_node(finalresult_NUM)
+                temp_take_photo_NUM = take_photo_NUM_flag.get_value()
+                temp_final_result_NUM = final_result_NUM_flag.get_value()
+                if temp_take_photo_NUM != 0:
+                    take_photo_NUM_flag.set_value(write_value_zero)
+                if temp_final_result_NUM != 0:
+                    final_result_NUM_flag.set_value(write_value_zero)
+            except:
+                messagebox.showinfo('show info', '清线连接opcua服务器！')
 
         @logger.catch
         def wait_for_response1():
@@ -1221,16 +1242,14 @@ if __name__ == "__main__":
             while True:
                 serial_data = getSerialdata()
                 if serial_data:
-                    start=time.time()
                     flag = False
                     global last_result
                     result = ''
                     start_jpg_save1()
-                    time.sleep(0.2)
+                    time.sleep(0.3)
                     img_flag = get_pardemo(parentdir, left_left_NUM, left_upper_NUM, right_left_NUM,
                                                right_lower_NUM,
                                                parentdirdemo)
-
                     img_opcua_flag = client.get_node(takephoto_NUM)
                     temp_opc=img_opcua_flag.get_value()
                     if(temp_opc==0):
@@ -1267,7 +1286,10 @@ if __name__ == "__main__":
                             result_node.set_value(write_value_NG)
                         show_label(flag)
                         canvas.delete(rect)
-                        image1 = Image.open(parentdirsign)
+                        try:
+                            image1 = Image.open(parentdirsign)
+                        except:
+                            image1 =Image.open(parentdirdemo)
                         photo1 = ImageTk.PhotoImage(image1.resize((512, 384), Image.LANCZOS))
                         canvas.itemconfig(image_item, image=photo1)
                         canvas.update()
@@ -1287,38 +1309,51 @@ if __name__ == "__main__":
                     text_frame1_rate5.config(text=ng_count)
                     text_frame1_rate6.config(text=all_count)
                     image_rectangle=False
-                    end1 = time.time()
-                    logger.info('matches time: %s Seconds' % (end1 - start))
                 else:
                     pass
 
 
         @logger.catch
         def send_heartbeat():
-            global client
+            global client, xintiao_NUM,opc_connect
+            # print("send_heartbeat")
             timeout = 10  # 设置超时时间为10秒
             last_heartbeat_time = time.time()  # 记录上次接收到心跳信号的时间
             heartbeat = client.get_node(xintiao_NUM)
-            while True:
+            while client is not None:
                 current_time = time.time()  # 获取当前时间
                 elapsed_time = current_time - last_heartbeat_time  # 计算与上次心跳信号的时间间隔
 
                 # 如果超过了设定的超时时间，则触发报错操作
                 if elapsed_time >= timeout:
-                    tkinter.messagebox.showinfo('show info', '心跳超时，请检查设备！')
+                    messagebox.showinfo('show info', '心跳超时，请检查设备！')
+
                 try:
                     heartbeat_value = heartbeat.get_value()
-                    # print(heartbeat_value,'heartbeat_value')
-                    if (heartbeat_value == 100):
+                    if heartbeat_value is None:  # 如果没有拿到心跳值，判断为与 OPC UA 断开连接
+                        messagebox.showinfo('show info', '与 OPC UA 断开连接！')
+                        break  # 跳出循环
+
+                    if heartbeat_value == 100:
                         write_value = ua.DataValue(ua.Variant(200, ua.VariantType.Int16))
-                        heartbeat.set_value(write_value)
-                    elif (heartbeat_value == 200):
+                    elif heartbeat_value == 200:
                         write_value = ua.DataValue(ua.Variant(100, ua.VariantType.Int16))
+                    else:
+                        # 处理其他情况的代码可以放在这里
+                        pass
                     heartbeat.set_value(write_value)
-                except:
-                    pass
+                    opc_connect=True
+                except Exception as e:
+                    opc_connect=False
+                    opcuabutton1.config(state="normal")
+                    opcuabutton.config(state="normal")
+                    logger.info(f"Error: {e}")
+                    break
+
+
                 last_heartbeat_time = current_time  # 更新上次接收到心跳信号的时间
                 time.sleep(1)  # 等待1秒钟，避免频繁发送心跳
+
 
         @logger.catch
         def start_long_task():
@@ -1327,6 +1362,7 @@ if __name__ == "__main__":
             t.daemon = True
             t.start()
             showimg()
+            btn_start_jpg.config(state="disabled")
 
         @logger.catch
         def heartbeat_thread_task():
@@ -1340,6 +1376,7 @@ if __name__ == "__main__":
             opcua_connect_thread.daemon = True
             opcua_connect_thread.start()
             opcua_connect_thread.join()
+
         @logger.catch
         def start_update_img_task(position):
             t = threading.Thread(target=updateimg, args=(position,))
@@ -1431,11 +1468,6 @@ if __name__ == "__main__":
                                     width=40, height=1)
         devicestatucl = tk.Label(frame1, text='设备已关闭', bg='skyblue', width=10, height=1)
         devicestatuop = tk.Label(frame1, text='设备已开启', bg='skyblue', width=10, height=1)
-        # 需要解开
-        enum_devices()
-        time.sleep(1)
-        open_device()
-        start_grabbing1()
 
 
         # commonuser
@@ -1509,6 +1541,12 @@ if __name__ == "__main__":
         label_frame1_all.grid(row=13, column=0, padx=10, pady=10, sticky="e")
         label_frame1_ng.grid(row=14, column=0, padx=10, pady=10, sticky="e")
         label_frame1_per.grid(row=15, column=0, padx=10, pady=10, sticky="e")
+        text_frame1_rate5.grid(row=14, column=1, padx=10, pady=10, sticky="nsew")
+        text_frame1_rate6.grid(row=15, column=1, padx=10, pady=10, sticky="nsew")
+
+        opcuabutton_0 = tk.Button(frame1, text='opcua参数清0', bg='skyblue', width=15, height=1,
+                                  command=send_order_to_zero)  # , command=comportfunction
+        opcuabutton_0.grid(row=14, column=2, padx=10, pady=10, sticky="w")
         try:
             with open(picklename1, 'rb') as f:
                 ok_count = pickle.load(f)
@@ -1554,8 +1592,10 @@ if __name__ == "__main__":
                                      command=on_checked)  # , command=on_checked
         checkbutton.grid(row=11, column=0, padx=10, pady=10, sticky="we")
 
-        leidiaobutton = tk.Checkbutton(frame1, text="镭雕机模式", state=DISABLED)
-        leidiaobutton.grid(row=2, column=1, padx=10, pady=10, sticky="we")
+        # leidiaobutton = tk.Checkbutton(frame1, text="镭雕机模式", state=DISABLED)
+        # leidiaobutton.grid(row=2, column=1, padx=10, pady=10, sticky="we")
+        #
+
         leidiaobutton = tk.Checkbutton(frame2, text="镭雕机模式")  # , command=on_checked
         leidiaobutton.grid(row=11, column=1, padx=10, pady=10, sticky="we")
 
@@ -1572,6 +1612,7 @@ if __name__ == "__main__":
         COMGUN = tk.Label(frame2, text='扫码枪端口', width=8, height=1)
         COMGUN.grid(row=12, column=0, padx=10, pady=10, sticky="we")
         xVariableCOM = tkinter.StringVar(value=COMGUNNUM)
+
         COMGUN_list = ttk.Combobox(frame2, textvariable=xVariableCOM, width=8)
 
 
@@ -1579,45 +1620,63 @@ if __name__ == "__main__":
         def changeCOMS(event):
             global COMGUNNUM
             global previous_COMGUNNUM
-            COMGUNNUM = xVariableCOM.get()
             previous_COMGUNNUM = COMGUNNUM
+            COMGUNNUM = xVariableCOM.get()
 
+
+
+        @logger.catch
+        def on_combobox_selected(event):
+            global matche_point
+            matche_point = float(xVariableMATCH.get())
 
         COMLIST = getCOMS()
         COMGUN_list['value'] = COMLIST
         COMGUN_list.grid(row=12, column=1, padx=10, pady=10, sticky="we")
         COMGUN_list.bind("<<ComboboxSelected>>", changeCOMS)
 
-        def opcuaconnect():
-            try:
-                tkinter.messagebox.showinfo('show info', '连接成功！')
-                opcua_connect_thread_task()
-                heartbeat_thread_task()
+        values = list(map(lambda x: f"{x:.2f}", [i * 0.05 for i in range(21)]))  # 将浮点数转换为字符串
+        xVariableMATCH = tkinter.StringVar(value=matche_point)
+        combobox = ttk.Combobox(frame2, textvariable=xVariableMATCH,width=8, state="readonly")
+        combobox['value']=values
+        combobox.grid(row=11, column=3, padx=10, pady=10, sticky="w")
+        combobox.bind("<<ComboboxSelected>>", on_combobox_selected)  # 绑定选中事件
 
-            except:
-                tk.messagebox.showerror('show error', "连接失败！")
-                pass
+
+        def opcuaconnect():
+            global opc_connect
+            try:
+                opcua_connect_thread_task()
+                # print("开启心跳线程")
+                heartbeat_thread_task()
+                if opc_connect:
+                    tkinter.messagebox.showinfo('show info', '连接成功！')
+                    opcuabutton1.config(state="disabled")
+                    opcuabutton.config(state="disabled")
+                else:
+                    tkinter.messagebox.showinfo('show info', '连接失败！')
+                    opcuabutton1.config(state="normal")
+                    opcuabutton.config(state="normal")
+            except Exception as e:
+                tkinter.messagebox.showerror('show error', f"连接失败！\n错误信息: {str(e)}")
+                # 在这里添加适当的错误处理代码，如果需要的话
 
         @logger.catch
         def comportfunction():
-            global COMGUNNUM, ser1,opcua_address_NUM,client
+            global COMGUNNUM,matche_point,ser1,opcua_address_NUM,client
             COMGUNNUM = xVariableCOM.get()
+            matche_point = xVariableMATCH.get()
             if COMGUNNUM:  # and COMSIGNAL
                 with open(compickle, 'wb') as f:
                     pickle.dump(COMGUNNUM, f)
+                    pickle.dump(float(matche_point), f)
                     # pickle.dump(COMSIGNALNUM,f)
             else:
                 tk.messagebox.showerror('show error', "请选择端口！")
             threshold_confirm()
             try:
-                opcua_connect_thread_task()
-                heartbeat_thread_task()
-            except:
-                tk.messagebox.showerror('show error', "关闭opcua失败！")
-                pass
-
-            try:
-                ser1.close()
+                if ser1:
+                    ser1.close()
                 ser1 = serial.Serial(COMGUNNUM, 9600, timeout=0.5)
             except serial.SerialException as e:
                 tkinter.messagebox.showinfo('show error', '串口打开失败，请选择端口后重试！')
@@ -1630,7 +1689,13 @@ if __name__ == "__main__":
         combutton.grid(row=12, column=2, padx=10, pady=10, sticky="we")
         opcuabutton = tk.Button(frame2, text='opcua连接', bg='skyblue', width=10, height=1,
                               command=opcuaconnect)  # , command=comportfunction
-        opcuabutton.grid(row=12, column=3, padx=10, pady=10, sticky="we")
+        opcuabutton.grid(row=12, column=3, padx=10, pady=10, sticky="w")
+
+        opcuabutton1 = tk.Button(frame1, text='opcua连接', bg='skyblue', width=10, height=1,
+                                 command=opcuaconnect)  # , command=comportfunction
+        opcuabutton1.grid(row=2, column=1, padx=10, pady=10, sticky="we")
+
+
         btn_start_jpg = tk.Button(frame1, text='开始比对', width=15, height=1,
                                   command=start_long_task)  # , command=start_long_task
         btn_start_jpg.grid(row=1, column=0, padx=10, pady=10, sticky="we")
@@ -1665,6 +1730,11 @@ if __name__ == "__main__":
             #       process_kernel_y_threshold_NUM, process_area_low_threshold_NUM, process_area_threshold_high_NUM)
             read_all_img()
 
+        # 需要解开
+        enum_devices()
+        time.sleep(1)
+        open_device()
+        start_grabbing1()
 
         @logger.catch
         def show_cut(path, left, upper, right, lower):
