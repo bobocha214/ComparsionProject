@@ -4,36 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="版本保存-2023.11.3&#10;Comparsion多线程实现，无问题，2.5s">
+    <list default="true" id="fc49d3f0-0641-4c80-b263-a10a1e525ed8" name="Changes" comment="较完整的版本，异常处理，按钮管理">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/CamOperation_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/CamOperation_class.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/Comparsion.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/Comparsion.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/comparea.dat" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/comparea.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/controller/gun.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/controller/gun.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_0.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_0.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_1.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_2.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_3.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_6.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_6.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_7.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_7.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_8.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuts/cut_8.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/ano.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/ano.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/cut_0.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_0.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/cut_1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/cut_2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/cut_3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_3.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/cut_4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/cut_6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_6.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/cut_7.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_7.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/cut_8.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/cut_8.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicDemo/cuts/cut_8.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/diff.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/diff.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/marked_difference.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/marked_difference.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/matched_image0.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/matched_image0.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/cuttest/partial_image0.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/cuttest/partial_image0.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/image/demo.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/demo.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/image/image_with_boxes.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/image_with_boxes.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/image/sign.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/sign.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/image/test.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/image/test.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BasicDemo/opcuademo/heart.py" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/opcuademo/heart.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicDemo/parameter.dat" beforeDir="false" afterPath="$PROJECT_DIR$/BasicDemo/parameter.dat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,7 +85,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Program Files/pycharm/PyCharmProjects/Comparsion/BasicDemo/cuttest&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -113,7 +104,7 @@
       <recent name="C:\pycharm\pythonProject\ComparsionProject\BasicDemo\opcua" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Comparsion">
+  <component name="RunManager" selected="Python.Comparsionhist (1)">
     <configuration name="Comparsion" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Comparsion" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -135,7 +126,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="ano" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Comparsionhist (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Comparsion" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -143,11 +134,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo/cuttest" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/cuttest/ano.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/Comparsionhist.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -156,7 +147,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="ano1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Comparsionhist" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Comparsion" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -164,11 +155,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo/cuttest" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo/histroy" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/cuttest/ano1.py" />
+      <option name="SCRIPT_NAME" value="C:\Program Files\pycharm\PyCharmProjects\Comparsion\BasicDemo\Comparsionhist.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -177,7 +168,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="diff" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="gun2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Comparsion" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -185,11 +176,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo/cuttest" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo/controller" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/cuttest/diff.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/controller/gun2.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -198,7 +189,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="heart" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="sertest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Comparsion" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -206,11 +197,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo/opcuademo" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BasicDemo" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/opcuademo/heart.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BasicDemo/sertest.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -221,11 +212,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Comparsionhist (1)" />
+        <item itemvalue="Python.Comparsionhist" />
+        <item itemvalue="Python.sertest" />
         <item itemvalue="Python.Comparsion" />
-        <item itemvalue="Python.diff" />
-        <item itemvalue="Python.ano1" />
-        <item itemvalue="Python.ano" />
-        <item itemvalue="Python.heart" />
+        <item itemvalue="Python.gun2" />
       </list>
     </recent_temporary>
   </component>
@@ -481,7 +472,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699497925871</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="较完整的版本，异常处理，按钮管理">
+      <option name="closed" value="true" />
+      <created>1700112888870</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1700112888870</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -549,6 +548,7 @@
     <MESSAGE value="版本保存-2023.11.3&#10;Comparsion多线程完毕，整体ok，准备实现多进程" />
     <MESSAGE value="版本保存-2023.11.3&#10;Comparsion多进程实现，IDE OK，不可打包，有问题" />
     <MESSAGE value="版本保存-2023.11.3&#10;Comparsion多线程实现，无问题，2.5s" />
-    <option name="LAST_COMMIT_MESSAGE" value="版本保存-2023.11.3&#10;Comparsion多线程实现，无问题，2.5s" />
+    <MESSAGE value="较完整的版本，异常处理，按钮管理" />
+    <option name="LAST_COMMIT_MESSAGE" value="较完整的版本，异常处理，按钮管理" />
   </component>
 </project>

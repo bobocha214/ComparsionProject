@@ -379,13 +379,6 @@ if __name__ == "__main__":
             # 如果不存在，创建文件夹
             os.makedirs(folder_path1, exist_ok=True)
         global frame1
-        try:
-            ser1 = serial.Serial(COMGUNNUM, 9600, timeout=1)
-        except serial.SerialException as e:
-            tkinter.messagebox.showinfo('show info', '串口打开失败，请选择端口后重试！')
-        except Exception as e:
-            tkinter.messagebox.showinfo('show info', '有异常，请检查设备！')
-
 
         frame1 = tk.Frame(window)
         frame2 = tk.Frame(window)
@@ -616,7 +609,7 @@ if __name__ == "__main__":
             obj_cam_operation.Stop_grabbing()
 
 
-
+        @logger.catch
         def process_and_display_difference_images(partial_image, matched_region, threshold=compare_threshold_NUM):
             global image_rectangle
             try:
@@ -643,7 +636,6 @@ if __name__ == "__main__":
                 # print(white_pixel_count, 'white_pixel_count',compare_threshold_NUM,all_pixel_count,'all_pixel_count',percent)
                 # 寻找差异区域的轮廓
                 contours, _ = cv2.findContours(binary_difference, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
                 # 合并相邻的轮廓
                 merged_contours = []
                 current_contour = None
@@ -677,7 +669,9 @@ if __name__ == "__main__":
                             x, y, w, h = cv2.boundingRect(contour)
                             # 绘制方框
                             cv2.rectangle(matched_region, (x, y), (x + w, y + h), (0, 0, 255), 6)
+                    cv2.imwrite("image/red_result.jpg",matched_region)
                 except:
+                    print("我没修改图片")
                     image_rectangle = True
                     matched_region = matched_region
                 return matched_region
@@ -843,13 +837,13 @@ if __name__ == "__main__":
                         image_info = (image4, min_y, max_y, min_x, max_x)
                         results_to_match.append(image_info)
                     except (TypeError, ValueError) as e:
-                        # print(f"An error occurred: {e}")
+                        logger.info(f"An error occurred: {e}")
                         pass
                 else:
                     cv2.imwrite('image/not_match.jpg',image)
-                    logger.info('有未识别到的图片！')
+                    logger.info('有未识别到的模板图片！')
             except:
-                logger.info('有未识别到的图片！')
+                logger.info('有未识别到的模板图片！')
         def contour_sort_key(contour):
             x, y, w, h = cv2.boundingRect(contour)
             # print(x, y, w, h ,'x, y, w, h ')
@@ -969,32 +963,10 @@ if __name__ == "__main__":
             # 创建线程
             threads = []
             results_to_match = []
-            num_threads = len(image_list)
-            max_threads = 8
-            # num_cores = multiprocessing.cpu_count()
-            # print("可用的CPU核心数：", num_cores)
-            # partial_func = functools.partial(process_all_image, full_image)
-            # print('开始了')
-            # pool = multiprocessing.Pool(processes=num_cores)
-            # for result in pool.map(partial_func, image_list):
-            #     result_list.append(result)  # 将处理结果添加到共享列表中
-            # pool.close()
-            # pool.join()
-            # print('thread time: %s Seconds' % (end - start))
             for image in image_list:
                 thread = threading.Thread(target=process_all_image, args=(image,full_image, results_to_match))
                 threads.append(thread)
                 thread.start()
-            # with ThreadPoolExecutor(max_workers=max_threads) as executor:
-            #     for i in range(num_threads):
-            #         executor.submit(process_all_image, image_list[i], full_image, results_to_match)
-            #     executor.shutdown(wait=True)  # 这将阻塞主线程直到所有任务完成
-            # for i in range(num_threads):
-            #     thread = threading.Thread(target=process_image,
-            #                               args=(image_list[i], full_image, results_to_match, lock))
-            #     threads.append(thread)
-            #     thread.start()
-
             # 等待所有线程完成
             for thread in threads:
                 thread.join()
@@ -1052,44 +1024,30 @@ if __name__ == "__main__":
 
 
         @logger.catch
-        def getSerialdata():
-            global ser1
+        def get_serial_data(ser1):
             try:
-                # print(COMGUNNUM)
-                if ser1.is_open:
+                if ser1 and ser1.is_open:
                     data = ser1.readline()
-                    serialdata = data.decode().strip()
-                    if (serialdata != ''):
-                        serialdata = data.decode().strip()
-                        # print(serialdata,'serialdata')
-                        return serialdata
+                    serial_data = data.decode().strip()
+                    if serial_data:
+                        return serial_data
                     else:
                         time.sleep(0.1)
                 else:
-                    tkinter.messagebox.showinfo('show info', '串口未开启，将尝试为你打开串口')
-                    ser1.open()
-            except:
+                    serialport.config(state="normal")
+            except Exception as e:
                 pass
 
 
-        @logger.catch  # 发送扫描命令
-        def sendSerialOrder():
-            global ser1
+        @logger.catch
+        def send_serial_order(ser1):
             if ser1:
                 try:
-                    if ser1.is_open:
-                        hexStr = "16 54 0D"
-                        # hexStr = "16 54 0D"
-                        bytes_hex = bytes.fromhex(hexStr)
-                        ser1.write(bytes_hex)
-                    else:
-                        tkinter.messagebox.showinfo('show info', '串口未开启，将尝试为你打开串口')
-                        ser1.open()
-                except:
-                    ser1.close()
-                    tkinter.messagebox.showinfo('show info', '获取串口信息失败，串口已关闭！')
-            else:
-                pass
+                    hex_str = "16 54 0D"
+                    bytes_hex = bytes.fromhex(hex_str)
+                    ser1.write(bytes_hex)
+                except Exception as e:
+                    tkinter.messagebox.showinfo('show info', '触发命令发送失败！')
 
 
         # 获得图片OCR识别结果
@@ -1231,7 +1189,23 @@ if __name__ == "__main__":
                 if temp_final_result_NUM != 0:
                     final_result_NUM_flag.set_value(write_value_zero)
             except:
-                messagebox.showinfo('show info', '清线连接opcua服务器！')
+                messagebox.showinfo('show info', '请先连接opcua服务器！')
+
+
+        @logger.catch
+        def connect_comport():
+            global COMGUNNUM, ser1
+            ser1 = serial.Serial(COMGUNNUM, 9600, timeout=0.5)
+            try:
+                # tkinter.messagebox.showinfo('show info', '连接成功！')
+                serialport.config(state="disabled")
+            except serial.SerialException as e:
+                tkinter.messagebox.showinfo('show error', '串口打开失败，请选择端口后重试！')
+                serialport.config(state="normal")
+            except Exception as e:
+                tkinter.messagebox.showerror('show error', f"连接失败！\n错误信息: {str(e)}")
+                serialport.config(state="normal")
+
 
         @logger.catch
         def wait_for_response1():
@@ -1547,6 +1521,21 @@ if __name__ == "__main__":
         opcuabutton_0 = tk.Button(frame1, text='opcua参数清0', bg='skyblue', width=15, height=1,
                                   command=send_order_to_zero)  # , command=comportfunction
         opcuabutton_0.grid(row=14, column=2, padx=10, pady=10, sticky="w")
+        serialport = tk.Button(frame1, text='串口连接', bg='skyblue', width=15, height=1,
+                                  command=connect_comport)
+        serialport.grid(row=15, column=2, padx=10, pady=10, sticky="w")
+
+
+
+        # try:
+        #     ser1 = serial.Serial(COMGUNNUM, 9600, timeout=1)
+        #     serialport.config(state="disabled")
+        # except serial.SerialException as e:
+        #     tkinter.messagebox.showinfo('show info', '串口打开失败，请选择端口后重试！')
+        #     serialport.config(state="normal")
+        # except Exception as e:
+        #     tkinter.messagebox.showinfo('show info', '有异常，请检查设备！')
+        #     serialport.config(state="normal")
         try:
             with open(picklename1, 'rb') as f:
                 ok_count = pickle.load(f)
@@ -1674,14 +1663,7 @@ if __name__ == "__main__":
             else:
                 tk.messagebox.showerror('show error', "请选择端口！")
             threshold_confirm()
-            try:
-                if ser1:
-                    ser1.close()
-                ser1 = serial.Serial(COMGUNNUM, 9600, timeout=0.5)
-            except serial.SerialException as e:
-                tkinter.messagebox.showinfo('show error', '串口打开失败，请选择端口后重试！')
-            except Exception as e:
-                pass
+
 
 
         combutton = tk.Button(frame2, text='提交', bg='skyblue', width=10, height=1,

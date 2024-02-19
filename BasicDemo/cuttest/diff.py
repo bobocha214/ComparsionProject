@@ -230,7 +230,7 @@ def process_and_insert_cropped_region(image1, image2):
 
 def match_and_extract_region(partial_image, full_image):
     # 读取完整图片和局部图片
-    full_image = cv2.imread('demo31.jpg')
+    full_image = cv2.imread('demo40.jpg')
     partial_image = cv2.imread('cut_8.jpg')
     gray_full_image = cv2.cvtColor(full_image, cv2.COLOR_BGR2GRAY)
     gray_partial_image = cv2.cvtColor(partial_image, cv2.COLOR_BGR2GRAY)
@@ -253,7 +253,7 @@ def match_and_extract_region(partial_image, full_image):
 
     good_matches = []
     for m, n in matches:
-        if m.distance < 0.7 * n.distance:
+        if m.distance < 0.5 * n.distance:
             good_matches.append(m)
     matched_image = cv2.drawMatches(full_image, kp1, partial_image, kp2, good_matches, None,
                                     flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)

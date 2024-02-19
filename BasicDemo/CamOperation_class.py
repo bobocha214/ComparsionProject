@@ -355,8 +355,9 @@ class CameraOperation():
                 mode = "L"
             # 合并OpenCV到Tkinter界面中
             current_image = Image.frombuffer(mode, (self.st_frame_info.nWidth, self.st_frame_info.nHeight),
-                                             numArray.astype('uint8')).resize((512, 384), Image.LANCZOS)
-            imgtk = ImageTk.PhotoImage(image=current_image.transpose(Image.ROTATE_180), master=root)  # .transpose(Image.ROTATE_180)
+                                             numArray.astype('uint8')).resize((640, 480), Image.LANCZOS)
+            # imgtk = ImageTk.PhotoImage(image=current_image.transpose(Image.ROTATE_180), master=root)  # .transpose(Image.ROTATE_180)
+            imgtk = ImageTk.PhotoImage(image=current_image, master=root)  # .transpose(Image.ROTATE_180)
             panel.imgtk = imgtk
             panel.config(image=imgtk)
             root.obr = imgtk
@@ -406,7 +407,8 @@ class CameraOperation():
             self.b_save_jpg = False
             raise Exception("get one frame failed:%s" % e.message)
         with Image.open(file_path.encode('ascii')) as img:
-            flipped_img = img.transpose(Image.ROTATE_180)  # .transpose(Image.ROTATE_180)
+            # flipped_img = img.transpose(Image.ROTATE_180)  # .transpose(Image.ROTATE_180)
+            flipped_img = img  # .transpose(Image.ROTATE_180)
             flipped_img.save(file_path)
         if None != img_buff:
             del img_buff
@@ -476,12 +478,14 @@ class CameraOperation():
             raise Exception("get one frame failed:%s" % e.message)
         if self.flag:
             with Image.open(test_path.encode('ascii')) as img1:
-                flipped_img1 = img1.transpose(Image.ROTATE_180)  # .transpose(Image.ROTATE_180)
+                # flipped_img1 = img1.transpose(Image.ROTATE_180)  # .transpose(Image.ROTATE_180)
+                flipped_img1 = img1  # .transpose(Image.ROTATE_180)
                 flipped_img1.save(test_path)
         else:
             pass
         with Image.open(file_path.encode('ascii')) as img:
-            flipped_img = img.transpose(Image.ROTATE_180)  # .transpose(Image.ROTATE_180)
+            # flipped_img = img.transpose(Image.ROTATE_180)  # .transpose(Image.ROTATE_180)
+            flipped_img = img # .transpose(Image.ROTATE_180)
             flipped_img.save(file_path)
 
         if None != img_buff:
