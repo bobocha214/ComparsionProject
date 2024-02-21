@@ -1,13 +1,9 @@
 # -- coding: utf-8 --
 import os.path
-import time
 import tkinter.messagebox
 from functools import partial
 from math import fabs, sin, radians, cos
 from tkinter import messagebox
-
-from opcua.ua import UaError
-
 from CamOperation_class import *
 from PIL import Image, ImageTk
 import serial
@@ -40,7 +36,7 @@ class SubHandler(object):
     def datachange_notification(self, node, val, data):
         if(val==1):
             # print(val)
-            sendSerialOrder()
+            send_serial_order()
 
 
     def event_notification(self, event):
@@ -446,10 +442,6 @@ if __name__ == "__main__":
         model_val = tk.StringVar()
         global triggercheck_val
         triggercheck_val = tk.IntVar()
-        # page2 = Frame(frame2, height=384, width=512, relief=GROOVE, borderwidth=2)
-        # page1 = Frame(frame1, height=384, width=512, relief=GROOVE, borderwidth=2)
-        # page2.grid(row=0, column=0, sticky="nsew")
-        # page1.grid(row=0, column=0, sticky="nsew")
         panel2 = Label(frame2)
         panel1 = Label(frame1, height=384, width=512)
         panel2.grid(row=1, column=6, rowspan=10,columnspan=4,padx=10, pady=10)
@@ -460,7 +452,6 @@ if __name__ == "__main__":
         labelOK = tk.Label(frame1, text="OK", background="green", font=('黑体', 40, 'bold'), padx=80, pady=80)
         labelNG = tk.Label(frame1, text="NG", background="red", font=('黑体', 40, 'bold'), padx=80, pady=80)
         labelORIGIN = tk.Label(frame1, text="AB", font=('黑体', 40, 'bold'), background="white", padx=80, pady=80)
-        # labelOK.grid(row=6, column=0, columnspan=2, sticky='wens', padx=30, pady=10)
 
         try:
             image = Image.open(parentdirsign)
@@ -472,13 +463,14 @@ if __name__ == "__main__":
         image_item = canvas.create_image(0, 0, anchor=tk.NW, image=photo)
         canvas.grid(row=2, column=2, rowspan=10, padx=10, pady=10)
         # print(parentdir)
+        #OCR加载
         ocr = CnOcr(rec_model_name='densenet_lite_136-gru', det_model_name='en_PP-OCRv3_det',
                     det_more_configs={'use_angle_clf': True})
         now = datetime.datetime.now()
         year = now.year
         month = now.month
 
-
+        #连接OPCUA服务器
         @logger.catch
         def Opcua_Connect():
             global client,opcua_address_NUM,opc_connect
@@ -488,20 +480,15 @@ if __name__ == "__main__":
                 client.connect()
                 subscribe_nodes()
                 opc_connect=True
-
             except Exception as e:
                 opc_connect=False
                 # print("链结失败")
                 pass
 
-
-
-
         # 绑定下拉列表至设备信息索引
         def xFunc(event):
             global nSelCamIndex
             nSelCamIndex = TxtWrapBy("[", "]", device_list.get())
-
 
         # ch:枚举相机 | en:enum devices
         @logger.catch()
@@ -671,7 +658,6 @@ if __name__ == "__main__":
                             cv2.rectangle(matched_region, (x, y), (x + w, y + h), (0, 0, 255), 6)
                     cv2.imwrite("image/red_result.jpg",matched_region)
                 except:
-                    print("我没修改图片")
                     image_rectangle = True
                     matched_region = matched_region
                 return matched_region
@@ -694,7 +680,6 @@ if __name__ == "__main__":
                 contours, _ = cv2.findContours(binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                 merged_contour = np.concatenate(contours)
                 rect = cv2.minAreaRect(merged_contour)
-                angle = rect[2]
                 return rect, merged_contour
 
             def rotate_image(image, angle, rect2):
@@ -703,7 +688,6 @@ if __name__ == "__main__":
                 rotation_matrix = cv2.getRotationMatrix2D(rect2, angle, 1)
                 new_H = int(w * fabs(sin(radians(angle))) + h * fabs(cos(radians(angle))))
                 new_W = int(h * fabs(sin(radians(angle))) + w * fabs(cos(radians(angle))))
-                # 2.3 平移
                 rotation_matrix[0, 2] += (new_W - w) / 2
                 rotation_matrix[1, 2] += (new_H - h) / 2
                 rotated_image = cv2.warpAffine(image, rotation_matrix, (new_W, new_H),
@@ -1214,7 +1198,7 @@ if __name__ == "__main__":
             write_value_NG = ua.DataValue(ua.Variant(2, ua.VariantType.Int16))
             write_value_ERROR = ua.DataValue(ua.Variant(3, ua.VariantType.Int16))
             while True:
-                serial_data = getSerialdata()
+                serial_data = get_serial_data()
                 if serial_data:
                     flag = False
                     global last_result
@@ -1625,6 +1609,7 @@ if __name__ == "__main__":
         COMGUN_list.bind("<<ComboboxSelected>>", changeCOMS)
 
         values = list(map(lambda x: f"{x:.2f}", [i * 0.05 for i in range(21)]))  # 将浮点数转换为字符串
+        #匹配参数
         xVariableMATCH = tkinter.StringVar(value=matche_point)
         combobox = ttk.Combobox(frame2, textvariable=xVariableMATCH,width=8, state="readonly")
         combobox['value']=values
